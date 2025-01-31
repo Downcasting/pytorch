@@ -21,8 +21,8 @@ import torch.nn as nn
 
 X = torch.tensor([[1],[2],[3],[4]], dtype=torch.float32)
 Y = torch.tensor([[2],[4],[6],[8]], dtype=torch.float32)
-
 X_test = torch.tensor([5], dtype=torch.float32)
+
 n_samples, n_features = X.shape
 print(f'#samples: {n_samples}, #features: {n_features}')
 
@@ -35,19 +35,12 @@ class LinearRegression(nn.Module):
 
     def __init__(self, input_dim, output_dim):
         super(LinearRegression, self).__init__()
-        # define layers
         self.lin = nn.Linear(input_dim, output_dim)
 
     def forward(self, x):
         return self.lin(x)
     
 model = LinearRegression(input_size, output_size)
-
-w = torch.tensor(0.0, dtype=torch.float32, requires_grad=True)
-
-# model prediction
-def forward(x):
-    return w * x
 
 
 print(f"Prediction before training: f(5) = {model(X_test).item():.3f}")
