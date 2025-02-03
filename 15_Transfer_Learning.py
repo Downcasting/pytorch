@@ -1,3 +1,7 @@
+# ImageFolder
+# Scheduler
+# Transfer Learning
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -144,8 +148,11 @@ criterion = nn.CrossEntropyLoss()
 # Observe that all parameters are being optimized
 optimizer = optim.SGD(model.parameters(), lr=0.001)
 
+# 이미 Train된 모델을 조금 더 Tuning하는 것: Fine Tuning
+# 1. 점점 줄여가며 학습률을 조정하는 방법
 # StepLR Decays the learning rate of each parameter group by gamma every step_size epochs
 # Decay LR by a factor of 0.1 every 7 epochs
+# Like 0.001 -> 0.0001(after 7) -> 0.00001(after 14) -> 0.000001(after 21) -> 0.0000001(after 28)
 # Learning rate scheduling should be applied after optimizer’s update
 # e.g., you should write your code this way:
 # for epoch in range(100):
@@ -157,8 +164,8 @@ step_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
 
 model = train_model(model, criterion, optimizer, step_lr_scheduler, num_epochs=25)
 
-
 #### ConvNet as fixed feature extractor ####
+# 2. 마지막 Layer만 학습시키는 방법
 # Here, we need to freeze all the network except the final layer.
 # We need to set requires_grad == False to freeze the parameters so that the gradients are not computed in backward()
 model_conv = torchvision.models.resnet18(pretrained=True)
