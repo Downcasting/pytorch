@@ -28,7 +28,7 @@ model = nn.Linear(input_size, output_size)
 
 # 2) loss and optimizer
 learning_rate = 0.01
-creterion = nn.MSELoss()
+criterion = nn.MSELoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
 # 3) training loop
@@ -36,7 +36,7 @@ num_epochs = 100
 for epoch in range(num_epochs):
     # forward pass and loss
     y_predicted = model(X)
-    loss = creterion(y_predicted, y)
+    loss = criterion(y_predicted, y)
 
     # backward pass
     loss.backward()

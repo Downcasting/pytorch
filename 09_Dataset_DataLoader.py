@@ -9,7 +9,7 @@ class WineDataset(Dataset):
     
     def __init__(self):
         # data loading
-        xy = np.loadtxt('wine.csv', delimiter=',', dtype=np.float32, skiprows=1)
+        xy = np.loadtxt('data/wine.csv', delimiter=',', dtype=np.float32, skiprows=1)
         self.x = torch.from_numpy(xy[:, 1:])
         self.y = torch.from_numpy(xy[:, [0]])
         self.n_samples = xy.shape[0]
@@ -32,7 +32,7 @@ for epoch in range(num_epochs):
     for i, (inputs, labels) in enumerate(dataloader):
         # forward, backward, update
         if (i+1) % 5 == 0:
-            print(f'epoch {epoch+1}/{num_epochs}, step {i+1}/{n_iterations}, inputs {inputs.shape}')
+            print(f'epoch {epoch+1}/{num_epochs}, step {i+1}/{n_iterations}, inputs {inputs.shape}, labels {labels.shape}')
 
 
 '''
