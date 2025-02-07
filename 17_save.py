@@ -4,7 +4,6 @@ import torch.nn as nn
 # 1. Lazy Method
 # 단점: 특정 class에 종속됨, class 정의가 바뀌면 저장된 모델을 불러올 수 없음, 보안 문제 있음
 torch.save(arg, PATH)
-
 model = torch.load(PATH)
 model.eval()
 

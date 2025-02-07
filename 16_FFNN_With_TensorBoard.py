@@ -15,7 +15,7 @@ import torch.nn.functional as F
 import sys
 
 from torch.utils.tensorboard import SummaryWriter
-writer = SummaryWriter('runs/mnist2')
+writer = SummaryWriter('runs/mnist')
 
 # device config
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

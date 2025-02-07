@@ -1,2 +1,8 @@
 # Dataset
 data/
+
+# Saved Model
+*.pth
+
+# Tensorboard
+runs/
