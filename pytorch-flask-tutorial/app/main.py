@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 
-from app.torch_utils import transform_image, get_prediction
+from torch_utils import transform_image, get_prediction
 
 app = Flask(__name__)
 
@@ -30,3 +30,17 @@ def predict():
     # 3 prediction
     # 4 return json
     return jsonify({'result': 1})
+
+@app.route('/', methods=['GET'])
+def upload_form():
+    return '''
+        <html>
+            <body>
+                <h1>Upload an Image for Prediction</h1>
+                <form action="/predict" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" accept="image/*">
+                    <input type="submit" value="Upload">
+                </form>
+            </body>
+        </html>
+    '''

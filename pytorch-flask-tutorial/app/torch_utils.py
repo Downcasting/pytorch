@@ -25,7 +25,7 @@ hidden_size = 100
 num_classes = 10
 model = NeuralNet(input_size, hidden_size, num_classes)
 
-path = "app/mnist_ffn.pth"
+path = "mnist_ffn.pth"
 model.load_state_dict(torch.load(path))
 model.eval()
 
