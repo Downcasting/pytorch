@@ -1,8 +1,8 @@
 # Dataset
-data/
+Tutorial/data/
 
 # Saved Model
-*.pth
+Tutorial/*.pth
 
 # Tensorboard
 runs/
