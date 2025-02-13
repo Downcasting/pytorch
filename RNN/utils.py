@@ -96,5 +96,5 @@ if __name__ == '__main__':
     category_lines, all_categories = load_data()
     print(category_lines['Italian'][:5])
     
-    print(letter_to_tensor('J')) # [1, 57]
+    print(letter_to_tensor('J')) # [1, 57] - One Hot Encoding
     print(line_to_tensor('Jones').size()) # [5, 1, 57]
