@@ -1,5 +1,5 @@
 # Dataset
-Tutorial/data/
+data/
 
 # Saved Model
 Tutorial/*.pth

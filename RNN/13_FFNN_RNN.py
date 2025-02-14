@@ -30,8 +30,8 @@ sequence_length = 28
 num_layers = 2
 
 # MNIST
-train_dataset = torchvision.datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
-test_dataset = torchvision.datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
+train_dataset = torchvision.datasets.MNIST(root='./../data', train=True, transform=transforms.ToTensor(), download=True)
+test_dataset = torchvision.datasets.MNIST(root='./../data', train=False, transform=transforms.ToTensor())
 
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
@@ -49,7 +49,12 @@ class RNN(nn.Module):
         super(RNN, self).__init__()
         self.num_layers = num_layers
         self.hidden_size = hidden_size
+
+        # 아래 중 택 1
         self.rnn = nn.RNN(input_size, hidden_size, num_layers, batch_first=True)
+        # self.gru = nn.GRU(input_size, hidden_size, num_layers, batch_first=True)
+        # self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+
         # x -> batch_size, seq, input_size
         # RNN Many-to-One: only last layer is used
         self.fc = nn.Linear(hidden_size, num_classes)
@@ -59,7 +64,11 @@ class RNN(nn.Module):
         h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(device)
         
         # forward propagate RNN
+        # 아래 중 택 1
         out, _ = self.rnn(x, h0)
+        # out, _ = self.gru(x, h0)
+        # c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(device)
+        # out, _ = self.lstm(x, (h0, c0))
         
         # out: batch_size, seq_length, hidden_size
         # out -> batch_size, hidden_size
