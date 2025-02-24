@@ -69,7 +69,7 @@ if __name__ == "__main__":
         def forward(self, x, t):
             return self.conv(x)
         
-        # Diffusion Model using PyTorch Lightning
+    # Diffusion Model using PyTorch Lightning
     class DiffusionModel(pl.LightningModule):
         def __init__(self, model, timesteps=T):
             super().__init__()
@@ -120,7 +120,7 @@ if __name__ == "__main__":
                 transforms.Lambda(lambda t: (t + 1) / 2),  # Normalize to [0, 1]
                 transforms.Lambda(lambda t: t.permute(1, 2, 0)),  # CHW to HWC
                 transforms.Lambda(lambda t: t * 255.),  # Scale to [0, 255]
-                transforms.Lambda(lambda t: t.detach().numpy().astype(np.uint8)),  # Convert to numpy (move to CPU)
+                transforms.Lambda(lambda t: t.cpu().detach().numpy().astype(np.uint8)),  # Convert to numpy (move to CPU)
                 transforms.ToPILImage(),  # Convert to PIL Image
             ])
 
