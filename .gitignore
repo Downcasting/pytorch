@@ -2,7 +2,7 @@
 data/
 
 # Saved Model
-Tutorial/*.pth
+*.pth
 
 # Tensorboard
 runs/
