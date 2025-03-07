@@ -4,5 +4,8 @@ data/
 # Saved Model
 *.pth
 
+# lightning logs
+lightning_logs/
+
 # Tensorboard
 runs/
