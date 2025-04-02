@@ -9,3 +9,7 @@ lightning_logs/
 
 # Tensorboard
 runs/
+
+# tar file
+*.tar
+*.tar.gz
