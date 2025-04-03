@@ -57,6 +57,7 @@ class LitNeuralNet(pl.LightningModule):
                                            num_workers=4,
                                            persistent_workers=True,
                                            shuffle=True)
+        
         return train_loader
     
     def validation_step(self, batch, batch_idx):    

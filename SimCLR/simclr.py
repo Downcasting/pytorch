@@ -1,8 +1,5 @@
 import cv2
 import numpy as np
-import torchvision.transforms as transforms
-from torchvision import datasets
-from torch.utils.data import DataLoader
 
 from typing import Optional
 
@@ -12,14 +9,12 @@ from torch.nn import functional as F
 from torch.optim import Adam
 
 import pytorch_lightning as pl
-from pytorch_lightning.callbacks import ModelCheckpoint
-from pytorch_lightning.callbacks import LearningRateMonitor
 
 import torchvision.models as models
-from pl_bolts.optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
-from pl_bolts.datamodules import CIFAR10DataModule, STL10DataModule, ImagenetDataModule
+import torchvision.transforms as transforms
+from torchvision.datasets import CIFAR10
 
-from pl_bolts.models.self_supervised.evaluator import Flatten
+from torch.nn import Flatten
 
 class SimCLRTrainDataTransform(object):
     def __init__(
@@ -95,7 +90,6 @@ class SimCLREvalDataTransform(object):
 
         return xi, xj
 
-
 class GaussianBlur(object):
     # Implements Gaussian blur as described in the SimCLR paper
     def __init__(self, kernel_size, p=0.5, min=0.1, max=2.0):
@@ -137,7 +131,7 @@ def nt_xent_loss(out_1, out_2, temperature):
     return loss
 
 class Projection(nn.Module):
-    def __init__(self, input_dim=2048, hidden_dim=2048, output_dim=128):
+    def __init__(self, input_dim=512, hidden_dim=512, output_dim=128):
         super().__init__()
         self.output_dim = output_dim
         self.input_dim = input_dim
@@ -158,21 +152,13 @@ class Projection(nn.Module):
 class SimCLR(pl.LightningModule):
     def __init__(self,
                  batch_size,
-                 num_samples,
+                 num_samples=32,
                  warmup_epochs=10,
                  lr=1e-4,
                  opt_weight_decay=1e-6,
                  loss_temperature=0.5,
                  **kwargs):
-        """
-        Args:
-            batch_size: the batch size
-            num_samples: num samples in the dataset
-            warmup_epochs: epochs to warmup the lr for
-            lr: the optimizer learning rate
-            opt_weight_decay: the optimizer weight decay
-            loss_temperature: the loss temperature
-        """
+        
         super().__init__()
         self.save_hyperparameters()
 
@@ -183,60 +169,13 @@ class SimCLR(pl.LightningModule):
         self.projection = Projection()
 
     def init_encoder(self):
-        encoder = models.resnet50()
+        encoder = models.resnet18()
         encoder = nn.Sequential(*list(encoder.children())[:-1])  # 마지막 FC Layer 제거
         return encoder
 
-    def exclude_from_wt_decay(self, named_params, weight_decay, skip_list=['bias', 'bn']):
-        params = []
-        excluded_params = []
-
-        for name, param in named_params:
-            if not param.requires_grad:
-                continue
-            elif any(layer_name in name for layer_name in skip_list):
-                excluded_params.append(param)
-            else:
-                params.append(param)
-
-        return [
-            {'params': params, 'weight_decay': weight_decay},
-            {'params': excluded_params, 'weight_decay': 0.}
-        ]
-
-    def setup(self, stage):
-        global_batch_size = self.trainer.world_size * self.hparams.batch_size
-        self.train_iters_per_epoch = self.hparams.num_samples // global_batch_size
-
     def configure_optimizers(self):
-        # TRICK 1 (Use lars + filter weights)
-        # exclude certain parameters
-        parameters = self.exclude_from_wt_decay(
-            self.named_parameters(),
-            weight_decay=self.hparams.opt_weight_decay
-        )
-
-        optimizer = Adam(parameters, lr=self.hparams.lr)
-
-        # Trick 2 (after each step)
-        self.hparams.warmup_epochs = self.hparams.warmup_epochs * self.train_iters_per_epoch
-        max_epochs = self.trainer.max_epochs * self.train_iters_per_epoch
-
-        linear_warmup_cosine_decay = LinearWarmupCosineAnnealingLR(
-            optimizer,
-            warmup_epochs=self.hparams.warmup_epochs,
-            max_epochs=max_epochs,
-            warmup_start_lr=0,
-            eta_min=0
-        )
-
-        scheduler = {
-            'scheduler': linear_warmup_cosine_decay,
-            'interval': 'step',
-            'frequency': 1
-        }
-
-        return [optimizer], [scheduler]
+        optimizer = Adam(self.parameters(), lr=self.hparams.lr)
+        return optimizer
 
     def forward(self, x):
         if isinstance(x, list):
@@ -260,7 +199,7 @@ class SimCLR(pl.LightningModule):
 
         # ENCODE
         # encode -> representations
-        # (b, 3, 32, 32) -> (b, 2048, 2, 2)
+        # (b, 3, 32, 32) -> (b, 512, 2, 2)
         h1 = self.encoder(img1)
         h2 = self.encoder(img2)
 
@@ -271,14 +210,53 @@ class SimCLR(pl.LightningModule):
 
         # PROJECT
         # img -> E -> h -> || -> z
-        # (b, 2048, 2, 2) -> (b, 128)
+        # (b, 512, 2, 2) -> (b, 128)
         z1 = self.projection(h1)
         z2 = self.projection(h2)
 
         loss = self.nt_xent_loss(z1, z2, self.hparams.loss_temperature)
-
         return loss
     
+    def train_dataloader(self):
+        transform = SimCLRTrainDataTransform(input_height=32)
+        train_dataset = CIFAR10(
+            root='./../data',
+            train=True,
+            transform=transform, 
+            download=True
+        )
+
+        train_loader = torch.utils.data.DataLoader(
+            dataset=train_dataset,
+            batch_size=batch_size,
+            num_workers=4,
+            persistent_workers=True,
+            shuffle=True)
+        self.num_samples = len(train_dataset)
+        return train_loader
+    
+    def val_dataloader(self):
+        transform = SimCLREvalDataTransform(input_height=32)
+        val_dataset = CIFAR10(
+            root='./../data',
+            train=False,
+            transform=transform
+        )
+
+        val_loader = torch.utils.data.DataLoader(
+            dataset=val_dataset,
+            batch_size=batch_size,
+            num_workers=4,
+            persistent_workers=True,
+            shuffle=False)
+        return val_loader
+    
+    def on_train_epoch_end(self):
+        if (self.current_epoch + 1) % 10 == 0:
+            self.trainer.save_checkpoint(f"epoch_{self.current_epoch+71}.ckpt")
+            torch.save(self.encoder.state_dict(), f"encoder_epoch_{self.current_epoch+71}.pth")
+
+
     
 import os
 
@@ -289,13 +267,27 @@ def to_device(batch, device):
     y = y.to(device)
     return img1, y
 
-# pick data
-cifar_height = 32
-batch_size = 8
-num_samples = 32
+if __name__ == '__main__':
+    torch.set_float32_matmul_precision('medium')  # 또는 'medium'
+    # pick data
+    cifar_height = 32
+    batch_size = 64
+    max_epochs = 130
 
+    # model = SimCLR(batch_size=batch_size, loss_temperature=0.07)
+
+    
+    checkpoint_path = "epoch_70.ckpt"
+    model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size)
+    
+
+    trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu")
+
+    trainer.fit(model)
+
+'''
 # init data
-dm = CIFAR10DataModule(os.getcwd(), num_workers=4, batch_size=batch_size)
+dm = CIFAR10DataModule('./../data', num_workers=0, batch_size=batch_size)
 dm.train_transforms = SimCLRTrainDataTransform(cifar_height)
 dm.val_transforms = SimCLREvalDataTransform(cifar_height)
 
@@ -304,8 +296,4 @@ dm.prepare_data()
 dm.setup()
 
 train_samples = len(dm.train_dataloader())
-
-model = SimCLR(batch_size=batch_size, num_samples=train_samples)
-trainer = pl.Trainer(enable_progress_bar=True, devices=1, accelerator="gpu")
-
-trainer.fit(model, dm)
+'''
