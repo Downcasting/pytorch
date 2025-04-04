@@ -85,6 +85,8 @@ class SimCLREvalDataTransform(object):
     def __call__(self, sample):
         transform = self.test_transform
 
+        # TODO: Should I use only one transform?
+        
         xi = transform(sample)
         xj = transform(sample)
 
