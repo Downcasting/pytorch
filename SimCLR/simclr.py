@@ -252,9 +252,9 @@ class SimCLR(pl.LightningModule):
         return val_loader
     
     def on_train_epoch_end(self):
-        if (self.current_epoch + 1) % 10 == 0:
-            self.trainer.save_checkpoint(f"epoch_{self.current_epoch+1}.ckpt")
-            torch.save(self.encoder.state_dict(), f"encoder_epoch_{self.current_epoch+1}.pth")
+        if (self.current_epoch + 1) % 25 == 0:
+            self.trainer.save_checkpoint(f"epoch_{self.current_epoch+201}.ckpt")
+            torch.save(self.encoder.state_dict(), f"encoder_epoch_{self.current_epoch+201}.pth")
 
 
 if __name__ == '__main__':
@@ -262,14 +262,14 @@ if __name__ == '__main__':
     # pick data
     cifar_height = 32
     batch_size = 256
-    max_epochs = 200
+    max_epochs = 300
 
-    model = SimCLR(batch_size=batch_size, loss_temperature=0.15, lr=2e-4)
+    # model = SimCLR(batch_size=batch_size, loss_temperature=0.15, lr=2e-4)
 
-    '''
-    checkpoint_path = "checkpoint_4_100.ckpt"
+    
+    checkpoint_path = "checkpoint_5_200.ckpt"
     model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, lr = 2e-4, loss_temperature=0.15)
-'''
+
     trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu")
 
     trainer.fit(model)
