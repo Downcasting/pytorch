@@ -1,0 +1,47 @@
+[Evaluation 공통]
+Epoch = 50
+Batch Size = 128
+
+[시도 1]
+Batch Size = 8
+Temperature = 0.5
+learning_rate = 1e-4
+Max_Epoch = 10
+Loss = 2.0 -> 1.65
+<Accuracy> = 44.8%
+
+[시도 2]
+Batch Size = 32
+Temperature = 0.5
+learning_rate = 1e-4
+Max_Epoch = 50
+Loss = 3.7 -> 3
+Accuracy = 59.5%
+
+[시도 3]
+Batch Size: 64
+Temperature: 0.07
+learning_rate = 1e-4
+Max_Epoch: 200
+Loss = 4.0 -> 1.0
+Accuracy = 62.4% (100 Epoch)
+Accuracy = 66.4% (200 Epoch)
+
+[시도 4]
+Batch Size = 256
+Temperature: 0.07
+learning_rate = 1e-4
+Max_Epoch: 200
+Loss = 6.0 -> 2.2 -> 1.9
+Accuracy = 60.7% (100 Epoch)
+Accuracy = 64.1% (200 Epoch)
+
+[시도 5]
+Batch Size = 256
+Temperature: 0.15
+learning_rate = 2e-4
+Max_Epoch: 500
+Loss = 6 -> 3 -> 2.73 -> 2.4
+Accuracy =  64.1% (100 Epoch)
+Accuracy =  68.4% (200 Epoch)
+Accuracy = 73.2% (500 Epoch)

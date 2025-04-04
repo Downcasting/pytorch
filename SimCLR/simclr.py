@@ -45,7 +45,7 @@ class SimCLRTrainDataTransform(object):
         ]
 
         if self.gaussian_blur:
-            data_transforms.append(GaussianBlur(kernel_size=int(0.1 * self.input_height, p=0.5)))
+            data_transforms.append(GaussianBlur(kernel_size=int(0.1 * self.input_height), p=0.5))
 
         data_transforms.append(transforms.ToTensor())
 
@@ -122,6 +122,8 @@ def nt_xent_loss(out_1, out_2, temperature):
 
     mask = ~torch.eye(n_samples, device=sim.device).bool()
     neg = sim.masked_select(mask).view(n_samples, -1).sum(dim=-1)
+    
+    # TODO: Should I replace sum with mean?
 
     # Positive similarity
     pos = torch.exp(torch.sum(out_1 * out_2, dim=-1) / temperature)
@@ -264,12 +266,13 @@ if __name__ == '__main__':
     batch_size = 256
     max_epochs = 300
 
-    # model = SimCLR(batch_size=batch_size, loss_temperature=0.15, lr=2e-4)
+    model = SimCLR(batch_size=batch_size, loss_temperature=0.15, lr=2e-4)
 
-    
+    ''' 
     checkpoint_path = "checkpoint_5_200.ckpt"
     model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, lr = 2e-4, loss_temperature=0.15)
-
+    '''
+    
     trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu")
 
     trainer.fit(model)
