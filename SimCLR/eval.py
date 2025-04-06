@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
 import pytorch_lightning as pl
+from pytorch_lightning.loggers import TensorBoardLogger
 
 from collections import OrderedDict
 
@@ -19,14 +20,17 @@ transform = transforms.Compose([
 ])
 
 batch_size = 128
+logger = TensorBoardLogger("tb_logs", name="SimCLR Eval")
 
 # 새로운 키를 적용한 state_dict 로드
 
 class LinearClassifier(pl.LightningModule):
-    def __init__(self, encoder_location, num_classes=10):
+    def __init__(self, encoder_location, num_classes=10, resnet18=True):
         super().__init__()
         self.encoder = self.load_encoder(encoder_location)
-        self.fc = nn.Linear(512, num_classes)  # ResNet18의 feature_dim=512
+        self.resnet18 = resnet18
+        feature_dim = 512 if resnet18 else 2048  # ResNet18 feature_dim=512, ResNet50 feature_dim=2048
+        self.fc = nn.Linear(feature_dim, num_classes)
 
     def forward(self, x):
         with torch.no_grad():  # Encoder 부분은 gradient 계산 안 함
@@ -54,8 +58,11 @@ class LinearClassifier(pl.LightningModule):
                     break
             new_state_dict[new_key] = v
         
-        # 1️⃣ ResNet-18 불러오기 (pretrained=False 명시)
-        encoder = torchvision.models.resnet18(pretrained=False)  # 네가 사용한 encoder 구조로 변경해야 함
+        # 1️⃣ ResNet-18 / ResNet-50 불러오기 (pretrained=False 명시)
+        if self.resnet18:
+            encoder = torchvision.models.resnet18(pretrained=False)  # ResNet-18 사용
+        else:
+            encoder = torchvision.models.resnet50(pretrained=False)  # ResNet-50 사용
 
         # 2️⃣ SimCLR Encoder 불러오기
         encoder.load_state_dict(new_state_dict, strict=False)
@@ -80,8 +87,8 @@ class LinearClassifier(pl.LightningModule):
         preds = torch.argmax(outputs, dim=1)  # 🔥 가장 확률 높은 class 선택
         acc = (preds == labels).float().mean()  # 🔥 Accuracy 계산
 
-        self.log("train_loss", loss, prog_bar=True)
-        self.log("train_acc", acc, prog_bar=True)  # 🔥 Accuracy 로그 추가!
+        self.log("train_loss", loss, prog_bar=True, logger=True)
+        self.log("train_acc", acc, prog_bar=True, logger=True)  # 🔥 Accuracy 로그 추가!
 
         # Log the loss value
         return loss
@@ -96,8 +103,8 @@ class LinearClassifier(pl.LightningModule):
         preds = torch.argmax(outputs, dim=1)  # 🔥 가장 확률 높은 class 선택
         acc = (preds == labels).float().mean()  # 🔥 Accuracy 계산
 
-        self.log("val_loss", loss, prog_bar=True)
-        self.log("val_acc", acc, prog_bar=True)  # 🔥 Accuracy 로그 추가!
+        self.log("val_loss", loss, prog_bar=True, logger=True)
+        self.log("val_acc", acc, prog_bar=True, logger=True)  # 🔥 Accuracy 로그 추가!
 
         # Log the loss value
         return loss
@@ -139,11 +146,16 @@ class LinearClassifier(pl.LightningModule):
         return val_loader
 
 if __name__ == "__main__":
+
+    ### ResNet-18 or ResNet-50 ###
+    usingResNet18 = True  # ResNet-18 사용 여부
+    ##############################
+
     torch.set_float32_matmul_precision('medium')
     # 1️⃣ 모델 초기화
-    model = LinearClassifier(encoder_location="encoder_5_500.pth")
+    model = LinearClassifier(encoder_location="encoder_5_500.pth", resnet18=usingResNet18)
     # 2️⃣ Trainer 설정
-    trainer = pl.Trainer(max_epochs=50, accelerator="gpu", devices=1)
+    trainer = pl.Trainer(max_epochs=50, accelerator="gpu", devices=1, logger=logger)
     # 3️⃣ 모델 학습
     trainer.fit(model)
     # 4️⃣ 모델 저장

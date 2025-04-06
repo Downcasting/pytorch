@@ -9,12 +9,15 @@ from torch.nn import functional as F
 from torch.optim import Adam
 
 import pytorch_lightning as pl
+from pytorch_lightning.loggers import TensorBoardLogger
 
 import torchvision.models as models
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10
 
 from torch.nn import Flatten
+
+logger = TensorBoardLogger("tb_logs", name="SimCLR")
 
 class SimCLRTrainDataTransform(object):
     def __init__(
@@ -85,8 +88,6 @@ class SimCLREvalDataTransform(object):
     def __call__(self, sample):
         transform = self.test_transform
 
-        # TODO: Should I use only one transform?
-        
         xi = transform(sample)
         xj = transform(sample)
 
@@ -125,8 +126,6 @@ def nt_xent_loss(out_1, out_2, temperature):
     mask = ~torch.eye(n_samples, device=sim.device).bool()
     neg = sim.masked_select(mask).view(n_samples, -1).sum(dim=-1)
     
-    # TODO: Should I replace sum with mean?
-
     # Positive similarity
     pos = torch.exp(torch.sum(out_1 * out_2, dim=-1) / temperature)
     pos = torch.cat([pos, pos], dim=0)
@@ -161,6 +160,7 @@ class SimCLR(pl.LightningModule):
                  lr=1e-4,
                  opt_weight_decay=1e-6,
                  loss_temperature=0.5,
+                 resnet18=True,
                  **kwargs):
         
         super().__init__()
@@ -170,10 +170,13 @@ class SimCLR(pl.LightningModule):
         self.encoder = self.init_encoder()
 
         # h -> || -> z
-        self.projection = Projection()
+        if resnet18:
+            self.projection = Projection()
+        else:
+            self.projection = Projection(input_dim=2048, hidden_dim=2048)
 
     def init_encoder(self):
-        encoder = models.resnet18()
+        encoder = models.resnet18() if self.hparams.resnet18 else models.resnet50()
         encoder = nn.Sequential(*list(encoder.children())[:-1])  # 마지막 FC Layer 제거
         return encoder
 
@@ -192,10 +195,12 @@ class SimCLR(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
+        self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return {"loss": loss}  # ✅ 최신 버전 호환 코드
 
     def validation_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
+        self.log("val_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return {"loss": loss}  # ✅ 최신 버전 호환 코드
 
     def shared_step(self, batch, batch_idx):
@@ -265,18 +270,28 @@ if __name__ == '__main__':
     torch.set_float32_matmul_precision('medium')  # 또는 'medium'
     # pick data
     cifar_height = 32
+
+    ### HYPERPARAMETERS ###
+
     batch_size = 256
-    max_epochs = 300
+    max_epochs = 200
+    temperature = 0.15
+    learning_rate = 2e-4
 
-    model = SimCLR(batch_size=batch_size, loss_temperature=0.15, lr=2e-4)
+    usingResNet18 = False
+    continue_training = True  # True: continue training, False: start from scratch
 
-    ''' 
-    checkpoint_path = "checkpoint_5_200.ckpt"
-    model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, lr = 2e-4, loss_temperature=0.15)
-    '''
+    #######################
+
+
+    if continue_training:
+        checkpoint_path = "checkpoint_1_200_ResNet50.ckpt"
+        model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, lr = learning_rate, loss_temperature=temperature, resnet18=usingResNet18)
+    else:
+        model = SimCLR(batch_size=batch_size, loss_temperature=temperature, lr=learning_rate, resnet18=usingResNet18)
+
     
-    trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu")
-
+    trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu", logger=logger)
     trainer.fit(model)
 
 '''
