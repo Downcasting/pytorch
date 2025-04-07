@@ -27,8 +27,8 @@ logger = TensorBoardLogger("tb_logs", name="SimCLR Eval")
 class LinearClassifier(pl.LightningModule):
     def __init__(self, encoder_location, num_classes=10, resnet18=True):
         super().__init__()
-        self.encoder = self.load_encoder(encoder_location)
         self.resnet18 = resnet18
+        self.encoder = self.load_encoder(encoder_location)
         feature_dim = 512 if resnet18 else 2048  # ResNet18 feature_dim=512, ResNet50 feature_dim=2048
         self.fc = nn.Linear(feature_dim, num_classes)
 
@@ -112,6 +112,15 @@ class LinearClassifier(pl.LightningModule):
     def configure_optimizers(self):
         # 4️⃣ Linear Classifier 학습을 위한 optimizer 설정
         optimizer = optim.Adam(self.fc.parameters(), lr=0.001)
+        '''
+        scheduler = {
+            "scheduler" : optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, verbose=True),
+            "monitor" : "val_loss",
+            "interval" : "epoch",
+            "frequency" : 1
+        }
+        return {"optimizer": optimizer, "lr_scheduler": scheduler}
+        '''
         return optimizer
     
     def train_dataloader(self):
@@ -148,15 +157,15 @@ class LinearClassifier(pl.LightningModule):
 if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
-    usingResNet18 = True  # ResNet-18 사용 여부
+    usingResNet18 = False # ResNet-18 사용 여부
     ##############################
 
     torch.set_float32_matmul_precision('medium')
     # 1️⃣ 모델 초기화
-    model = LinearClassifier(encoder_location="encoder_5_500.pth", resnet18=usingResNet18)
+    model = LinearClassifier(encoder_location="encoder_epoch_400.pth", resnet18=usingResNet18)
     # 2️⃣ Trainer 설정
     trainer = pl.Trainer(max_epochs=50, accelerator="gpu", devices=1, logger=logger)
     # 3️⃣ 모델 학습
     trainer.fit(model)
     # 4️⃣ 모델 저장
-    trainer.save_checkpoint("linear_classifier_5_500.ckpt")  # ✅ Lightning 권장 방식
+    # trainer.save_checkpoint("linear_classifier_300.ckpt")  # ✅ Lightning 권장 방식

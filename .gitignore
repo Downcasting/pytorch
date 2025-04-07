@@ -16,3 +16,6 @@ runs/
 
 # Checkpoints   
 *.ckpt
+
+# Tensorboard Logs
+tb_logs/

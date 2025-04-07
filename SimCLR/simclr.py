@@ -7,6 +7,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from torch.optim import Adam
+from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR
 
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -154,13 +155,10 @@ class Projection(nn.Module):
     
 class SimCLR(pl.LightningModule):
     def __init__(self,
-                 batch_size,
-                 num_samples=32,
-                 warmup_epochs=10,
                  lr=1e-4,
-                 opt_weight_decay=1e-6,
                  loss_temperature=0.5,
                  resnet18=True,
+                 use_optimizer=False,
                  **kwargs):
         
         super().__init__()
@@ -182,7 +180,18 @@ class SimCLR(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = Adam(self.parameters(), lr=self.hparams.lr)
-        return optimizer
+
+        warmup = LinearLR(optimizer, start_factor=0.1, total_iters=warmup_epochs)
+        cosine = CosineAnnealingLR(optimizer, T_max=max_epochs, eta_min=0.0)
+        scheduler = {
+            'scheduler': SequentialLR(optimizer, schedulers=[warmup, cosine], milestones=[10]),
+            'interval': 'epoch',
+            'monitor': 'train_loss',
+        }
+        if self.hparams.use_optimizer:
+            return {"optimizer": optimizer, "lr_scheduler": scheduler}
+        else:
+            return optimizer
 
     def forward(self, x):
         if isinstance(x, list):
@@ -241,7 +250,6 @@ class SimCLR(pl.LightningModule):
             num_workers=4,
             persistent_workers=True,
             shuffle=True)
-        self.num_samples = len(train_dataset)
         return train_loader
     
     def val_dataloader(self):
@@ -281,14 +289,16 @@ if __name__ == '__main__':
     usingResNet18 = False
     continue_training = True  # True: continue training, False: start from scratch
 
+    warmup_epochs = 10
+
     #######################
 
 
     if continue_training:
         checkpoint_path = "checkpoint_1_200_ResNet50.ckpt"
-        model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, lr = learning_rate, loss_temperature=temperature, resnet18=usingResNet18)
+        model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, loss_temperature=temperature, lr = learning_rate, resnet18=usingResNet18)
     else:
-        model = SimCLR(batch_size=batch_size, loss_temperature=temperature, lr=learning_rate, resnet18=usingResNet18)
+        model = SimCLR(batch_size=batch_size, loss_temperature=temperature, lr=learning_rate, resnet18=usingResNet18, use_optimizer=True)
 
     
     trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu", logger=logger)
