@@ -63,45 +63,22 @@ class SimCLRTrainDataTransform(object):
         data_transforms.append(transforms.ToTensor())
 
         if self.normalize:
-            data_transforms.append(normalize)
+            data_transforms.append(self.normalize)
 
         self.train_transform = transforms.Compose(data_transforms)
 
     def __call__(self, sample):
-        xi = self.train_transform(sample)
-        xj = self.train_transform(sample)
+        transform = self.train_transform
+
+        if isinstance(sample, tuple):
+            image, _ = sample
+        else:
+            image = sample
+
+        xi = transform(image)
+        xj = transform(image)
 
         return xi, xj
-
-'''
-class SimCLREvalDataTransform(object):
-    def __init__(
-        self,
-        input_height: int = 224,
-        normalize: Optional[transforms.Normalize] = None
-    ):
-        self.input_height = input_height
-        self.normalize = normalize
-
-        data_transforms = [
-            transforms.Resize(self.input_height),
-            transforms.ToTensor()
-        ]
-
-        if self.normalize:
-            data_transforms.append(normalize)
-
-        self.test_transform = transforms.Compose(data_transforms)
-
-    def __call__(self, sample):
-        transform = self.test_transform
-
-        xi = transform(sample)
-        xj = transform(sample)
-
-        return xi, xj
-    
-'''
 
 class GaussianBlur(object):
     # Implements Gaussian blur as described in the SimCLR paper
@@ -125,23 +102,29 @@ class GaussianBlur(object):
 
         return sample
     
-def nt_xent_loss(out_1, out_2, temperature):
-    out = torch.cat([out_1, out_2], dim=0)
-    n_samples = len(out)
+def nt_xent_loss(out_1, out_2, temperature=0.5):
+    batch_size = out_1.size(0)
+    out = torch.cat([out_1, out_2], dim=0)  # [2N, D]
 
-    # Full similarity matrix
-    cov = torch.mm(out, out.t().contiguous())
-    sim = torch.exp(cov / temperature)
+    # Cosine similarity matrix
+    sim_matrix = torch.matmul(out, out.T) / temperature  # [2N, 2N]
+    sim_matrix = sim_matrix - torch.max(sim_matrix, dim=1, keepdim=True)[0]  # for stability
+    sim_matrix = torch.exp(sim_matrix)
 
-    mask = ~torch.eye(n_samples, device=sim.device).bool()
-    neg = sim.masked_select(mask).view(n_samples, -1).sum(dim=-1)
-    
-    # Positive similarity
-    pos = torch.exp(torch.sum(out_1 * out_2, dim=-1) / temperature)
-    pos = torch.cat([pos, pos], dim=0)
+    # Mask out self-similarity
+    mask = (~torch.eye(2 * batch_size, device=out.device).bool()).float()
+    sim_matrix = sim_matrix * mask
 
-    loss = -torch.log(pos / neg).mean()
-    return loss
+    # Positive similarity (i와 i+N은 양의 쌍)
+    pos_sim = torch.exp(torch.sum(out_1 * out_2, dim=-1) / temperature)
+    pos_sim = torch.cat([pos_sim, pos_sim], dim=0)
+
+    # Denominator: sum over all except self
+    denom = sim_matrix.sum(dim=1)
+
+    loss = -torch.log(pos_sim / denom)
+    return loss.mean()
+
 
 class Projection(nn.Module):
     def __init__(self, input_dim=512, hidden_dim=512, output_dim=128):
@@ -218,15 +201,7 @@ class SimCLR(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
-        self.log("train_loss", loss, on_epoch=True, on_step=False, prog_bar=True, logger=True)
-        return loss  # ✅ 최신 버전 호환 코드
-
-    '''
-    def validation_step(self, batch, batch_idx):
-        loss = self.shared_step(batch, batch_idx)
-        self.log("val_loss", loss, on_epoch=True, prog_bar=True, logger=True)
         return {"loss": loss}  # ✅ 최신 버전 호환 코드
-    '''
 
     def shared_step(self, batch, batch_idx):
         (img1, img2), y = batch
@@ -262,33 +237,22 @@ class SimCLR(pl.LightningModule):
 
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
-            batch_size=batch_size,
+            batch_size=self.hparams.batch_size,
             num_workers=4,
             persistent_workers=True,
             shuffle=True)
         return train_loader
-    '''
-    def val_dataloader(self):
-        transform = SimCLREvalDataTransform(input_height=32)
-        val_dataset = CIFAR10(
-            root='./../data',
-            train=False,
-            transform=transform
-        )
 
-        val_loader = torch.utils.data.DataLoader(
-            dataset=val_dataset,
-            batch_size=batch_size,
-            num_workers=4,
-            persistent_workers=True,
-            shuffle=False)
-        return val_loader
-    '''
+    def training_epoch_end(self, outputs):
+        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        self.log("train_loss_end_of_epoch", avg_loss, on_epoch=True, prog_bar=True, logger=True)
+
     def on_train_epoch_end(self):
-        bias = continue_epoch if continue_training else 0
         if (self.current_epoch + 1) % 50 == 0:
-            self.trainer.save_checkpoint(f"v{version}_epoch_{self.current_epoch+1 + bias}.ckpt")
-            torch.save(self.encoder.state_dict(), f"v{version}_encoder_epoch_{self.current_epoch+1 + bias}.pth")
+            with open(f"version info.txt", "a") as f:
+                f.write(f"v{version} has reached epoch {self.current_epoch+1}.\n")
+            self.trainer.save_checkpoint(f"v{version}.ckpt")
+            torch.save(self.encoder.state_dict(), f"v{version}_encoder.pth")
 
 def version_exist(version):
     # Check if the version folder already exists
@@ -296,10 +260,11 @@ def version_exist(version):
     version_path = f"{base_path}/v{version}"
     return os.path.exists(version_path)
 
-def save_version_info(version):
+def save_version_info():
     # Save the version information to a text file
-    with open(f"v{version} info.txt", "w") as f:
-        f.write(f"Version: {version}\n")
+    with open(f"version info.txt", "a") as f:
+        f.write(f"----------------------------------------\n")
+        f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
         f.write(f"Batch Size: {batch_size}\n")
         f.write(f"Max Epochs: {max_epochs}\n")
@@ -308,6 +273,7 @@ def save_version_info(version):
         f.write(f"Warmup Epochs: {warmup_epochs}\n")
         f.write(f"Using Model: {"ResNet18" if usingResNet18 else "ResNet50"}\n")
         f.write(f"Using optimizer: {"All" if use_optimizer else "Only SGD"}\n")
+        f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
     torch.set_float32_matmul_precision('medium')  # 또는 'medium'
@@ -327,18 +293,17 @@ if __name__ == '__main__':
     warmup_epochs = 10
 
     # using model
-    usingResNet18 = False
+    usingResNet18 = True
 
     # continue training?
     continue_training = False  # True: continue training, False: start from scratch
-    version = 3 # Version of the mode, increment if you start a new training session!!
-    continue_epoch = 0 # If you are continuing training, set this to the epoch you are continuing from
+    version = 4 # Version of the mode, increment if you start a new training session!!
 
     #######################
 
 
     if continue_training:
-        checkpoint_path = f"v{version}_epoch_{continue_epoch}.ckpt"
+        checkpoint_path = f"v{version}.ckpt"
         model = SimCLR.load_from_checkpoint(
             checkpoint_path, 
             batch_size=batch_size, 
@@ -358,7 +323,7 @@ if __name__ == '__main__':
         while version_exist(version):
             print(f"Version v{version} already exists. Automatically incrementing version.")
             version += 1
-        save_version_info(version)
+        save_version_info()
 
 
     logger = TensorBoardLogger("tb_logs", name="SimCLR", version=f"v{version}")
@@ -371,3 +336,68 @@ if __name__ == '__main__':
         resume_from_checkpoint=checkpoint_path if continue_training else None,
         logger=logger)
     trainer.fit(model)
+
+
+
+
+
+
+
+
+
+
+
+'''
+class SimCLREvalDataTransform(object):
+    def __init__(
+        self,
+        input_height: int = 224,
+        normalize: Optional[transforms.Normalize] = None
+    ):
+        self.input_height = input_height
+        self.normalize = normalize
+
+        data_transforms = [
+            transforms.Resize(self.input_height),
+            transforms.ToTensor()
+        ]
+
+        if self.normalize:
+            data_transforms.append(normalize)
+
+        self.test_transform = transforms.Compose(data_transforms)
+
+    def __call__(self, sample):
+        transform = self.test_transform
+
+        xi = transform(sample)
+        xj = transform(sample)
+
+        return xi, xj
+    
+'''
+
+'''
+def validation_step(self, batch, batch_idx):
+    loss = self.shared_step(batch, batch_idx)
+    self.log("val_loss", loss, on_epoch=True, prog_bar=True, logger=True)
+    return {"loss": loss}  # ✅ 최신 버전 호환 코드
+'''
+
+'''
+def val_dataloader(self):
+    transform = SimCLREvalDataTransform(input_height=32)
+    val_dataset = CIFAR10(
+        root='./../data',
+        train=False,
+        transform=transform
+    )
+
+    val_loader = torch.utils.data.DataLoader(
+        dataset=val_dataset,
+        batch_size=batch_size,
+        num_workers=4,
+        persistent_workers=True,
+        shuffle=False)
+    return val_loader
+'''

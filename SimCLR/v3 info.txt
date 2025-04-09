@@ -1,9 +1,0 @@
-Version: 3
-Date: 2025-04-09 22:17:22.668180
-Batch Size: 256
-Max Epochs: 500
-Temperature: 0.5
-Learning Rate: 0.03
-Warmup Epochs: 10
-Using Model: ResNet50
-Using optimizer: All

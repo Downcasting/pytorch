@@ -1,0 +1,63 @@
+Version: 2
+Date: ?
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.3
+Warmup Epochs: 10
+Using Model: ResNet50
+Using optimizer: All
+
+Accuracy =?
+
+Version: 3
+Date: 2025-04-09 22:17:22.668180
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.03
+Warmup Epochs: 10
+Using Model: ResNet50
+Using optimizer: All
+
+Accuracy = 63%
+
+----------------------------------------
+[Version: 4]
+
+Date: 2025-04-10 00:34:07.967167
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.3
+Warmup Epochs: 10
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+
+----------------------------------------
+[Version: 5]
+
+Date: 2025-04-10 00:37:59.877049
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.3
+Warmup Epochs: 10
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+
+----------------------------------------
+[Version: 6]
+
+Date: 2025-04-10 00:40:18.994665
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.3
+Warmup Epochs: 10
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+

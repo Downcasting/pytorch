@@ -9,6 +9,8 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
 
+import datetime
+
 from collections import OrderedDict
 
 from torchvision.datasets import CIFAR10
@@ -20,7 +22,6 @@ transform = transforms.Compose([
 ])
 
 batch_size = 128
-logger = TensorBoardLogger("tb_logs", name="SimCLR Eval")
 
 # 새로운 키를 적용한 state_dict 로드
 
@@ -60,9 +61,9 @@ class LinearClassifier(pl.LightningModule):
         
         # 1️⃣ ResNet-18 / ResNet-50 불러오기 (pretrained=False 명시)
         if self.resnet18:
-            encoder = torchvision.models.resnet18(pretrained=False)  # ResNet-18 사용
+            encoder = torchvision.models.resnet18(weights=None)  # ResNet-18 사용
         else:
-            encoder = torchvision.models.resnet50(pretrained=False)  # ResNet-50 사용
+            encoder = torchvision.models.resnet50(weights=None)  # ResNet-50 사용
 
         # 2️⃣ SimCLR Encoder 불러오기
         encoder.load_state_dict(new_state_dict, strict=False)
@@ -150,18 +151,32 @@ class LinearClassifier(pl.LightningModule):
             persistent_workers=True,
             shuffle=False)
         return val_loader
+    
+    def on_fit_end(self):
+        with open(f"eval info.txt", "a") as f:
+            f.write(f"----------------------------------------\n")
+            f.write(f"[Version: {version}]\n\n")
+            f.write(f"Date: {datetime.datetime.now()}\n")
+            f.write(f"Batch Size: {batch_size}\n")
+            f.write(f"Max Epochs: {max_epochs}\n")
+            f.write(f"Total Accuracy: {self.trainer.callback_metrics['val_acc']*100:.2f}%\n")
+            f.write(f"----------------------------------------\n\n")
 
 if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
     usingResNet18 = False # ResNet-18 사용 여부
+    version = 3 # 버전
+    max_epochs = 30 # 최대 에폭
     ##############################
+
+    logger = TensorBoardLogger("tb_logs", name="SimCLR Eval", version=f"v{version}")
 
     torch.set_float32_matmul_precision('medium')
     # 1️⃣ 모델 초기화
-    model = LinearClassifier(encoder_location="encoder_epoch_400.pth", resnet18=usingResNet18)
+    model = LinearClassifier(encoder_location=f"v{version}_encoder.pth", resnet18=usingResNet18)
     # 2️⃣ Trainer 설정
-    trainer = pl.Trainer(max_epochs=50, accelerator="gpu", devices=1, logger=logger)
+    trainer = pl.Trainer(max_epochs=max_epochs, accelerator="gpu", devices=1, logger=logger)
     # 3️⃣ 모델 학습
     trainer.fit(model)
     # 4️⃣ 모델 저장
