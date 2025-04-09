@@ -1,0 +1,7 @@
+[시도 1]
+Batch Size = 256
+Temperature: 0.15
+learning_rate = 2e-4
+Max_Epoch: 200
+Loss = 6 -> 3 -> 2.5
+Accuracy = 63.4%(100) -> 70%(200) -> 73%(300) -> 75%(400)

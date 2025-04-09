@@ -112,7 +112,6 @@ class LinearClassifier(pl.LightningModule):
     def configure_optimizers(self):
         # 4️⃣ Linear Classifier 학습을 위한 optimizer 설정
         optimizer = optim.Adam(self.fc.parameters(), lr=0.001)
-        '''
         scheduler = {
             "scheduler" : optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, verbose=True),
             "monitor" : "val_loss",
@@ -120,8 +119,6 @@ class LinearClassifier(pl.LightningModule):
             "frequency" : 1
         }
         return {"optimizer": optimizer, "lr_scheduler": scheduler}
-        '''
-        return optimizer
     
     def train_dataloader(self):
         train_dataset = CIFAR10(

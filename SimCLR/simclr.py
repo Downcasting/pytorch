@@ -1,12 +1,15 @@
 import cv2
 import numpy as np
 
+import os
+import datetime
+
 from typing import Optional
 
 import torch
 from torch import nn
 from torch.nn import functional as F
-from torch.optim import Adam
+from torch.optim import SGD
 from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR
 
 import pytorch_lightning as pl
@@ -18,7 +21,6 @@ from torchvision.datasets import CIFAR10
 
 from torch.nn import Flatten
 
-logger = TensorBoardLogger("tb_logs", name="SimCLR")
 
 class SimCLRTrainDataTransform(object):
     def __init__(
@@ -66,7 +68,7 @@ class SimCLRTrainDataTransform(object):
 
         return xi, xj
 
-
+'''
 class SimCLREvalDataTransform(object):
     def __init__(
         self,
@@ -93,6 +95,8 @@ class SimCLREvalDataTransform(object):
         xj = transform(sample)
 
         return xi, xj
+    
+'''
 
 class GaussianBlur(object):
     # Implements Gaussian blur as described in the SimCLR paper
@@ -158,7 +162,7 @@ class SimCLR(pl.LightningModule):
                  lr=1e-4,
                  loss_temperature=0.5,
                  resnet18=True,
-                 use_optimizer=False,
+                 use_optimizer=True,
                  **kwargs):
         
         super().__init__()
@@ -179,14 +183,19 @@ class SimCLR(pl.LightningModule):
         return encoder
 
     def configure_optimizers(self):
-        optimizer = Adam(self.parameters(), lr=self.hparams.lr)
+        optimizer = SGD(
+            self.parameters(), 
+            lr=self.hparams.lr,
+            momentum=0.9,
+            weight_decay=1e-4
+        )
 
         warmup = LinearLR(optimizer, start_factor=0.1, total_iters=warmup_epochs)
-        cosine = CosineAnnealingLR(optimizer, T_max=max_epochs, eta_min=0.0)
+        cosine = CosineAnnealingLR(optimizer, T_max=max_epochs - warmup_epochs, eta_min=0.0)
         scheduler = {
             'scheduler': SequentialLR(optimizer, schedulers=[warmup, cosine], milestones=[10]),
             'interval': 'epoch',
-            'monitor': 'train_loss',
+            'frequency': 1,
         }
         if self.hparams.use_optimizer:
             return {"optimizer": optimizer, "lr_scheduler": scheduler}
@@ -204,13 +213,15 @@ class SimCLR(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
-        self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
-        return {"loss": loss}  # ✅ 최신 버전 호환 코드
+        self.log("train_loss", loss, on_epoch=True, on_step=False, prog_bar=True, logger=True)
+        return loss  # ✅ 최신 버전 호환 코드
 
+    '''
     def validation_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
-        self.log("val_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("val_loss", loss, on_epoch=True, prog_bar=True, logger=True)
         return {"loss": loss}  # ✅ 최신 버전 호환 코드
+    '''
 
     def shared_step(self, batch, batch_idx):
         (img1, img2), y = batch
@@ -251,7 +262,7 @@ class SimCLR(pl.LightningModule):
             persistent_workers=True,
             shuffle=True)
         return train_loader
-    
+    '''
     def val_dataloader(self):
         transform = SimCLREvalDataTransform(input_height=32)
         val_dataset = CIFAR10(
@@ -267,12 +278,31 @@ class SimCLR(pl.LightningModule):
             persistent_workers=True,
             shuffle=False)
         return val_loader
-    
+    '''
     def on_train_epoch_end(self):
-        if (self.current_epoch + 1) % 25 == 0:
-            self.trainer.save_checkpoint(f"epoch_{self.current_epoch+201}.ckpt")
-            torch.save(self.encoder.state_dict(), f"encoder_epoch_{self.current_epoch+201}.pth")
+        bias = continue_epoch if continue_training else 0
+        if (self.current_epoch + 1) % 50 == 0:
+            self.trainer.save_checkpoint(f"v{version}_epoch_{self.current_epoch+1 + bias}.ckpt")
+            torch.save(self.encoder.state_dict(), f"v{version}_encoder_epoch_{self.current_epoch+1 + bias}.pth")
 
+def version_exist(version):
+    # Check if the version folder already exists
+    base_path = "tb_logs/SimCLR"
+    version_path = f"{base_path}/v{version}"
+    return os.path.exists(version_path)
+
+def save_version_info(version):
+    # Save the version information to a text file
+    with open(f"v{version} info.txt", "w") as f:
+        f.write(f"Version: {version}\n")
+        f.write(f"Date: {datetime.datetime.now()}\n")
+        f.write(f"Batch Size: {batch_size}\n")
+        f.write(f"Max Epochs: {max_epochs}\n")
+        f.write(f"Temperature: {temperature}\n")
+        f.write(f"Learning Rate: {learning_rate}\n")
+        f.write(f"Warmup Epochs: {warmup_epochs}\n")
+        f.write(f"Using Model: {"ResNet18" if usingResNet18 else "ResNet50"}\n")
+        f.write(f"Using optimizer: {"All" if use_optimizer else "Only SGD"}\n")
 
 if __name__ == '__main__':
     torch.set_float32_matmul_precision('medium')  # 또는 'medium'
@@ -280,39 +310,59 @@ if __name__ == '__main__':
     cifar_height = 32
 
     ### HYPERPARAMETERS ###
+    
+    # optimizer
+    use_optimizer = True  # True: use optimizer, False: only SGD
 
+    # real Hyperparameters
     batch_size = 256
-    max_epochs = 200
-    temperature = 0.15
-    learning_rate = 2e-4
-
-    usingResNet18 = False
-    continue_training = True  # True: continue training, False: start from scratch
-
+    max_epochs = 500
+    temperature = 0.5
+    learning_rate = 0.3 * (batch_size / 256) * 0.1
     warmup_epochs = 10
+
+    # using model
+    usingResNet18 = False
+
+    # continue training?
+    continue_training = False  # True: continue training, False: start from scratch
+    version = 3 # Version of the mode, increment if you start a new training session!!
+    continue_epoch = 0 # If you are continuing training, set this to the epoch you are continuing from
 
     #######################
 
 
     if continue_training:
-        checkpoint_path = "checkpoint_1_200_ResNet50.ckpt"
-        model = SimCLR.load_from_checkpoint(checkpoint_path, batch_size=batch_size, loss_temperature=temperature, lr = learning_rate, resnet18=usingResNet18)
+        checkpoint_path = f"v{version}_epoch_{continue_epoch}.ckpt"
+        model = SimCLR.load_from_checkpoint(
+            checkpoint_path, 
+            batch_size=batch_size, 
+            loss_temperature=temperature, 
+            lr = learning_rate, 
+            resnet18=usingResNet18, 
+            use_optimizer=use_optimizer
+        )
     else:
-        model = SimCLR(batch_size=batch_size, loss_temperature=temperature, lr=learning_rate, resnet18=usingResNet18, use_optimizer=True)
+        model = SimCLR(
+            batch_size=batch_size, 
+            loss_temperature=temperature, 
+            lr=learning_rate, 
+            resnet18=usingResNet18, 
+            use_optimizer=use_optimizer
+        )
+        while version_exist(version):
+            print(f"Version v{version} already exists. Automatically incrementing version.")
+            version += 1
+        save_version_info(version)
 
+
+    logger = TensorBoardLogger("tb_logs", name="SimCLR", version=f"v{version}")
     
-    trainer = pl.Trainer(max_epochs=max_epochs, enable_progress_bar=True, devices=1, accelerator="gpu", logger=logger)
+    trainer = pl.Trainer(
+        max_epochs=max_epochs, 
+        enable_progress_bar=True, 
+        devices=1, 
+        accelerator="gpu", 
+        resume_from_checkpoint=checkpoint_path if continue_training else None,
+        logger=logger)
     trainer.fit(model)
-
-'''
-# init data
-dm = CIFAR10DataModule('./../data', num_workers=0, batch_size=batch_size)
-dm.train_transforms = SimCLRTrainDataTransform(cifar_height)
-dm.val_transforms = SimCLREvalDataTransform(cifar_height)
-
-# realize the data
-dm.prepare_data()
-dm.setup()
-
-train_samples = len(dm.train_dataloader())
-'''
