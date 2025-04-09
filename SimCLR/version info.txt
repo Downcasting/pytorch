@@ -22,42 +22,28 @@ Using optimizer: All
 
 Accuracy = 63%
 
+
+
 ----------------------------------------
 [Version: 4]
 
-Date: 2025-04-10 00:34:07.967167
+Date: 2025-04-10 00:51:32.173817
 Batch Size: 256
 Max Epochs: 500
 Temperature: 0.5
-Learning Rate: 0.3
+Learning Rate: 0.075
 Warmup Epochs: 10
 Using Model: ResNet18
 Using optimizer: All
 ----------------------------------------
 
-----------------------------------------
-[Version: 5]
-
-Date: 2025-04-10 00:37:59.877049
-Batch Size: 256
-Max Epochs: 500
-Temperature: 0.5
-Learning Rate: 0.3
-Warmup Epochs: 10
-Using Model: ResNet18
-Using optimizer: All
-----------------------------------------
-
-----------------------------------------
-[Version: 6]
-
-Date: 2025-04-10 00:40:18.994665
-Batch Size: 256
-Max Epochs: 500
-Temperature: 0.5
-Learning Rate: 0.3
-Warmup Epochs: 10
-Using Model: ResNet18
-Using optimizer: All
-----------------------------------------
-
+v4 has reached epoch 50.
+v4 has reached epoch 100.
+v4 has reached epoch 150.
+v4 has reached epoch 200.
+v4 has reached epoch 250.
+v4 has reached epoch 300.
+v4 has reached epoch 350.
+v4 has reached epoch 400.
+v4 has reached epoch 450.
+v4 has reached epoch 500.

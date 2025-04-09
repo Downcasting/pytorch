@@ -147,7 +147,7 @@ class Projection(nn.Module):
     
 class SimCLR(pl.LightningModule):
     def __init__(self,
-                 lr=1e-4,
+                 lr=0.3,
                  loss_temperature=0.5,
                  resnet18=True,
                  use_optimizer=True,
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     batch_size = 256
     max_epochs = 500
     temperature = 0.5
-    learning_rate = 0.3 * (batch_size / 256)
+    learning_rate = 0.3 * (batch_size / 256) / 4
     warmup_epochs = 10
 
     # using model
