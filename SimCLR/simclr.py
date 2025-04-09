@@ -23,9 +23,10 @@ from torch.nn import Flatten
 
 
 class SimCLRTrainDataTransform(object):
+    
     def __init__(
         self,
-        input_height: int = 224,
+        input_height: int = 32,
         gaussian_blur: bool = False,
         jitter_strength: float = 1.,
         normalize: Optional[transforms.Normalize] = None
@@ -34,7 +35,11 @@ class SimCLRTrainDataTransform(object):
         self.jitter_strength = jitter_strength
         self.input_height = input_height
         self.gaussian_blur = gaussian_blur
-        self.normalize = normalize
+
+        self.normalize = normalize or transforms.Normalize(
+            mean=[0.4914, 0.4822, 0.4465],
+            std=[0.2470, 0.2435, 0.2616]
+        )
 
         self.color_jitter = transforms.ColorJitter(
             0.8 * self.jitter_strength,
@@ -51,7 +56,9 @@ class SimCLRTrainDataTransform(object):
         ]
 
         if self.gaussian_blur:
-            data_transforms.append(GaussianBlur(kernel_size=int(0.1 * self.input_height), p=0.5))
+            kernel_size = max(3, int(0.1 * self.input_height))
+            kernel_size = kernel_size + 1 if kernel_size % 2 == 0 else kernel_size
+            data_transforms.append(GaussianBlur(kernel_size=kernel_size, p=0.5))
 
         data_transforms.append(transforms.ToTensor())
 
@@ -61,10 +68,8 @@ class SimCLRTrainDataTransform(object):
         self.train_transform = transforms.Compose(data_transforms)
 
     def __call__(self, sample):
-        transform = self.train_transform
-
-        xi = transform(sample)
-        xj = transform(sample)
+        xi = self.train_transform(sample)
+        xj = self.train_transform(sample)
 
         return xi, xj
 
@@ -318,7 +323,7 @@ if __name__ == '__main__':
     batch_size = 256
     max_epochs = 500
     temperature = 0.5
-    learning_rate = 0.3 * (batch_size / 256) * 0.1
+    learning_rate = 0.3 * (batch_size / 256)
     warmup_epochs = 10
 
     # using model
