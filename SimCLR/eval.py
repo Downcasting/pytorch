@@ -152,6 +152,10 @@ class LinearClassifier(pl.LightningModule):
             shuffle=False)
         return val_loader
     
+    def training_epoch_end(self, outputs):
+        current_lr = self.trainer.optimizers[0].param_groups[0]["lr"]
+        self.log("current_lr", current_lr, prog_bar=True, logger=True)
+    
     def on_fit_end(self):
         with open(f"eval info.txt", "a") as f:
             f.write(f"----------------------------------------\n")
@@ -166,8 +170,8 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
     usingResNet18 = True # ResNet-18 사용 여부
-    version = 4 # 버전
-    max_epochs = 50 # 최대 에폭
+    version = 7 # 버전
+    max_epochs = 30 # 최대 에폭
     ##############################
 
     logger = TensorBoardLogger("tb_logs", name="SimCLR Eval", version=f"v{version}")

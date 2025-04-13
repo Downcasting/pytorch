@@ -10,7 +10,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from torch.optim import SGD
-from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR
+from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR, ReduceLROnPlateau
 
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -150,7 +150,13 @@ class SimCLR(pl.LightningModule):
                  lr=0.3,
                  loss_temperature=0.5,
                  resnet18=True,
-                 use_optimizer=True,
+                 max_epochs=500,
+                 warmup_epochs=5,
+                 batch_size=256,
+                 use_scheduler=False,
+                 use_warmup=False,
+                 use_cosine=False,
+                 use_reduceonplateau=False,
                  **kwargs):
         
         super().__init__()
@@ -171,24 +177,44 @@ class SimCLR(pl.LightningModule):
         return encoder
 
     def configure_optimizers(self):
-        optimizer = SGD(
-            self.parameters(), 
-            lr=self.hparams.lr,
-            momentum=0.9,
-            weight_decay=1e-4
-        )
+        optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
 
-        warmup = LinearLR(optimizer, start_factor=0.1, total_iters=warmup_epochs)
-        cosine = CosineAnnealingLR(optimizer, T_max=max_epochs - warmup_epochs, eta_min=0.0)
-        scheduler = {
-            'scheduler': SequentialLR(optimizer, schedulers=[warmup, cosine], milestones=[10]),
-            'interval': 'epoch',
-            'frequency': 1,
-        }
-        if self.hparams.use_optimizer:
-            return {"optimizer": optimizer, "lr_scheduler": scheduler}
+        schedulers = []
+        # 1. Warmup
+        if use_warmup:
+            warmup = LinearLR(optimizer, start_factor=0.1, total_iters=warmup_epochs)
+            schedulers.append(("warmup", warmup))
+
+        # 2. Cosine
+        if use_cosine:
+            cosine = CosineAnnealingLR(optimizer, T_max=max_epochs - warmup_epochs, eta_min=0.0)
+            schedulers.append(("cosine", cosine))
+
+        # 3. ReduceLROnPlateau
+        if use_reduceonplateau:
+            reduceonplateau = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5, verbose=True, min_lr=1e-6)
+            schedulers.append(("reduce", reduceonplateau))
+
+        # 스케줄러 설정
+        if use_scheduler:
+            if use_warmup and use_cosine:
+                # warmup + cosine은 SequentialLR로 묶기
+                scheduler = {"scheduler": SequentialLR(optimizer, schedulers=[s[1] for s in schedulers if s[0] in ["warmup", "cosine"]], 
+                                                       milestones=[warmup_epochs]), "interval": "epoch", "frequency": 1}
+                return {"optimizer": optimizer, "lr_scheduler": scheduler}
+            
+            elif use_reduceonplateau:
+                # ReduceLROnPlateau는 별도로 리턴해야 함 (monitor 필요)
+                return {"optimizer": optimizer, "lr_scheduler": {"scheduler": reduceonplateau, "monitor": "train_loss_end_of_epoch", "interval": "epoch", "frequency": 1}}
+
+            else:
+                # 나머지 일반적인 경우 (cosine만 쓰는 등)
+                sched_list = [{"scheduler": sched[1], "interval": "epoch", "frequency": 1} for sched in schedulers]
+                return {"optimizer": optimizer, "lr_scheduler": sched_list}
+        
         else:
             return optimizer
+
 
     def forward(self, x):
         if isinstance(x, list):
@@ -246,6 +272,8 @@ class SimCLR(pl.LightningModule):
     def training_epoch_end(self, outputs):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
         self.log("train_loss_end_of_epoch", avg_loss, on_epoch=True, prog_bar=True, logger=True)
+        current_lr = self.trainer.optimizers[0].param_groups[0]["lr"]
+        self.log("current_lr", current_lr, prog_bar=True, logger=True)
 
     def on_train_epoch_end(self):
         if (self.current_epoch + 1) % 50 == 0:
@@ -272,7 +300,7 @@ def save_version_info():
         f.write(f"Learning Rate: {learning_rate}\n")
         f.write(f"Warmup Epochs: {warmup_epochs}\n")
         f.write(f"Using Model: {"ResNet18" if usingResNet18 else "ResNet50"}\n")
-        f.write(f"Using optimizer: {"All" if use_optimizer else "Only SGD"}\n")
+        f.write(f"Using scheduler: {"All" if use_scheduler else "Only SGD"}\n")
         f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
@@ -280,26 +308,31 @@ if __name__ == '__main__':
     # pick data
     cifar_height = 32
 
-    ### HYPERPARAMETERS ###
+    ######################################## HYPERPARAMETERS ########################################
+    #################################################################################################
     
     # optimizer
-    use_optimizer = True  # True: use optimizer, False: only SGD
+    use_scheduler = False  # True: use all optimizers, False: only SGD
+    use_warmup = True
+    use_cosine = False
+    use_reduceonplateau = True
 
     # real Hyperparameters
     batch_size = 256
     max_epochs = 500
     temperature = 0.5
-    learning_rate = 0.3 * (batch_size / 256) / 4
-    warmup_epochs = 10
+    learning_rate = 0.3 * (batch_size / 256)
+    warmup_epochs = 5
 
     # using model
     usingResNet18 = True
 
     # continue training?
     continue_training = False  # True: continue training, False: start from scratch
-    version = 4 # Version of the mode, increment if you start a new training session!!
+    version = 7 # Version of the mode, increment if you start a new training session!!
 
-    #######################
+    #################################################################################################
+    #################################################################################################
 
 
     if continue_training:
@@ -307,18 +340,28 @@ if __name__ == '__main__':
         model = SimCLR.load_from_checkpoint(
             checkpoint_path, 
             batch_size=batch_size, 
+            max_epochs=max_epochs,
+            warmup_epochs=warmup_epochs,
             loss_temperature=temperature, 
             lr = learning_rate, 
-            resnet18=usingResNet18, 
-            use_optimizer=use_optimizer
+            resnet18=usingResNet18,
+            use_scheduler=use_scheduler,
+            use_warmup=use_warmup,
+            use_cosine=use_cosine,
+            use_reduceonplateau=use_reduceonplateau
         )
     else:
         model = SimCLR(
             batch_size=batch_size, 
+            max_epochs=max_epochs,
+            warmup_epochs=warmup_epochs,
             loss_temperature=temperature, 
-            lr=learning_rate, 
-            resnet18=usingResNet18, 
-            use_optimizer=use_optimizer
+            lr = learning_rate, 
+            resnet18=usingResNet18,
+            use_scheduler=use_scheduler,
+            use_warmup=use_warmup,
+            use_cosine=use_cosine,
+            use_reduceonplateau=use_reduceonplateau
         )
         while version_exist(version):
             print(f"Version v{version} already exists. Automatically incrementing version.")

@@ -47,3 +47,81 @@ v4 has reached epoch 350.
 v4 has reached epoch 400.
 v4 has reached epoch 450.
 v4 has reached epoch 500.
+----------------------------------------
+[Version: 5]
+
+Date: 2025-04-10 10:46:38.673474
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.075
+Warmup Epochs: 10
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+
+----------------------------------------
+[Version: 5]
+
+Date: 2025-04-10 11:13:31.825548
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.075
+Warmup Epochs: 5
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+
+----------------------------------------
+[Version: 5]
+
+Date: 2025-04-10 11:13:51.378579
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.075
+Warmup Epochs: 5
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+
+----------------------------------------
+[Version: 6]
+
+Date: 2025-04-10 11:16:01.572382
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.075
+Warmup Epochs: 5
+Using Model: ResNet18
+Using optimizer: All
+----------------------------------------
+
+v6 has reached epoch 50.
+v6 has reached epoch 100.
+v6 has reached epoch 150.
+----------------------------------------
+[Version: 7]
+
+Date: 2025-04-10 22:05:36.581103
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.3
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Only SGD
+----------------------------------------
+
+v7 has reached epoch 50.
+v7 has reached epoch 100.
+v7 has reached epoch 150.
+v7 has reached epoch 200.
+v7 has reached epoch 250.
+v7 has reached epoch 300.
+v7 has reached epoch 350.
+v7 has reached epoch 400.
+v7 has reached epoch 450.
+v7 has reached epoch 500.
