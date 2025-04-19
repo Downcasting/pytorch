@@ -10,6 +10,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from torch.optim import SGD
+from torch_optimizer import LARS
 from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR, ReduceLROnPlateau
 
 import pytorch_lightning as pl
@@ -103,7 +104,7 @@ class GaussianBlur(object):
         return sample
     
 def nt_xent_loss(out_1, out_2, temperature=0.5):
-    batch_size = out_1.size(0)
+    loss_batch_size = out_1.size(0)
     out = torch.cat([out_1, out_2], dim=0)  # [2N, D]
 
     # Cosine similarity matrix
@@ -112,7 +113,7 @@ def nt_xent_loss(out_1, out_2, temperature=0.5):
     sim_matrix = torch.exp(sim_matrix)
 
     # Mask out self-similarity
-    mask = (~torch.eye(2 * batch_size, device=out.device).bool()).float()
+    mask = (~torch.eye(2 * loss_batch_size, device=out.device).bool()).float()
     sim_matrix = sim_matrix * mask
 
     # Positive similarity (i와 i+N은 양의 쌍)
@@ -177,7 +178,9 @@ class SimCLR(pl.LightningModule):
         return encoder
 
     def configure_optimizers(self):
-        optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
+        # optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
+
+        optimizer = LARS(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
 
         schedulers = []
         # 1. Warmup
@@ -312,14 +315,14 @@ if __name__ == '__main__':
     #################################################################################################
     
     # optimizer
-    use_scheduler = False  # True: use all optimizers, False: only SGD
+    use_scheduler = True  # True: use all optimizers, False: only SGD
     use_warmup = True
-    use_cosine = False
-    use_reduceonplateau = True
+    use_cosine = True
+    use_reduceonplateau = False
 
     # real Hyperparameters
-    batch_size = 256
-    max_epochs = 500
+    batch_size = 512
+    max_epochs = 1000
     temperature = 0.5
     learning_rate = 0.3 * (batch_size / 256)
     warmup_epochs = 5
@@ -329,7 +332,7 @@ if __name__ == '__main__':
 
     # continue training?
     continue_training = False  # True: continue training, False: start from scratch
-    version = 7 # Version of the mode, increment if you start a new training session!!
+    version = 8 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
     #################################################################################################

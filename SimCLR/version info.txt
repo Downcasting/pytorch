@@ -125,3 +125,27 @@ v7 has reached epoch 350.
 v7 has reached epoch 400.
 v7 has reached epoch 450.
 v7 has reached epoch 500.
+----------------------------------------
+[Version: 8]
+
+Date: 2025-04-19 22:07:49.939523
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.6
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: All
+[+] Used LARS Optimizer
+----------------------------------------
+
+v8 has reached epoch 50.
+v8 has reached epoch 100.
+v8 has reached epoch 150.
+v8 has reached epoch 200.
+v8 has reached epoch 250.
+v8 has reached epoch 300.
+v8 has reached epoch 350.
+v8 has reached epoch 400.
+v8 has reached epoch 450.
+v8 has reached epoch 500.
