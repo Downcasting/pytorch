@@ -7,6 +7,7 @@ Learning Rate: 0.3
 Warmup Epochs: 10
 Using Model: ResNet50
 Using optimizer: All
+[+] Switched Optimizer to SGD
 
 Accuracy =?
 
@@ -149,3 +150,13 @@ v8 has reached epoch 350.
 v8 has reached epoch 400.
 v8 has reached epoch 450.
 v8 has reached epoch 500.
+v8 has reached epoch 550.
+v8 has reached epoch 600.
+v8 has reached epoch 650.
+v8 has reached epoch 700.
+v8 has reached epoch 750.
+v8 has reached epoch 800.
+v8 has reached epoch 850.
+v8 has reached epoch 900.
+v8 has reached epoch 950.
+v8 has reached epoch 1000.

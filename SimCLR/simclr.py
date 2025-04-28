@@ -331,7 +331,7 @@ if __name__ == '__main__':
     usingResNet18 = True
 
     # continue training?
-    continue_training = False  # True: continue training, False: start from scratch
+    continue_training = True  # True: continue training, False: start from scratch
     version = 8 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
