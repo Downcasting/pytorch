@@ -103,21 +103,27 @@ class GaussianBlur(object):
 
         return sample
     
+import torch
+
 def nt_xent_loss(out_1, out_2, temperature=0.5):
     loss_batch_size = out_1.size(0)
     out = torch.cat([out_1, out_2], dim=0)  # [2N, D]
 
     # Cosine similarity matrix
-    sim_matrix = torch.matmul(out, out.T) / temperature  # [2N, 2N]
+    norm_out = torch.norm(out, dim=-1, keepdim=True)
+    sim_matrix = torch.matmul(out, out.T) / (norm_out * norm_out.T + 1e-8) # [2N, 2N]
     sim_matrix = sim_matrix - torch.max(sim_matrix, dim=1, keepdim=True)[0]  # for stability
-    sim_matrix = torch.exp(sim_matrix)
+    sim_matrix = torch.exp(sim_matrix / temperature)
 
     # Mask out self-similarity
     mask = (~torch.eye(2 * loss_batch_size, device=out.device).bool()).float()
     sim_matrix = sim_matrix * mask
 
     # Positive similarity (i와 i+N은 양의 쌍)
-    pos_sim = torch.exp(torch.sum(out_1 * out_2, dim=-1) / temperature)
+    norm_out1 = torch.norm(out_1, dim=-1, keepdim=True)
+    norm_out2 = torch.norm(out_2, dim=-1, keepdim=True)
+    pos_sim = torch.sum(out_1 * out_2, dim=-1) / (norm_out1.squeeze(-1) * norm_out2.squeeze(-1) + 1e-8)
+    pos_sim = torch.exp(pos_sim / temperature)
     pos_sim = torch.cat([pos_sim, pos_sim], dim=0)
 
     # Denominator: sum over all except self
