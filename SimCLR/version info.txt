@@ -160,3 +160,52 @@ v8 has reached epoch 850.
 v8 has reached epoch 900.
 v8 has reached epoch 950.
 v8 has reached epoch 1000.
+----------------------------------------
+[Version: 9]
+
+Date: 2025-05-02 14:33:21.402950
+Batch Size: 1024
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 1.2
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: All
+----------------------------------------
+
+----------------------------------------
+[Version: 10]
+
+Date: 2025-05-02 14:35:40.175532
+Batch Size: 1024
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 1.2
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: All
+----------------------------------------
+
+----------------------------------------
+[Version: 9]
+
+Date: 2025-05-02 14:36:17.858987
+Batch Size: 1024
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 1.2
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: All
+----------------------------------------
+
+v9 has reached epoch 50.
+v9 has reached epoch 100.
+v9 has reached epoch 150.
+v9 has reached epoch 200.
+v9 has reached epoch 250.
+v9 has reached epoch 300.
+v9 has reached epoch 350.
+v9 has reached epoch 400.
+v9 has reached epoch 450.
+v9 has reached epoch 500.

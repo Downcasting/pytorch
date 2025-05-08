@@ -199,10 +199,6 @@ class SimCLR(pl.LightningModule):
             cosine = CosineAnnealingLR(optimizer, T_max=max_epochs - warmup_epochs, eta_min=0.0)
             schedulers.append(("cosine", cosine))
 
-        # 3. ReduceLROnPlateau
-        if use_reduceonplateau:
-            reduceonplateau = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5, verbose=True, min_lr=1e-6)
-            schedulers.append(("reduce", reduceonplateau))
 
         # 스케줄러 설정
         if use_scheduler:
@@ -212,10 +208,6 @@ class SimCLR(pl.LightningModule):
                                                        milestones=[warmup_epochs]), "interval": "epoch", "frequency": 1}
                 return {"optimizer": optimizer, "lr_scheduler": scheduler}
             
-            elif use_reduceonplateau:
-                # ReduceLROnPlateau는 별도로 리턴해야 함 (monitor 필요)
-                return {"optimizer": optimizer, "lr_scheduler": {"scheduler": reduceonplateau, "monitor": "train_loss_end_of_epoch", "interval": "epoch", "frequency": 1}}
-
             else:
                 # 나머지 일반적인 경우 (cosine만 쓰는 등)
                 sched_list = [{"scheduler": sched[1], "interval": "epoch", "frequency": 1} for sched in schedulers]
@@ -327,8 +319,8 @@ if __name__ == '__main__':
     use_reduceonplateau = False
 
     # real Hyperparameters
-    batch_size = 512
-    max_epochs = 1000
+    batch_size = 1024
+    max_epochs = 500
     temperature = 0.5
     learning_rate = 0.3 * (batch_size / 256)
     warmup_epochs = 5
@@ -337,8 +329,8 @@ if __name__ == '__main__':
     usingResNet18 = True
 
     # continue training?
-    continue_training = True  # True: continue training, False: start from scratch
-    version = 8 # Version of the mode, increment if you start a new training session!!
+    continue_training = False  # True: continue training, False: start from scratch
+    version = 10 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
     #################################################################################################
