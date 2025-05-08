@@ -209,3 +209,27 @@ v9 has reached epoch 350.
 v9 has reached epoch 400.
 v9 has reached epoch 450.
 v9 has reached epoch 500.
+----------------------------------------
+[Version: 10]
+
+Date: 2025-05-08 22:30:01.159387
+Batch Size: 1024
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 1.2
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v10 has reached epoch 50.
+v10 has reached epoch 100.
+v10 has reached epoch 150.
+v10 has reached epoch 200.
+v10 has reached epoch 250.
+v10 has reached epoch 300.
+v10 has reached epoch 350.
+v10 has reached epoch 400.
+v10 has reached epoch 450.
+v10 has reached epoch 500.

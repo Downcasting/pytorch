@@ -164,6 +164,7 @@ class SimCLR(pl.LightningModule):
                  use_warmup=False,
                  use_cosine=False,
                  use_reduceonplateau=False,
+                 use_SGD=True,
                  **kwargs):
         
         super().__init__()
@@ -184,9 +185,11 @@ class SimCLR(pl.LightningModule):
         return encoder
 
     def configure_optimizers(self):
-        # optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
 
-        optimizer = LARS(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
+        if self.hparams.use_SGD:
+            optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
+        else:
+            optimizer = LARS(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
 
         schedulers = []
         # 1. Warmup
@@ -301,7 +304,8 @@ def save_version_info():
         f.write(f"Learning Rate: {learning_rate}\n")
         f.write(f"Warmup Epochs: {warmup_epochs}\n")
         f.write(f"Using Model: {"ResNet18" if usingResNet18 else "ResNet50"}\n")
-        f.write(f"Using scheduler: {"All" if use_scheduler else "Only SGD"}\n")
+        f.write(f"Using scheduler: {"Yes" if use_scheduler else "No"}\n")
+        f.write(f"Using optimizer: {"SGD" if use_SGD else "LARS"}\n")
         f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
@@ -313,16 +317,17 @@ if __name__ == '__main__':
     #################################################################################################
     
     # optimizer
-    use_scheduler = True  # True: use all optimizers, False: only SGD
+    use_scheduler = True  # True: use Schedulers, False: only Optimizer
     use_warmup = True
     use_cosine = True
     use_reduceonplateau = False
+    use_SGD = True
 
     # real Hyperparameters
     batch_size = 1024
     max_epochs = 500
     temperature = 0.5
-    learning_rate = 0.3 * (batch_size / 256)
+    learning_rate = 0.03
     warmup_epochs = 5
 
     # using model
@@ -349,7 +354,8 @@ if __name__ == '__main__':
             use_scheduler=use_scheduler,
             use_warmup=use_warmup,
             use_cosine=use_cosine,
-            use_reduceonplateau=use_reduceonplateau
+            use_reduceonplateau=use_reduceonplateau,
+            use_SGD=use_SGD
         )
     else:
         model = SimCLR(
@@ -362,7 +368,8 @@ if __name__ == '__main__':
             use_scheduler=use_scheduler,
             use_warmup=use_warmup,
             use_cosine=use_cosine,
-            use_reduceonplateau=use_reduceonplateau
+            use_reduceonplateau=use_reduceonplateau,
+            use_SGD=use_SGD
         )
         while version_exist(version):
             print(f"Version v{version} already exists. Automatically incrementing version.")

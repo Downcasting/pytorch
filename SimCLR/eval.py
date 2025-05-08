@@ -170,8 +170,8 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
     usingResNet18 = True # ResNet-18 사용 여부
-    version = 9 # 버전
-    max_epochs = 30 # 최대 에폭
+    version = 10 # 버전
+    max_epochs = 50 # 최대 에폭
     ##############################
 
     logger = TensorBoardLogger("tb_logs", name="SimCLR Eval", version=f"v{version}")
