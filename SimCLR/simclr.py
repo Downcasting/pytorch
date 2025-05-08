@@ -102,8 +102,7 @@ class GaussianBlur(object):
             sample = cv2.GaussianBlur(sample, (self.kernel_size, self.kernel_size), sigma)
 
         return sample
-    
-import torch
+
 
 def nt_xent_loss(out_1, out_2, temperature=0.5):
     loss_batch_size = out_1.size(0)
@@ -327,7 +326,7 @@ if __name__ == '__main__':
     batch_size = 1024
     max_epochs = 500
     temperature = 0.5
-    learning_rate = 0.03
+    learning_rate = 0.3
     warmup_epochs = 5
 
     # using model
@@ -335,7 +334,7 @@ if __name__ == '__main__':
 
     # continue training?
     continue_training = False  # True: continue training, False: start from scratch
-    version = 10 # Version of the mode, increment if you start a new training session!!
+    version = 12 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
     #################################################################################################

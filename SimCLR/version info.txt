@@ -161,30 +161,6 @@ v8 has reached epoch 900.
 v8 has reached epoch 950.
 v8 has reached epoch 1000.
 ----------------------------------------
-[Version: 9]
-
-Date: 2025-05-02 14:33:21.402950
-Batch Size: 1024
-Max Epochs: 500
-Temperature: 0.5
-Learning Rate: 1.2
-Warmup Epochs: 5
-Using Model: ResNet18
-Using scheduler: All
-----------------------------------------
-
-----------------------------------------
-[Version: 10]
-
-Date: 2025-05-02 14:35:40.175532
-Batch Size: 1024
-Max Epochs: 500
-Temperature: 0.5
-Learning Rate: 1.2
-Warmup Epochs: 5
-Using Model: ResNet18
-Using scheduler: All
-----------------------------------------
 
 ----------------------------------------
 [Version: 9]
@@ -197,6 +173,8 @@ Learning Rate: 1.2
 Warmup Epochs: 5
 Using Model: ResNet18
 Using scheduler: All
+
+[+] Changed Loss Function
 ----------------------------------------
 
 v9 has reached epoch 50.
@@ -221,6 +199,8 @@ Warmup Epochs: 5
 Using Model: ResNet18
 Using scheduler: Yes
 Using optimizer: SGD
+
+[+] Optimizer changed from LARS to SGD
 ----------------------------------------
 
 v10 has reached epoch 50.
@@ -233,3 +213,29 @@ v10 has reached epoch 350.
 v10 has reached epoch 400.
 v10 has reached epoch 450.
 v10 has reached epoch 500.
+----------------------------------------
+
+----------------------------------------
+[Version: 11]
+
+Date: 2025-05-09 01:02:18.983801
+Batch Size: 1024
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.1
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v11 has reached epoch 50.
+v11 has reached epoch 100.
+v11 has reached epoch 150.
+v11 has reached epoch 200.
+v11 has reached epoch 250.
+v11 has reached epoch 300.
+v11 has reached epoch 350.
+v11 has reached epoch 400.
+v11 has reached epoch 450.
+v11 has reached epoch 500.
