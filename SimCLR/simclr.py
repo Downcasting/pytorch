@@ -323,10 +323,10 @@ if __name__ == '__main__':
     use_SGD = True
 
     # real Hyperparameters
-    batch_size = 1024
+    batch_size = 256
     max_epochs = 500
     temperature = 0.5
-    learning_rate = 0.3
+    learning_rate = 0.075
     warmup_epochs = 5
 
     # using model
@@ -334,7 +334,7 @@ if __name__ == '__main__':
 
     # continue training?
     continue_training = False  # True: continue training, False: start from scratch
-    version = 12 # Version of the mode, increment if you start a new training session!!
+    version = 13 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
     #################################################################################################

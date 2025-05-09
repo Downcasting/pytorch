@@ -263,3 +263,27 @@ v12 has reached epoch 350.
 v12 has reached epoch 400.
 v12 has reached epoch 450.
 v12 has reached epoch 500.
+----------------------------------------
+[Version: 13]
+
+Date: 2025-05-09 10:41:05.284222
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.075
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v13 has reached epoch 50.
+v13 has reached epoch 100.
+v13 has reached epoch 150.
+v13 has reached epoch 200.
+v13 has reached epoch 250.
+v13 has reached epoch 300.
+v13 has reached epoch 350.
+v13 has reached epoch 400.
+v13 has reached epoch 450.
+v13 has reached epoch 500.
