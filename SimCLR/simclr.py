@@ -267,7 +267,7 @@ class SimCLR(pl.LightningModule):
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
             batch_size=self.hparams.batch_size,
-            num_workers=4,
+            num_workers=6,
             persistent_workers=True,
             shuffle=True)
         return train_loader
