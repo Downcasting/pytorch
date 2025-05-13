@@ -267,7 +267,7 @@ class SimCLR(pl.LightningModule):
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
             batch_size=self.hparams.batch_size,
-            num_workers=6,
+            num_workers=4,
             persistent_workers=True,
             shuffle=True)
         return train_loader
@@ -324,9 +324,9 @@ if __name__ == '__main__':
 
     # real Hyperparameters
     batch_size = 256
-    max_epochs = 500
+    max_epochs = 1000
     temperature = 0.5
-    learning_rate = 0.075
+    learning_rate = 0.03
     warmup_epochs = 5
 
     # using model
@@ -334,7 +334,7 @@ if __name__ == '__main__':
 
     # continue training?
     continue_training = False  # True: continue training, False: start from scratch
-    version = 13 # Version of the mode, increment if you start a new training session!!
+    version = 16 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
     #################################################################################################
@@ -386,4 +386,5 @@ if __name__ == '__main__':
         resume_from_checkpoint=checkpoint_path if continue_training else None,
         logger=logger)
     trainer.fit(model)
+
 
