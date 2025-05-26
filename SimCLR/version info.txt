@@ -355,3 +355,31 @@ v15 has reached epoch 850.
 v15 has reached epoch 900.
 v15 has reached epoch 950.
 v15 has reached epoch 1000.
+----------------------------------------
+[Version: 16]
+
+Date: 2025-05-26 04:32:28.973123
+Batch Size: 256
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.03
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 16]
+
+Date: 2025-05-26 04:41:57.791248
+Batch Size: 256
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.03
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
