@@ -302,9 +302,9 @@ def save_version_info():
         f.write(f"Temperature: {temperature}\n")
         f.write(f"Learning Rate: {learning_rate}\n")
         f.write(f"Warmup Epochs: {warmup_epochs}\n")
-        f.write(f"Using Model: {"ResNet18" if usingResNet18 else "ResNet50"}\n")
-        f.write(f"Using scheduler: {"Yes" if use_scheduler else "No"}\n")
-        f.write(f"Using optimizer: {"SGD" if use_SGD else "LARS"}\n")
+        f.write(f"Using Model: {'ResNet18' if usingResNet18 else 'ResNet50'}\n")
+        f.write(f"Using scheduler: {'Yes' if use_scheduler else 'No'}\n")
+        f.write(f"Using optimizer: {'SGD' if use_SGD else 'LARS'}\n")
         f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
