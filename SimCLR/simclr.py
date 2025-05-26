@@ -5,7 +5,7 @@ import os
 import datetime
 
 from typing import Optional
-
+ 
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -267,7 +267,7 @@ class SimCLR(pl.LightningModule):
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
             batch_size=self.hparams.batch_size,
-            num_workers=4,
+            num_workers=2,
             persistent_workers=True,
             shuffle=True)
         return train_loader
@@ -326,7 +326,7 @@ if __name__ == '__main__':
     batch_size = 256
     max_epochs = 1000
     temperature = 0.5
-    learning_rate = 0.03
+    learning_rate = 0.05
     warmup_epochs = 5
 
     # using model
