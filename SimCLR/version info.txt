@@ -356,3 +356,25 @@ v15 has reached epoch 900.
 v15 has reached epoch 950.
 v15 has reached epoch 1000.
 
+
+
+----------------------------------------
+[Version: 16]
+
+Date: 2025-05-26 19:07:24.557395
+Batch Size: 256
+Max Epochs: 400
+Temperature: 0.5
+Learning Rate: 0.25
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: LARS
+----------------------------------------
+
+v16 has reached epoch 50.
+v16 has reached epoch 100.
+v16 has reached epoch 150.
+v16 has reached epoch 200.
+v16 has reached epoch 250.
+v16 has reached epoch 300.

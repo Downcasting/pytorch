@@ -65,6 +65,11 @@ class LinearClassifier(pl.LightningModule):
         else:
             encoder = torchvision.models.resnet50(weights=None)  # ResNet-50 사용
 
+        # !!! ResNet-18/50의 conv1 레이어를 CIFAR-10에 맞게 수정
+        encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+        # 첫 번째 max pooling operation 제거
+        encoder.maxpool = nn.Identity() 
+
         # 2️⃣ SimCLR Encoder 불러오기
         encoder.load_state_dict(new_state_dict, strict=False)
 
@@ -170,7 +175,7 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
     usingResNet18 = True # ResNet-18 사용 여부
-    version = 15 # 버전
+    version = 16 # 버전
     max_epochs = 50 # 최대 에폭
     ##############################
 

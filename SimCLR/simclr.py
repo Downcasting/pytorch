@@ -11,7 +11,7 @@ from torch import nn
 from torch.nn import functional as F
 from torch.optim import SGD
 from torch_optimizer import LARS
-from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR, ReduceLROnPlateau
+from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR
 
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -29,7 +29,7 @@ class SimCLRTrainDataTransform(object):
         self,
         input_height: int = 32,
         gaussian_blur: bool = False,
-        jitter_strength: float = 1.,
+        jitter_strength: float = 0.5,
         normalize: Optional[transforms.Normalize] = None
     ) -> None:
 
@@ -162,7 +162,6 @@ class SimCLR(pl.LightningModule):
                  use_scheduler=False,
                  use_warmup=False,
                  use_cosine=False,
-                 use_reduceonplateau=False,
                  use_SGD=True,
                  **kwargs):
         
@@ -180,6 +179,13 @@ class SimCLR(pl.LightningModule):
 
     def init_encoder(self):
         encoder = models.resnet18() if self.hparams.resnet18 else models.resnet50()
+
+        # CIFAR-10용 ResNet Stem 조정
+        # 첫 번째 7x7 Conv of stride 2 -> 3x3 Conv of stride 1
+        encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+        # 첫 번째 max pooling operation 제거
+        encoder.maxpool = nn.Identity() 
+
         encoder = nn.Sequential(*list(encoder.children())[:-1])  # 마지막 FC Layer 제거
         return encoder
 
@@ -256,7 +262,7 @@ class SimCLR(pl.LightningModule):
         return loss
     
     def train_dataloader(self):
-        transform = SimCLRTrainDataTransform(input_height=32)
+        transform = SimCLRTrainDataTransform(input_height=32, gaussian_blur=False, jitter_strength=0.5)
         train_dataset = CIFAR10(
             root='./../data',
             train=True,
@@ -267,7 +273,7 @@ class SimCLR(pl.LightningModule):
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
             batch_size=self.hparams.batch_size,
-            num_workers=2,
+            num_workers=num_workers,
             persistent_workers=True,
             shuffle=True)
         return train_loader
@@ -285,10 +291,10 @@ class SimCLR(pl.LightningModule):
             self.trainer.save_checkpoint(f"v{version}.ckpt")
             torch.save(self.encoder.state_dict(), f"v{version}_encoder.pth")
 
-def version_exist(version):
+def version_exist(version_num):
     # Check if the version folder already exists
     base_path = "tb_logs/SimCLR"
-    version_path = f"{base_path}/v{version}"
+    version_path = f"{base_path}/v{version_num}"
     return os.path.exists(version_path)
 
 def save_version_info():
@@ -319,15 +325,16 @@ if __name__ == '__main__':
     use_scheduler = True  # True: use Schedulers, False: only Optimizer
     use_warmup = True
     use_cosine = True
-    use_reduceonplateau = False
-    use_SGD = True
+    use_SGD = False
 
     # real Hyperparameters
     batch_size = 256
-    max_epochs = 1000
+    max_epochs = 400
     temperature = 0.5
-    learning_rate = 0.05
+    learning_rate = 0.25
     warmup_epochs = 5
+
+    num_workers = 1  # Number of workers for DataLoader
 
     # using model
     usingResNet18 = True
@@ -353,7 +360,6 @@ if __name__ == '__main__':
             use_scheduler=use_scheduler,
             use_warmup=use_warmup,
             use_cosine=use_cosine,
-            use_reduceonplateau=use_reduceonplateau,
             use_SGD=use_SGD
         )
     else:
@@ -367,7 +373,6 @@ if __name__ == '__main__':
             use_scheduler=use_scheduler,
             use_warmup=use_warmup,
             use_cosine=use_cosine,
-            use_reduceonplateau=use_reduceonplateau,
             use_SGD=use_SGD
         )
         while version_exist(version):
