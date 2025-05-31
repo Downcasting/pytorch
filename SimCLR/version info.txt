@@ -378,3 +378,87 @@ v16 has reached epoch 150.
 v16 has reached epoch 200.
 v16 has reached epoch 250.
 v16 has reached epoch 300.
+v16 has reached epoch 350.
+v16 has reached epoch 400.
+
+
+----------------------------------------
+[Version: 17]
+
+Date: 2025-05-28 22:10:56.764392
+Batch Size: 256
+Max Epochs: 400
+Temperature: 0.5
+Learning Rate: 0.25
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v17 has reached epoch 50.
+v17 has reached epoch 100.
+v17 has reached epoch 150.
+v17 has reached epoch 200.
+v17 has reached epoch 250.
+v17 has reached epoch 300.
+v17 has reached epoch 350.
+v17 has reached epoch 400.
+----------------------------------------
+[Version: 18]
+
+Date: 2025-05-30 18:44:46.122766
+Batch Size: 1024
+Max Epochs: 400
+Temperature: 0.5
+Learning Rate: 1.2
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 19]
+
+Date: 2025-05-30 19:21:04.426051
+Batch Size: 512
+Max Epochs: 400
+Temperature: 0.5
+Learning Rate: 0.6
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v19 has reached epoch 50.
+v19 has reached epoch 100.
+v19 has reached epoch 150.
+v19 has reached epoch 200.
+v19 has reached epoch 250.
+v19 has reached epoch 300.
+v19 has reached epoch 350.
+v19 has reached epoch 400.
+----------------------------------------
+[Version: 20]
+
+Date: 2025-05-31 10:31:33.334314
+Batch Size: 512
+Max Epochs: 400
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v20 has reached epoch 50.
+v20 has reached epoch 100.
+v20 has reached epoch 150.
+v20 has reached epoch 200.
+v20 has reached epoch 250.
+v20 has reached epoch 300.
+v20 has reached epoch 350.
+v20 has reached epoch 400.

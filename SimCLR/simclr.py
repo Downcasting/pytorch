@@ -325,27 +325,43 @@ if __name__ == '__main__':
     use_scheduler = True  # True: use Schedulers, False: only Optimizer
     use_warmup = True
     use_cosine = True
-    use_SGD = False
+    use_SGD = True
 
     # real Hyperparameters
-    batch_size = 256
-    max_epochs = 400
+    batch_size = 512
+    max_epochs = 1000
     temperature = 0.5
-    learning_rate = 0.25
+    learning_rate = 0.4
     warmup_epochs = 5
 
-    num_workers = 1  # Number of workers for DataLoader
+    num_workers = 4  # Number of workers for DataLoader
 
     # using model
     usingResNet18 = True
 
     # continue training?
-    continue_training = False  # True: continue training, False: start from scratch
-    version = 16 # Version of the mode, increment if you start a new training session!!
+    version = 21 # Version of the mode, increment if you start a new training session!!
 
     #################################################################################################
     #################################################################################################
 
+    continue_training = False
+    while version_exist(version):
+        print(f"Version v{version} already exists. Do you want to continue training from this version? (y/n)")
+        user_input = input().strip().lower()
+        if user_input == 'y':
+            continue_training = True
+            break
+        elif user_input == 'n':
+            continue_training = False
+            version += 1
+        elif user_input == 'q':
+            print("Exiting the program.")
+            exit()
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
+
+    print(f"Starting training with version v{version}...")
 
     if continue_training:
         checkpoint_path = f"v{version}.ckpt"
@@ -375,9 +391,6 @@ if __name__ == '__main__':
             use_cosine=use_cosine,
             use_SGD=use_SGD
         )
-        while version_exist(version):
-            print(f"Version v{version} already exists. Automatically incrementing version.")
-            version += 1
         save_version_info()
 
 
