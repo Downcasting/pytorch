@@ -462,3 +462,37 @@ v20 has reached epoch 250.
 v20 has reached epoch 300.
 v20 has reached epoch 350.
 v20 has reached epoch 400.
+----------------------------------------
+[Version: 21]
+
+Date: 2025-05-31 18:49:14.491403
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: ResNet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+v21 has reached epoch 50.
+v21 has reached epoch 100.
+v21 has reached epoch 150.
+v21 has reached epoch 200.
+v21 has reached epoch 250.
+v21 has reached epoch 300.
+v21 has reached epoch 350.
+v21 has reached epoch 400.
+v21 has reached epoch 450.
+v21 has reached epoch 500.
+v21 has reached epoch 550.
+v21 has reached epoch 600.
+v21 has reached epoch 650.
+v21 has reached epoch 700.
+v21 has reached epoch 750.
+v21 has reached epoch 800.
+v21 has reached epoch 850.
+v21 has reached epoch 900.
+v21 has reached epoch 950.
+v21 has reached epoch 1000.

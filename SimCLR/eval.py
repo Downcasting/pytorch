@@ -175,7 +175,7 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
     usingResNet18 = True # ResNet-18 사용 여부
-    version = 20 # 버전
+    version = 21 # 버전
     max_epochs = 100 # 최대 에폭
     ##############################
 
