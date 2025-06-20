@@ -4,6 +4,8 @@ import numpy as np
 import os
 import datetime
 
+import simclr_data
+
 from typing import Optional
  
 import torch
@@ -18,7 +20,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 
 import torchvision.models as models
 import torchvision.transforms as transforms
-from torchvision.datasets import CIFAR10
+from torchvision.datasets import CIFAR10, CIFAR100, STL10, SVHN
 
 from torch.nn import Flatten
 
@@ -162,7 +164,6 @@ class SimCLR(pl.LightningModule):
                  use_scheduler=False,
                  use_warmup=False,
                  use_cosine=False,
-                 use_SGD=True,
                  **kwargs):
         
         super().__init__()
@@ -180,21 +181,25 @@ class SimCLR(pl.LightningModule):
     def init_encoder(self):
         encoder = models.resnet18() if self.hparams.resnet18 else models.resnet50()
 
-        # CIFAR-10용 ResNet Stem 조정
+        # CIFAR-10, CIFAR-100용 ResNet Stem 조정
         # 첫 번째 7x7 Conv of stride 2 -> 3x3 Conv of stride 1
-        encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
         # 첫 번째 max pooling operation 제거
-        encoder.maxpool = nn.Identity() 
+        if using_data == "CIFAR10" or using_data == "CIFAR100":
+            encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+            encoder.maxpool = nn.Identity() 
 
         encoder = nn.Sequential(*list(encoder.children())[:-1])  # 마지막 FC Layer 제거
         return encoder
 
     def configure_optimizers(self):
 
-        if self.hparams.use_SGD:
+        if optimizer_type == "SGD":
             optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
-        else:
+        elif optimizer_type == "LARS":
             optimizer = LARS(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
+        else:
+            print(f"Optimizer {optimizer_type} is not supported. Using SGD as default.")
+            optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
 
         schedulers = []
         # 1. Warmup
@@ -263,12 +268,21 @@ class SimCLR(pl.LightningModule):
     
     def train_dataloader(self):
         transform = SimCLRTrainDataTransform(input_height=32, gaussian_blur=False, jitter_strength=0.5)
-        train_dataset = CIFAR10(
-            root='./../data',
-            train=True,
-            transform=transform, 
-            download=True
-        )
+        common_dataset_args = {
+            "root": "./../data",
+            "train": True,
+            "transform": transform,
+            "download": True
+        }
+        if using_data == "CIFAR10":
+            train_dataset = CIFAR10(**common_dataset_args)
+        elif using_data == "CIFAR100":
+            train_dataset = CIFAR100(**common_dataset_args)
+        elif using_data == "STL10":
+            train_dataset = STL10(**common_dataset_args, split='train')
+        elif using_data == "SVHN":
+            train_dataset = SVHN(**common_dataset_args, split='train')
+        
 
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
@@ -303,47 +317,74 @@ def save_version_info():
         f.write(f"----------------------------------------\n")
         f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
+        f.write(f"Dataset: {using_data}\n")
         f.write(f"Batch Size: {batch_size}\n")
         f.write(f"Max Epochs: {max_epochs}\n")
         f.write(f"Temperature: {temperature}\n")
         f.write(f"Learning Rate: {learning_rate}\n")
         f.write(f"Warmup Epochs: {warmup_epochs}\n")
-        f.write(f"Using Model: {'ResNet18' if usingResNet18 else 'ResNet50'}\n")
+        f.write(f"Using Model: {'ResNet18' if use_resnet18 else 'ResNet50'}\n")
         f.write(f"Using scheduler: {'Yes' if use_scheduler else 'No'}\n")
-        f.write(f"Using optimizer: {'SGD' if use_SGD else 'LARS'}\n")
+        f.write(f"Using optimizer: {optimizer_type}\n")
         f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
     torch.set_float32_matmul_precision('medium')  # 또는 'medium'
     # pick data
-    cifar_height = 32
 
     ######################################## HYPERPARAMETERS ########################################
     #################################################################################################
+
+    # Choose your dataset here
+    # Supported datasets: "CIFAR10", "CIFAR100", "STL10", "SVHN"
+    using_data = "CIFAR10"  
+
+    # Number of workers for DataLoader
+    num_workers = 4  
     
-    # optimizer
-    use_scheduler = True  # True: use Schedulers, False: only Optimizer
-    use_warmup = True
-    use_cosine = True
-    use_SGD = True
-
-    # real Hyperparameters
-    batch_size = 512
-    max_epochs = 1000
-    temperature = 0.5
-    learning_rate = 0.4
-    warmup_epochs = 5
-
-    num_workers = 4  # Number of workers for DataLoader
-
-    # using model
-    usingResNet18 = True
-
-    # continue training?
-    version = 21 # Version of the mode, increment if you start a new training session!!
+    # Version of the mode
+    version = 21 
 
     #################################################################################################
     #################################################################################################
+
+    # Using Data
+    data_dict = {
+        "CIFAR10": simclr_data.cifar10,
+        "CIFAR100": simclr_data.cifar100,
+        "STL10": simclr_data.stl10,
+        "SVHN": simclr_data.svhn
+    }
+    params = data_dict[using_data]  # Choose your dataset here
+    if using_data not in data_dict:
+        print(f"Dataset {using_data} is not supported. Please choose from {list(data_dict.keys())}.")
+        exit(1)
+    
+    # Hyperparameters from the selected dataset
+    (
+        optimizer_type,
+        use_scheduler,
+        use_warmup,
+        warmup_epochs,
+        use_cosine,
+        batch_size,
+        max_epochs,
+        temperature,
+        learning_rate,
+        use_resnet18
+    ) = \
+    (
+        params["optimizer_type"],
+        params["use_scheduler"],
+        params["use_warmup"],
+        params["warmup_epochs"],
+        params["use_cosine"],
+        params["batch_size"],
+        params["epochs"],
+        params["temperature"],
+        params["learning_rate"],
+        params["use_resnet18"]
+    )
 
     continue_training = False
     while version_exist(version):
@@ -372,11 +413,10 @@ if __name__ == '__main__':
             warmup_epochs=warmup_epochs,
             loss_temperature=temperature, 
             lr = learning_rate, 
-            resnet18=usingResNet18,
+            resnet18=use_resnet18,
             use_scheduler=use_scheduler,
             use_warmup=use_warmup,
             use_cosine=use_cosine,
-            use_SGD=use_SGD
         )
     else:
         model = SimCLR(
@@ -385,11 +425,10 @@ if __name__ == '__main__':
             warmup_epochs=warmup_epochs,
             loss_temperature=temperature, 
             lr = learning_rate, 
-            resnet18=usingResNet18,
+            resnet18=use_resnet18,
             use_scheduler=use_scheduler,
             use_warmup=use_warmup,
             use_cosine=use_cosine,
-            use_SGD=use_SGD
         )
         save_version_info()
 
