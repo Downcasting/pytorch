@@ -1,28 +1,34 @@
-import cv2
-import numpy as np
-
+# 표준 라이브러리
 import os
 import datetime
-
-import simclr_data
-
 from typing import Optional
- 
+
+# 서드파티 라이브러리
+import cv2
+import yaml
+import numpy as np
+
+# PyTorch 및 관련 패키지
 import torch
 from torch import nn
-from torch.nn import functional as F
+from torch.nn import functional as F, Flatten
 from torch.optim import SGD
-from torch_optimizer import LARS
+from torch_optimizer import LARS  # pip install torch-optimizer
 from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR
 
+# PyTorch Lightning
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
 
+# torchvision 관련
 import torchvision.models as models
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100, STL10, SVHN
 
-from torch.nn import Flatten
+# 로컬 모듈
+import datasets
+from datasets.factory import get_dataset
+
 
 
 class SimCLRTrainDataTransform(object):
@@ -268,21 +274,7 @@ class SimCLR(pl.LightningModule):
     
     def train_dataloader(self):
         transform = SimCLRTrainDataTransform(input_height=32, gaussian_blur=False, jitter_strength=0.5)
-        common_dataset_args = {
-            "root": "./../data",
-            "train": True,
-            "transform": transform,
-            "download": True
-        }
-        if using_data == "CIFAR10":
-            train_dataset = CIFAR10(**common_dataset_args)
-        elif using_data == "CIFAR100":
-            train_dataset = CIFAR100(**common_dataset_args)
-        elif using_data == "STL10":
-            train_dataset = STL10(**common_dataset_args, split='train')
-        elif using_data == "SVHN":
-            train_dataset = SVHN(**common_dataset_args, split='train')
-        
+        train_dataset = get_dataset(name=self.hparams.dataset, transform=transform, root="./data")
 
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
@@ -318,14 +310,14 @@ def save_version_info():
         f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
         f.write(f"Dataset: {using_data}\n")
-        f.write(f"Batch Size: {batch_size}\n")
-        f.write(f"Max Epochs: {max_epochs}\n")
-        f.write(f"Temperature: {temperature}\n")
-        f.write(f"Learning Rate: {learning_rate}\n")
-        f.write(f"Warmup Epochs: {warmup_epochs}\n")
-        f.write(f"Using Model: {'ResNet18' if use_resnet18 else 'ResNet50'}\n")
-        f.write(f"Using scheduler: {'Yes' if use_scheduler else 'No'}\n")
-        f.write(f"Using optimizer: {optimizer_type}\n")
+        f.write(f"Batch Size: {training_config['batch_size']}\n")
+        f.write(f"Max Epochs: {training_config['max_epochs']}\n")
+        f.write(f"Temperature: {training_config['loss_temperature']}\n")
+        f.write(f"Learning Rate: {optimization_config['lr']}\n")
+        f.write(f"Warmup Epochs: {training_config['warmup_epochs']}\n")
+        f.write(f"Using Model: {'ResNet18' if model_config['resnet18'] else 'ResNet50'}\n")
+        f.write(f"Using scheduler: {'Yes' if optimization_config['use_scheduler'] else 'No'}\n")
+        f.write(f"Using optimizer: {optimization_config['optimizer_type']}\n")
         f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
@@ -343,52 +335,24 @@ if __name__ == '__main__':
     num_workers = 4  
     
     # Version of the mode
-    version = 21 
+    version = 21
 
     #################################################################################################
     #################################################################################################
 
-    # Using Data
-    data_dict = {
-        "CIFAR10": simclr_data.cifar10,
-        "CIFAR100": simclr_data.cifar100,
-        "STL10": simclr_data.stl10,
-        "SVHN": simclr_data.svhn
-    }
-    params = data_dict[using_data]  # Choose your dataset here
-    if using_data not in data_dict:
-        print(f"Dataset {using_data} is not supported. Please choose from {list(data_dict.keys())}.")
-        exit(1)
-    
-    # Hyperparameters from the selected dataset
-    (
-        optimizer_type,
-        use_scheduler,
-        use_warmup,
-        warmup_epochs,
-        use_cosine,
-        batch_size,
-        max_epochs,
-        temperature,
-        learning_rate,
-        use_resnet18
-    ) = \
-    (
-        params["optimizer_type"],
-        params["use_scheduler"],
-        params["use_warmup"],
-        params["warmup_epochs"],
-        params["use_cosine"],
-        params["batch_size"],
-        params["epochs"],
-        params["temperature"],
-        params["learning_rate"],
-        params["use_resnet18"]
-    )
+    # Load hyperparameters from the selected dataset's YAML file
+    config = yaml.safe_load(open(f"{using_data.lower()}.yaml", "r"))
 
+    # Load hyperparameters from config (e.g., cifar10.yaml)
+    dataset_config = config["dataset"]
+    training_config = config["training"]
+    optimization_config = config["optimization"]
+    model_config = config["model"]
+
+    # Assume continuation of training is not needed initially
     continue_training = False
     while version_exist(version):
-        print(f"Version v{version} already exists. Do you want to continue training from this version? (y/n)")
+        print(f"Version v{version} already exists. Do you want to continue training from this version? (y/n/q)")
         user_input = input().strip().lower()
         if user_input == 'y':
             continue_training = True
@@ -402,33 +366,24 @@ if __name__ == '__main__':
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
 
+
     print(f"Starting training with version v{version}...")
 
     if continue_training:
         checkpoint_path = f"v{version}.ckpt"
         model = SimCLR.load_from_checkpoint(
             checkpoint_path, 
-            batch_size=batch_size, 
-            max_epochs=max_epochs,
-            warmup_epochs=warmup_epochs,
-            loss_temperature=temperature, 
-            lr = learning_rate, 
-            resnet18=use_resnet18,
-            use_scheduler=use_scheduler,
-            use_warmup=use_warmup,
-            use_cosine=use_cosine,
+            dataset = dataset_config,
+            training = training_config,
+            optimization = optimization_config,
+            model = model_config
         )
     else:
         model = SimCLR(
-            batch_size=batch_size, 
-            max_epochs=max_epochs,
-            warmup_epochs=warmup_epochs,
-            loss_temperature=temperature, 
-            lr = learning_rate, 
-            resnet18=use_resnet18,
-            use_scheduler=use_scheduler,
-            use_warmup=use_warmup,
-            use_cosine=use_cosine,
+            dataset = dataset_config,
+            training = training_config,
+            optimization = optimization_config,
+            model = model_config
         )
         save_version_info()
 
@@ -436,7 +391,7 @@ if __name__ == '__main__':
     logger = TensorBoardLogger("tb_logs", name="SimCLR", version=f"v{version}")
     
     trainer = pl.Trainer(
-        max_epochs=max_epochs, 
+        max_epochs=training_config["max_epochs"], 
         enable_progress_bar=True, 
         devices=1, 
         accelerator="gpu", 

@@ -1,0 +1,20 @@
+dataset:
+    name: cifar10
+    input_size: 32
+
+training:
+    batch_size: 512
+    epochs: 1000
+    warmup_epochs: 5
+    learning_rate: 0.4
+    temperature: 0.5
+
+optimization:
+    optimizer: SGD
+    scheduler_use: True
+    warmup: True
+    cosine: True
+
+model:
+    backbone: resnet18
+    projection_dim: 128
