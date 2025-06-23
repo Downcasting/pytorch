@@ -161,15 +161,10 @@ class Projection(nn.Module):
     
 class SimCLR(pl.LightningModule):
     def __init__(self,
-                 lr=0.3,
-                 loss_temperature=0.5,
-                 resnet18=True,
-                 max_epochs=500,
-                 warmup_epochs=5,
-                 batch_size=256,
-                 use_scheduler=False,
-                 use_warmup=False,
-                 use_cosine=False,
+                 optimization=None,
+                 dataset=None,
+                 training=None,
+                 model=None,
                  **kwargs):
         
         super().__init__()
@@ -179,10 +174,8 @@ class SimCLR(pl.LightningModule):
         self.encoder = self.init_encoder()
 
         # h -> || -> z
-        if resnet18:
-            self.projection = Projection()
-        else:
-            self.projection = Projection(input_dim=2048, hidden_dim=2048)
+        dimension = self.hparams.model['projection_dim']
+        self.projection = Projection(input_dim=dimension, hidden_dim=dimension)
 
     def init_encoder(self):
         encoder = models.resnet18() if self.hparams.resnet18 else models.resnet50()
@@ -198,14 +191,22 @@ class SimCLR(pl.LightningModule):
         return encoder
 
     def configure_optimizers(self):
+        learning_rate = self.hparams.training['learning_rate']
+        warmup_epochs = self.hparams.training['warmup_epochs']
+        max_epochs = self.hparams.training['epochs']
+
+        optimizer_type = self.hparams.optimization['optimizer']
+        use_scheduler = self.hparams.optimization['scheduler']
+        use_warmup = self.hparams.optimization['warmup']
+        use_cosine = self.hparams.optimization['cosine']
 
         if optimizer_type == "SGD":
-            optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
+            optimizer = SGD(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4)
         elif optimizer_type == "LARS":
-            optimizer = LARS(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
+            optimizer = LARS(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
         else:
             print(f"Optimizer {optimizer_type} is not supported. Using SGD as default.")
-            optimizer = SGD(self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=1e-4)
+            optimizer = SGD(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4)
 
         schedulers = []
         # 1. Warmup
@@ -269,11 +270,11 @@ class SimCLR(pl.LightningModule):
         z1 = self.projection(h1)
         z2 = self.projection(h2)
 
-        loss = self.nt_xent_loss(z1, z2, self.hparams.loss_temperature)
+        loss = self.nt_xent_loss(z1, z2, self.hparams.training['temperature'])
         return loss
     
     def train_dataloader(self):
-        transform = SimCLRTrainDataTransform(input_height=32, gaussian_blur=False, jitter_strength=0.5)
+        transform = SimCLRTrainDataTransform(input_height=self.hparams.dataset['input_size'], gaussian_blur=False, jitter_strength=0.5)
         train_dataset = get_dataset(name=self.hparams.dataset, transform=transform, root="./data")
 
         train_loader = torch.utils.data.DataLoader(
@@ -309,15 +310,15 @@ def save_version_info():
         f.write(f"----------------------------------------\n")
         f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
-        f.write(f"Dataset: {using_data}\n")
+        f.write(f"Dataset: {dataset_config['name']}\n")
         f.write(f"Batch Size: {training_config['batch_size']}\n")
-        f.write(f"Max Epochs: {training_config['max_epochs']}\n")
-        f.write(f"Temperature: {training_config['loss_temperature']}\n")
-        f.write(f"Learning Rate: {optimization_config['lr']}\n")
+        f.write(f"Max Epochs: {training_config['epochs']}\n")
+        f.write(f"Temperature: {training_config['temperature']}\n")
+        f.write(f"Learning Rate: {optimization_config['learning_rate']}\n")
         f.write(f"Warmup Epochs: {training_config['warmup_epochs']}\n")
-        f.write(f"Using Model: {'ResNet18' if model_config['resnet18'] else 'ResNet50'}\n")
-        f.write(f"Using scheduler: {'Yes' if optimization_config['use_scheduler'] else 'No'}\n")
-        f.write(f"Using optimizer: {optimization_config['optimizer_type']}\n")
+        f.write(f"Using Model: {model_config['backbone']}\n")
+        f.write(f"Using scheduler: {'Yes' if optimization_config['scheduler'] else 'No'}\n")
+        f.write(f"Using optimizer: {optimization_config['optimizer']}\n")
         f.write(f"----------------------------------------\n\n")
 
 if __name__ == '__main__':
