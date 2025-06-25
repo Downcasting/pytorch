@@ -23,11 +23,10 @@ from pytorch_lightning.loggers import TensorBoardLogger
 # torchvision 관련
 import torchvision.models as models
 import torchvision.transforms as transforms
-from torchvision.datasets import CIFAR10, CIFAR100, STL10, SVHN
 
 # 로컬 모듈
-import datasets
-from datasets.factory import get_dataset
+from datasets.get_dataset import get_dataset
+from models.backbone import get_backbone
 
 
 
@@ -38,16 +37,17 @@ class SimCLRTrainDataTransform(object):
         input_height: int = 32,
         gaussian_blur: bool = False,
         jitter_strength: float = 0.5,
-        normalize: Optional[transforms.Normalize] = None
+        normalize: Optional[dict] = None
     ) -> None:
 
         self.jitter_strength = jitter_strength
         self.input_height = input_height
         self.gaussian_blur = gaussian_blur
+        self.normalize = normalize
 
-        self.normalize = normalize or transforms.Normalize(
-            mean=[0.4914, 0.4822, 0.4465],
-            std=[0.2470, 0.2435, 0.2616]
+        self.normalize = transforms.Normalize(
+            mean=normalize['mean'],
+            std=normalize['std']
         )
 
         self.color_jitter = transforms.ColorJitter(
@@ -165,35 +165,25 @@ class SimCLR(pl.LightningModule):
                  dataset=None,
                  training=None,
                  model=None,
+                 transform=None,
                  **kwargs):
         
         super().__init__()
         self.save_hyperparameters()
 
         self.nt_xent_loss = nt_xent_loss
-        self.encoder = self.init_encoder()
+        self.encoder = get_backbone(self.hparams.model['backbone'], 
+                               using_data=self.hparams.dataset['name'])
 
         # h -> || -> z
         dimension = self.hparams.model['projection_dim']
         self.projection = Projection(input_dim=dimension, hidden_dim=dimension)
 
-    def init_encoder(self):
-        encoder = models.resnet18() if self.hparams.resnet18 else models.resnet50()
-
-        # CIFAR-10, CIFAR-100용 ResNet Stem 조정
-        # 첫 번째 7x7 Conv of stride 2 -> 3x3 Conv of stride 1
-        # 첫 번째 max pooling operation 제거
-        if using_data == "CIFAR10" or using_data == "CIFAR100":
-            encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-            encoder.maxpool = nn.Identity() 
-
-        encoder = nn.Sequential(*list(encoder.children())[:-1])  # 마지막 FC Layer 제거
-        return encoder
 
     def configure_optimizers(self):
         learning_rate = self.hparams.training['learning_rate']
         warmup_epochs = self.hparams.training['warmup_epochs']
-        max_epochs = self.hparams.training['epochs']
+        max_epochs = self.hparams.training['max_epochs']
 
         optimizer_type = self.hparams.optimization['optimizer']
         use_scheduler = self.hparams.optimization['scheduler']
@@ -274,12 +264,19 @@ class SimCLR(pl.LightningModule):
         return loss
     
     def train_dataloader(self):
-        transform = SimCLRTrainDataTransform(input_height=self.hparams.dataset['input_size'], gaussian_blur=False, jitter_strength=0.5)
-        train_dataset = get_dataset(name=self.hparams.dataset, transform=transform, root="./data")
+        input_size = self.hparams.dataset['input_size']
+        gaussian_blur = self.hparams.transform['gaussian_blur']
+        jitter_strength = self.hparams.transform['jitter_strength']
+        normalize = self.hparams.transform['normalize']
+
+        batch_size = self.hparams.training['batch_size']
+
+        transform = SimCLRTrainDataTransform(input_height=input_size, gaussian_blur=gaussian_blur, jitter_strength=jitter_strength, normalize=normalize)
+        train_dataset = get_dataset(name=self.hparams.dataset['name'], transform=transform, root="./../data")
 
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
-            batch_size=self.hparams.batch_size,
+            batch_size=batch_size,
             num_workers=num_workers,
             persistent_workers=True,
             shuffle=True)
@@ -292,7 +289,7 @@ class SimCLR(pl.LightningModule):
         self.log("current_lr", current_lr, prog_bar=True, logger=True)
 
     def on_train_epoch_end(self):
-        if (self.current_epoch + 1) % 50 == 0:
+        if (self.current_epoch + 1) % save_every_epochs == 0:
             with open(f"version info.txt", "a") as f:
                 f.write(f"v{version} has reached epoch {self.current_epoch+1}.\n")
             self.trainer.save_checkpoint(f"v{version}.ckpt")
@@ -300,9 +297,7 @@ class SimCLR(pl.LightningModule):
 
 def version_exist(version_num):
     # Check if the version folder already exists
-    base_path = "tb_logs/SimCLR"
-    version_path = f"{base_path}/v{version_num}"
-    return os.path.exists(version_path)
+    return os.path.exists(f"v{version_num}.ckpt")
 
 def save_version_info():
     # Save the version information to a text file
@@ -312,9 +307,9 @@ def save_version_info():
         f.write(f"Date: {datetime.datetime.now()}\n")
         f.write(f"Dataset: {dataset_config['name']}\n")
         f.write(f"Batch Size: {training_config['batch_size']}\n")
-        f.write(f"Max Epochs: {training_config['epochs']}\n")
+        f.write(f"Max Epochs: {training_config['max_epochs']}\n")
         f.write(f"Temperature: {training_config['temperature']}\n")
-        f.write(f"Learning Rate: {optimization_config['learning_rate']}\n")
+        f.write(f"Learning Rate: {training_config['learning_rate']}\n")
         f.write(f"Warmup Epochs: {training_config['warmup_epochs']}\n")
         f.write(f"Using Model: {model_config['backbone']}\n")
         f.write(f"Using scheduler: {'Yes' if optimization_config['scheduler'] else 'No'}\n")
@@ -330,25 +325,29 @@ if __name__ == '__main__':
 
     # Choose your dataset here
     # Supported datasets: "CIFAR10", "CIFAR100", "STL10", "SVHN"
-    using_data = "CIFAR10"  
+    using_data = "CIFAR100"  
 
     # Number of workers for DataLoader
-    num_workers = 4  
+    num_workers = 4
+
+    # Save checkpoint every * epochs
+    save_every_epochs = 50
     
     # Version of the mode
-    version = 21
+    version = 22
 
     #################################################################################################
     #################################################################################################
 
     # Load hyperparameters from the selected dataset's YAML file
-    config = yaml.safe_load(open(f"{using_data.lower()}.yaml", "r"))
+    config = yaml.safe_load(open(f"config/{using_data.lower()}.yaml", "r"))
 
     # Load hyperparameters from config (e.g., cifar10.yaml)
     dataset_config = config["dataset"]
     training_config = config["training"]
     optimization_config = config["optimization"]
     model_config = config["model"]
+    transform_config = config["transform"]
 
     # Assume continuation of training is not needed initially
     continue_training = False
@@ -377,14 +376,16 @@ if __name__ == '__main__':
             dataset = dataset_config,
             training = training_config,
             optimization = optimization_config,
-            model = model_config
+            model = model_config,
+            transform = transform_config
         )
     else:
         model = SimCLR(
             dataset = dataset_config,
             training = training_config,
             optimization = optimization_config,
-            model = model_config
+            model = model_config,
+            transform = transform_config
         )
         save_version_info()
 
