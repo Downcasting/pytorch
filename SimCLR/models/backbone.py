@@ -15,7 +15,7 @@ def get_backbone(name, using_data=None):
     # CIFAR-10, CIFAR-100용 ResNet Stem 조정
     # 첫 번째 7x7 Conv of stride 2 -> 3x3 Conv of stride 1
     # 첫 번째 max pooling operation 제거
-    if using_data.upper() == "CIFAR10" or using_data.upper() == "CIFAR100":
+    if using_data.upper() == "CIFAR10" or using_data.upper() == "CIFAR100" or using_data.upper() == "SVHN":
         model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
         model.maxpool = nn.Identity() 
 

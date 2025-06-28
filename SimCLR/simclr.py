@@ -290,18 +290,18 @@ class SimCLR(pl.LightningModule):
 
     def on_train_epoch_end(self):
         if (self.current_epoch + 1) % save_every_epochs == 0:
-            with open(f"version info.txt", "a") as f:
+            with open(f"{using_data}_version info.txt", "a") as f:
                 f.write(f"v{version} has reached epoch {self.current_epoch+1}.\n")
-            self.trainer.save_checkpoint(f"v{version}.ckpt")
-            torch.save(self.encoder.state_dict(), f"v{version}_encoder.pth")
+            self.trainer.save_checkpoint(f"{using_data}_v{version}.ckpt")
+            torch.save(self.encoder.state_dict(), f"{using_data}_v{version}_encoder.pth")
 
 def version_exist(version_num):
     # Check if the version folder already exists
-    return os.path.exists(f"v{version_num}.ckpt")
+    return os.path.exists(f"{using_data}_v{version}.ckpt")
 
 def save_version_info():
     # Save the version information to a text file
-    with open(f"version info.txt", "a") as f:
+    with open(f"{using_data}_version info.txt", "a") as f:
         f.write(f"----------------------------------------\n")
         f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
@@ -331,10 +331,10 @@ if __name__ == '__main__':
     num_workers = 4
 
     # Save checkpoint every * epochs
-    save_every_epochs = 50
+    save_every_epochs = 25
     
     # Version of the mode
-    version = 22
+    version = 1
 
     #################################################################################################
     #################################################################################################
@@ -370,7 +370,7 @@ if __name__ == '__main__':
     print(f"Starting training with version v{version}...")
 
     if continue_training:
-        checkpoint_path = f"v{version}.ckpt"
+        checkpoint_path = f"{using_data}_v{version}.ckpt"
         model = SimCLR.load_from_checkpoint(
             checkpoint_path, 
             dataset = dataset_config,
@@ -390,7 +390,7 @@ if __name__ == '__main__':
         save_version_info()
 
 
-    logger = TensorBoardLogger("tb_logs", name="SimCLR", version=f"v{version}")
+    logger = TensorBoardLogger("tb_logs", name=f"SimCLR_{using_data}", version=f"v{version}")
     
     trainer = pl.Trainer(
         max_epochs=training_config["max_epochs"], 

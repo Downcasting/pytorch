@@ -15,6 +15,12 @@ from collections import OrderedDict
 
 from torchvision.datasets import CIFAR10
 
+import yaml
+
+# 로컬 모듈
+from datasets.get_dataset import get_dataset, get_test_dataset
+from models.backbone import get_backbone
+
 # 1️⃣ CIFAR-10 데이터셋 로드
 transform = transforms.Compose([
     transforms.ToTensor(),
@@ -26,11 +32,10 @@ batch_size = 128
 # 새로운 키를 적용한 state_dict 로드
 
 class LinearClassifier(pl.LightningModule):
-    def __init__(self, encoder_location, num_classes=10, resnet18=True):
+    def __init__(self, encoder_location, num_classes=10):
         super().__init__()
-        self.resnet18 = resnet18
         self.encoder = self.load_encoder(encoder_location)
-        feature_dim = 512 if resnet18 else 2048  # ResNet18 feature_dim=512, ResNet50 feature_dim=2048
+        feature_dim = model_config["projection_dim"]  # feature_dim은 config에서 가져옴
         self.fc = nn.Linear(feature_dim, num_classes)
 
     def forward(self, x):
@@ -58,7 +63,8 @@ class LinearClassifier(pl.LightningModule):
                     new_key = k.replace(old, new, 1)
                     break
             new_state_dict[new_key] = v
-        
+
+        '''
         # 1️⃣ ResNet-18 / ResNet-50 불러오기 (pretrained=False 명시)
         if self.resnet18:
             encoder = torchvision.models.resnet18(weights=None)  # ResNet-18 사용
@@ -70,11 +76,14 @@ class LinearClassifier(pl.LightningModule):
         # 첫 번째 max pooling operation 제거
         encoder.maxpool = nn.Identity() 
 
-        # 2️⃣ SimCLR Encoder 불러오기
-        encoder.load_state_dict(new_state_dict, strict=False)
-
         # 3️⃣ Encoder의 마지막 fc 레이어 제거 (feature extractor만 사용)
         encoder = nn.Sequential(*list(encoder.children())[:-1])  # 🔥 마지막 FC 제거!
+        '''
+
+        encoder = get_backbone(model_config["backbone"], using_data=dataset_config["name"])
+
+        # 2️⃣ SimCLR Encoder 불러오기
+        encoder.load_state_dict(new_state_dict, strict=False)
 
         # 4️⃣ Encoder freeze (학습 X)
         encoder = encoder.cuda()  # GPU로 이동
@@ -126,6 +135,31 @@ class LinearClassifier(pl.LightningModule):
         }
         return {"optimizer": optimizer, "lr_scheduler": scheduler}
     
+
+    def train_dataloader(self):
+        train_dataset = get_dataset(name=dataset_config['name'], transform=transform, root="./../data")
+
+        train_loader = torch.utils.data.DataLoader(
+            dataset=train_dataset,
+            batch_size=batch_size,
+            num_workers=num_workers,
+            persistent_workers=True,
+            shuffle=True)
+        
+        return train_loader
+    
+    def val_dataloader(self):
+        val_dataset = get_test_dataset(name=dataset_config['name'], transform=transform, root="./../data")
+
+        val_loader = torch.utils.data.DataLoader(
+            dataset=val_dataset,
+            batch_size=batch_size,
+            num_workers=num_workers,
+            persistent_workers=True,
+            shuffle=True)
+        
+        return val_loader
+    
     def train_dataloader(self):
         train_dataset = CIFAR10(
             root='./../data',
@@ -174,16 +208,23 @@ class LinearClassifier(pl.LightningModule):
 if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
-    usingResNet18 = True # ResNet-18 사용 여부
-    version = 21 # 버전
+
+    using_data = "CIFAR100"
+    num_workers = 4 # DataLoader의 num_workers 설정
+    version = 1 # 버전
     max_epochs = 100 # 최대 에폭
     ##############################
 
-    logger = TensorBoardLogger("tb_logs", name="SimCLR Eval", version=f"v{version}")
+    config = yaml.safe_load(open(f"config/{using_data.lower()}.yaml", "r"))
+
+    dataset_config = config["dataset"]
+    model_config = config["model"]
+
+    logger = TensorBoardLogger("tb_logs", name=f"{using_data}_SimCLR Eval", version=f"v{version}")
 
     torch.set_float32_matmul_precision('medium')
     # 1️⃣ 모델 초기화
-    model = LinearClassifier(encoder_location=f"v{version}_encoder.pth", resnet18=usingResNet18)
+    model = LinearClassifier(encoder_location=f"{using_data}_v{version}_encoder.pth")
     # 2️⃣ Trainer 설정
     trainer = pl.Trainer(max_epochs=max_epochs, accelerator="gpu", devices=1, logger=logger)
     # 3️⃣ 모델 학습
