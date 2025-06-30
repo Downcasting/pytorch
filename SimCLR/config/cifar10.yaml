@@ -1,6 +1,7 @@
 dataset:
     name: cifar10
     input_size: 32
+    classes: 10
 
 training:
     batch_size: 512

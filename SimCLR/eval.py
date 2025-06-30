@@ -13,8 +13,6 @@ import datetime
 
 from collections import OrderedDict
 
-from torchvision.datasets import CIFAR10
-
 import yaml
 
 # 로컬 모듈
@@ -24,7 +22,10 @@ from models.backbone import get_backbone
 # 1️⃣ CIFAR-10 데이터셋 로드
 transform = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
+    transforms.Normalize(
+        mean=[0.4914, 0.4822, 0.4465], 
+        std=[0.2023, 0.1994, 0.2010]
+    )
 ])
 
 batch_size = 128
@@ -156,39 +157,8 @@ class LinearClassifier(pl.LightningModule):
             batch_size=batch_size,
             num_workers=num_workers,
             persistent_workers=True,
-            shuffle=True)
-        
-        return val_loader
-    
-    def train_dataloader(self):
-        train_dataset = CIFAR10(
-            root='./../data',
-            train=True,
-            transform=transform, 
-            download=True
-        )
-
-        train_loader = torch.utils.data.DataLoader(
-            dataset=train_dataset,
-            batch_size=batch_size,
-            num_workers=4,
-            persistent_workers=True,
-            shuffle=True)
-        return train_loader
-    
-    def val_dataloader(self):
-        val_dataset = CIFAR10(
-            root='./../data',
-            train=False,
-            transform=transform
-        )
-
-        val_loader = torch.utils.data.DataLoader(
-            dataset=val_dataset,
-            batch_size=batch_size,
-            num_workers=4,
-            persistent_workers=True,
             shuffle=False)
+        
         return val_loader
     
     def training_epoch_end(self, outputs):
@@ -196,7 +166,7 @@ class LinearClassifier(pl.LightningModule):
         self.log("current_lr", current_lr, prog_bar=True, logger=True)
     
     def on_fit_end(self):
-        with open(f"eval info.txt", "a") as f:
+        with open(f"{using_data}_eval info.txt", "a") as f:
             f.write(f"----------------------------------------\n")
             f.write(f"[Version: {version}]\n\n")
             f.write(f"Date: {datetime.datetime.now()}\n")
@@ -219,12 +189,13 @@ if __name__ == "__main__":
 
     dataset_config = config["dataset"]
     model_config = config["model"]
+    num_of_classes = dataset_config["classes"]
 
-    logger = TensorBoardLogger("tb_logs", name=f"{using_data}_SimCLR Eval", version=f"v{version}")
+    logger = TensorBoardLogger("tb_logs", name=f"SimCLR Eval_{using_data}", version=f"v{version}")
 
     torch.set_float32_matmul_precision('medium')
     # 1️⃣ 모델 초기화
-    model = LinearClassifier(encoder_location=f"{using_data}_v{version}_encoder.pth")
+    model = LinearClassifier(encoder_location=f"{using_data}_v{version}_encoder.pth", num_classes=num_of_classes)
     # 2️⃣ Trainer 설정
     trainer = pl.Trainer(max_epochs=max_epochs, accelerator="gpu", devices=1, logger=logger)
     # 3️⃣ 모델 학습

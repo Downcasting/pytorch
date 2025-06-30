@@ -1,6 +1,7 @@
 dataset:
     name: svhn
     input_size: 32
+    classes: 10
 
 training:
     batch_size: 512
@@ -23,5 +24,5 @@ transform:
     gaussian_blur: False
     normalize:
         mean: [0.4377, 0.4438, 0.4728]
-        std: [0.1201, 0.1231, 0.1052]
+        std: [0.1980, 0.2010, 0.1970]
     jitter_strength: 0.5

@@ -1,6 +1,7 @@
 dataset:
     name: cifar100
     input_size: 32
+    classes: 100
 
 training:
     batch_size: 512
@@ -23,5 +24,5 @@ transform:
     gaussian_blur: False
     normalize:
         mean: [0.5070, 0.4865, 0.4409]
-        std: [0.2009, 0.1984, 0.2023]
+        std: [0.2673, 0.2564, 0.2762]
     jitter_strength: 0.5

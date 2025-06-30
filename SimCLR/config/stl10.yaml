@@ -1,6 +1,7 @@
 dataset:
     name: stl10
     input_size: 96
+    classes: 10
 
 training:
     batch_size: 256
