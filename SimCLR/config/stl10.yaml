@@ -6,12 +6,12 @@ dataset:
 training:
     batch_size: 256
     max_epochs: 1000
-    warmup_epochs: 
-    learning_rate: 
+    warmup_epochs: 5
+    learning_rate: 0.6
     temperature: 0.5
 
 optimization:
-    optimizer: SGD
+    optimizer: LARS
     scheduler: True
     warmup: True
     cosine: True

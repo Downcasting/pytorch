@@ -47,6 +47,7 @@ class LinearClassifier(pl.LightningModule):
     
     def load_encoder(self, encoder_location):
         checkpoint = torch.load(encoder_location, map_location='cuda')
+        '''
         new_state_dict = OrderedDict()
         key_map = {
             "0.": "conv1.",
@@ -64,7 +65,7 @@ class LinearClassifier(pl.LightningModule):
                     new_key = k.replace(old, new, 1)
                     break
             new_state_dict[new_key] = v
-
+        '''
         '''
         # 1️⃣ ResNet-18 / ResNet-50 불러오기 (pretrained=False 명시)
         if self.resnet18:
@@ -84,7 +85,27 @@ class LinearClassifier(pl.LightningModule):
         encoder = get_backbone(model_config["backbone"], using_data=dataset_config["name"])
 
         # 2️⃣ SimCLR Encoder 불러오기
-        encoder.load_state_dict(new_state_dict, strict=False)
+        # encoder.load_state_dict(new_state_dict, strict=False)
+
+        missing, unexpected = encoder.load_state_dict(checkpoint, strict=False)
+
+        print("Missing keys:", missing)
+        print("Unexpected keys:", unexpected)
+
+        if len(missing) > 0 or len(unexpected) > 0:
+            print("Warning: Some keys were not loaded correctly!")
+            print("Do you want to continue? (y/n)")
+            while True:
+                response = input().strip().lower()
+                if response == 'n':
+                    print("Exiting due to missing/unexpected keys.")
+                    exit(1)
+                elif response == 'y':
+                    print("Continuing despite missing/unexpected keys.")
+                    break
+                else:
+                    print("Invalid input. Please enter 'y' or 'n'.")
+            
 
         # 4️⃣ Encoder freeze (학습 X)
         encoder = encoder.cuda()  # GPU로 이동
@@ -179,7 +200,8 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
 
-    using_data = "CIFAR100"
+    using_data = "svhn"
+    using_data = using_data.upper()  # 소문자로 변환
     num_workers = 4 # DataLoader의 num_workers 설정
     version = 1 # 버전
     max_epochs = 100 # 최대 에폭

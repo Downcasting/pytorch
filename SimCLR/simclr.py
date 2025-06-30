@@ -325,7 +325,7 @@ if __name__ == '__main__':
 
     # Choose your dataset here
     # Supported datasets: "CIFAR10", "CIFAR100", "STL10", "SVHN"
-    using_data = "CIFAR100"  
+    using_data = "SVHN"  
 
     # Number of workers for DataLoader
     num_workers = 4
