@@ -1,4 +1,5 @@
 from torchvision.datasets import CIFAR10, CIFAR100, STL10, SVHN
+from torchvision import datasets
 
 def get_dataset(name, transform, root):
     common_args = {
@@ -17,6 +18,8 @@ def get_dataset(name, transform, root):
         return STL10(split='train', **common_args)
     elif name == "SVHN":
         return SVHN(split='train', **common_args)
+    elif name == "DEEPFAKE":
+        return datasets.ImageFolder(root=f"{root}/deepfake/train", transform=transform)
     else:
         raise ValueError(f"Unknown dataset: {name}")
 
@@ -37,5 +40,7 @@ def get_test_dataset(name, transform, root):
         return STL10(split='test', **common_args)
     elif name == "SVHN":
         return SVHN(split='test', **common_args)
+    elif name == "DEEPFAKE":
+        return datasets.ImageFolder(root=f"{root}/deepfake/test", transform=transform)
     else:
         raise ValueError(f"Unknown dataset: {name}")

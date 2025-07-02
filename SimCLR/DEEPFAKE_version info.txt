@@ -1,0 +1,32 @@
+----------------------------------------
+[Version: 1]
+
+Date: 2025-07-02 23:58:16.251970
+Dataset: deepfake
+Batch Size: 64
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet50
+Using scheduler: Yes
+Using optimizer: LARS
+----------------------------------------
+[이거 터짐]
+
+----------------------------------------
+[Version: 1]
+
+Date: 2025-07-02 23:59:54.765812
+Dataset: deepfake
+Batch Size: 32
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet50
+Using scheduler: Yes
+Using optimizer: LARS
+----------------------------------------
+[이거 1 Epoch에 35분 걸림]
+
