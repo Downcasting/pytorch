@@ -15,7 +15,7 @@ def get_dataset(name, transform, root):
     elif name == "CIFAR100":
         return CIFAR100(train=True, **common_args)
     elif name == "STL10":
-        return STL10(split='train', **common_args)
+        return STL10(split='unlabeled', **common_args)
     elif name == "SVHN":
         return SVHN(split='train', **common_args)
     elif name == "DEEPFAKE":
