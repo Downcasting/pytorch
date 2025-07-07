@@ -238,6 +238,7 @@ class SimCLR(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
+        self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return {"loss": loss}  # ✅ 최신 버전 호환 코드
 
     def shared_step(self, batch, batch_idx):
@@ -282,13 +283,10 @@ class SimCLR(pl.LightningModule):
             shuffle=True)
         return train_loader
 
-    def training_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        self.log("train_loss_end_of_epoch", avg_loss, on_epoch=True, prog_bar=True, logger=True)
+    def on_train_epoch_end(self):
         current_lr = self.trainer.optimizers[0].param_groups[0]["lr"]
         self.log("current_lr", current_lr, prog_bar=True, logger=True)
 
-    def on_train_epoch_end(self):
         if (self.current_epoch + 1) % save_every_epochs == 0:
             with open(f"{using_data}_version info.txt", "a") as f:
                 f.write(f"v{version} has reached epoch {self.current_epoch+1}.\n")
@@ -301,7 +299,7 @@ def version_exist(version_num):
 
 def save_version_info():
     # Save the version information to a text file
-    with open(f"{using_data}_version info.txt", "a") as f:
+    with open(f"/log/{using_data}_version info.txt", "a") as f:
         f.write(f"----------------------------------------\n")
         f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
@@ -396,9 +394,9 @@ if __name__ == '__main__':
         max_epochs=training_config["max_epochs"], 
         enable_progress_bar=True, 
         devices=1, 
-        accelerator="gpu", 
-        resume_from_checkpoint=checkpoint_path if continue_training else None,
+        accelerator="gpu",
         logger=logger)
-    trainer.fit(model)
+    
+    trainer.fit(model, ckpt_path=checkpoint_path if continue_training else None)
 
 

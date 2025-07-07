@@ -1,0 +1,46 @@
+----------------------------------------
+[Version: 1]
+
+Date: 2025-07-03 20:50:07.713634
+Dataset: stl10
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.6
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: LARS
+----------------------------------------
+
+----------------------------------------
+[Version: 1]
+
+Date: 2025-07-03 20:55:25.855120
+Dataset: stl10
+Batch Size: 256
+Max Epochs: 500
+Temperature: 0.5
+Learning Rate: 0.6
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: LARS
+----------------------------------------
+
+v1 has reached epoch 25.
+v1 has reached epoch 50.
+v1 has reached epoch 75.
+v1 has reached epoch 100.
+v1 has reached epoch 125.
+v1 has reached epoch 150.
+v1 has reached epoch 175.
+v1 has reached epoch 200.
+v1 has reached epoch 225.
+v1 has reached epoch 250.
+v1 has reached epoch 275.
+v1 has reached epoch 300.
+v1 has reached epoch 325.
+v1 has reached epoch 350.
+v1 has reached epoch 375.
+v1 has reached epoch 400.

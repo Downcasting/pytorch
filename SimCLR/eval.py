@@ -187,7 +187,7 @@ class LinearClassifier(pl.LightningModule):
         self.log("current_lr", current_lr, prog_bar=True, logger=True)
     
     def on_fit_end(self):
-        with open(f"{using_data}_eval info.txt", "a") as f:
+        with open(f"/log/{using_data}_eval info.txt", "a") as f:
             f.write(f"----------------------------------------\n")
             f.write(f"[Version: {version}]\n\n")
             f.write(f"Date: {datetime.datetime.now()}\n")
