@@ -20,15 +20,7 @@ from datasets.get_dataset import get_dataset, get_test_dataset
 from models.backbone import get_backbone
 
 # 1️⃣ CIFAR-10 데이터셋 로드
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.4914, 0.4822, 0.4465], 
-        std=[0.2023, 0.1994, 0.2010]
-    )
-])
 
-batch_size = 128
 
 # 새로운 키를 적용한 state_dict 로드
 
@@ -150,7 +142,7 @@ class LinearClassifier(pl.LightningModule):
         # 4️⃣ Linear Classifier 학습을 위한 optimizer 설정
         optimizer = optim.Adam(self.fc.parameters(), lr=0.001)
         scheduler = {
-            "scheduler" : optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, verbose=True),
+            "scheduler" : optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3),
             "monitor" : "val_loss",
             "interval" : "epoch",
             "frequency" : 1
@@ -159,7 +151,7 @@ class LinearClassifier(pl.LightningModule):
     
 
     def train_dataloader(self):
-        train_dataset = get_dataset(name=dataset_config['name'], transform=transform, root="./../data")
+        train_dataset = get_dataset(name=dataset_config['name'], transform=transform, root="./../data", pretrain=False)
 
         train_loader = torch.utils.data.DataLoader(
             dataset=train_dataset,
@@ -182,12 +174,13 @@ class LinearClassifier(pl.LightningModule):
         
         return val_loader
     
-    def training_epoch_end(self, outputs):
+    def on_train_epoch_end(self):
         current_lr = self.trainer.optimizers[0].param_groups[0]["lr"]
         self.log("current_lr", current_lr, prog_bar=True, logger=True)
+
     
     def on_fit_end(self):
-        with open(f"/log/{using_data}_eval info.txt", "a") as f:
+        with open(f"log/{using_data}_eval info.txt", "a") as f:
             f.write(f"----------------------------------------\n")
             f.write(f"[Version: {version}]\n\n")
             f.write(f"Date: {datetime.datetime.now()}\n")
@@ -200,8 +193,9 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
 
-    using_data = "stl10"
-    using_data = using_data.upper()  # 소문자로 변환
+    using_data = "svhn"
+    using_data = using_data.upper()  # 대문자로 변환
+    batch_size = 128
     num_workers = 4 # DataLoader의 num_workers 설정
     version = 1 # 버전
     max_epochs = 100 # 최대 에폭
@@ -212,6 +206,16 @@ if __name__ == "__main__":
     dataset_config = config["dataset"]
     model_config = config["model"]
     num_of_classes = dataset_config["classes"]
+    transform_config = config["transform"]
+    normalize = transform_config['normalize']
+
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=normalize['mean'],
+            std=normalize['std']
+        )
+    ])
 
     logger = TensorBoardLogger("tb_logs", name=f"SimCLR Eval_{using_data}", version=f"v{version}")
 

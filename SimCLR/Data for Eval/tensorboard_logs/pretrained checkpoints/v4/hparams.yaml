@@ -1,0 +1,5 @@
+batch_size: 256
+loss_temperature: 0.5
+lr: 0.075
+resnet18: true
+use_optimizer: true

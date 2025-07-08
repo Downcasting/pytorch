@@ -1,5 +1,6 @@
 # 표준 라이브러리
 import os
+import glob
 import datetime
 from typing import Optional
 
@@ -155,9 +156,9 @@ class Projection(nn.Module):
             nn.ReLU(),
             nn.Linear(self.hidden_dim, self.output_dim, bias=False))
 
-    def forward(self, x):
-        x = self.model(x)
-        return F.normalize(x, dim=1)
+    def forward(self, h):
+        z = self.model(h)
+        return F.normalize(z, dim=1)
     
 class SimCLR(pl.LightningModule):
     def __init__(self,
@@ -231,18 +232,18 @@ class SimCLR(pl.LightningModule):
         if isinstance(x, list):
             x = x[0]
 
-        result = self.encoder(x)
-        if isinstance(result, list):
-            result = result[-1]
-        return result
+        h = self.encoder(x)
+        if isinstance(h, list):
+            h = h[-1]
+        return h
 
     def training_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
-        self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        self.log("train_loss_end_of_epoch", loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return {"loss": loss}  # ✅ 최신 버전 호환 코드
 
     def shared_step(self, batch, batch_idx):
-        (img1, img2), y = batch
+        (img1, img2), _ = batch
 
         # ENCODE
         # encode -> representations
@@ -295,11 +296,15 @@ class SimCLR(pl.LightningModule):
 
 def version_exist(version_num):
     # Check if the version folder already exists
-    return os.path.exists(f"{using_data}_v{version}.ckpt")
+    checkpoint_path = "tb_logs/SimCLR_" + using_data
+    ckpt_list = glob.glob(os.path.join(checkpoint_path, f"v{version_num}", "checkpoints", "*.ckpt"))
+    if ckpt_list:
+        return max(ckpt_list, key=os.path.getctime)  # Return the most recent checkpoint file
+    return None
 
 def save_version_info():
     # Save the version information to a text file
-    with open(f"/log/{using_data}_version info.txt", "a") as f:
+    with open(f"log/{using_data}_version info.txt", "a") as f:
         f.write(f"----------------------------------------\n")
         f.write(f"[Version: {version}]\n\n")
         f.write(f"Date: {datetime.datetime.now()}\n")
@@ -323,7 +328,7 @@ if __name__ == '__main__':
 
     # Choose your dataset here
     # Supported datasets: "CIFAR10", "CIFAR100", "STL10", "SVHN", "DEEPFAKE"
-    using_data = "STL10"
+    using_data = "CIFAR100"
 
     # Number of workers for DataLoader
     num_workers = 4
@@ -332,7 +337,7 @@ if __name__ == '__main__':
     save_every_epochs = 25
     
     # Version of the mode
-    version = 1
+    version = 2
 
     #################################################################################################
     #################################################################################################
@@ -349,15 +354,17 @@ if __name__ == '__main__':
 
     # Assume continuation of training is not needed initially
     continue_training = False
-    while version_exist(version):
+    latest_checkpoint = version_exist(version)
+
+    while latest_checkpoint:
         print(f"Version v{version} already exists. Do you want to continue training from this version? (y/n/q)")
         user_input = input().strip().lower()
         if user_input == 'y':
             continue_training = True
             break
         elif user_input == 'n':
-            continue_training = False
             version += 1
+            latest_checkpoint = version_exist(version)
         elif user_input == 'q':
             print("Exiting the program.")
             exit()
@@ -368,9 +375,8 @@ if __name__ == '__main__':
     print(f"Starting training with version v{version}...")
 
     if continue_training:
-        checkpoint_path = f"{using_data}_v{version}.ckpt"
         model = SimCLR.load_from_checkpoint(
-            checkpoint_path, 
+            latest_checkpoint, 
             dataset = dataset_config,
             training = training_config,
             optimization = optimization_config,
@@ -397,6 +403,6 @@ if __name__ == '__main__':
         accelerator="gpu",
         logger=logger)
     
-    trainer.fit(model, ckpt_path=checkpoint_path if continue_training else None)
+    trainer.fit(model, ckpt_path=latest_checkpoint if continue_training else None)
 
 

@@ -1,7 +1,7 @@
 from torchvision.datasets import CIFAR10, CIFAR100, STL10, SVHN
 from torchvision import datasets
 
-def get_dataset(name, transform, root):
+def get_dataset(name, transform, root, pretrain=True):
     common_args = {
         "root": root,
         "transform": transform,
@@ -15,7 +15,7 @@ def get_dataset(name, transform, root):
     elif name == "CIFAR100":
         return CIFAR100(train=True, **common_args)
     elif name == "STL10":
-        return STL10(split='unlabeled', **common_args)
+        return STL10(split='unlabeled' if pretrain else 'train', **common_args)
     elif name == "SVHN":
         return SVHN(split='train', **common_args)
     elif name == "DEEPFAKE":

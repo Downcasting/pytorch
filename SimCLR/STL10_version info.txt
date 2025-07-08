@@ -1,4 +1,0 @@
-v1 has reached epoch 425.
-v1 has reached epoch 450.
-v1 has reached epoch 475.
-v1 has reached epoch 500.
