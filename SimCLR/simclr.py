@@ -291,7 +291,7 @@ class SimCLR(pl.LightningModule):
         if (self.current_epoch + 1) % save_every_epochs == 0:
             with open(f"{using_data}_version info.txt", "a") as f:
                 f.write(f"v{version} has reached epoch {self.current_epoch+1}.\n")
-            self.trainer.save_checkpoint(f"{using_data}_v{version}.ckpt")
+            # self.trainer.save_checkpoint(f"{using_data}_v{version}.ckpt")
             torch.save(self.encoder.state_dict(), f"{using_data}_v{version}_encoder.pth")
 
 def version_exist(version_num):
@@ -333,7 +333,7 @@ if __name__ == '__main__':
     # Number of workers for DataLoader
     num_workers = 4
 
-    # Save checkpoint every * epochs
+    # Save model every * epochs
     save_every_epochs = 25
     
     # Version of the mode

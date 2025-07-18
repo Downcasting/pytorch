@@ -1,13 +1,13 @@
 dataset:
-    name: cifar100
+    name: svhn
     input_size: 32
-    classes: 100
+    classes: 10
 
 training:
     batch_size: 512
-    max_epochs: 1000
+    max_epochs: 500
     warmup_epochs: 5
-    learning_rate: 0.6
+    learning_rate: 0.4
     temperature: 0.5
 
 optimization:
@@ -23,6 +23,6 @@ model:
 transform:
     gaussian_blur: False
     normalize:
-        mean: [0.5070, 0.4865, 0.4409]
-        std: [0.2673, 0.2564, 0.2762]
+        mean: [0.4377, 0.4438, 0.4728]
+        std: [0.1980, 0.2010, 0.1970]
     jitter_strength: 0.5

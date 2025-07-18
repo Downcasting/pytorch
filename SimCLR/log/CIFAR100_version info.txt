@@ -51,3 +51,19 @@ v1 has reached epoch 925.
 v1 has reached epoch 950.
 v1 has reached epoch 975.
 v1 has reached epoch 1000.
+
+----------------------------------------
+[Version: 2]
+
+Date: 2025-07-09 13:47:29.693113
+Dataset: cifar100
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.6
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: LARS
+----------------------------------------
+

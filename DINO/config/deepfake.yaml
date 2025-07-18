@@ -1,0 +1,28 @@
+dataset:
+    name: deepfake
+    input_size: 256
+    classes: 10
+
+training:
+    batch_size: 32
+    max_epochs: 500
+    warmup_epochs: 5
+    learning_rate: 0.4
+    temperature: 0.5
+
+optimization:
+    optimizer: LARS
+    scheduler: True
+    warmup: True
+    cosine: True
+
+model:
+    backbone: resnet50
+    projection_dim: 2048
+
+transform:
+    gaussian_blur: False
+    normalize:
+        mean: [0.4668, 0.3816, 0.3414]
+        std: [0.2410, 0.2161, 0.2081]
+    jitter_strength: 0.5
