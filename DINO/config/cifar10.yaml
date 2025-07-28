@@ -17,8 +17,10 @@ optimization:
     cosine: True
 
 model:
-    backbone: resnet18
-    projection_dim: 512
+    student_backbone: resnet18
+    student_projection_dim: 512
+    teacher_backbone: resnet18
+    teacher_projection_dim: 512
 
 transform:
     gaussian_blur: True

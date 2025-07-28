@@ -39,7 +39,7 @@ class DINO(pl.LightningModule):
             p.requires_grad = False
 
         # 하이퍼파라미터
-        self.temperature = cfg.training.temperature
+        self.temperature = cfg['training']['temperature']
         self.momentum = 0.996  # 보통 고정 or cosine schedule 가능
         self.center = torch.zeros(1, 65536).to(self.device)
 
@@ -78,7 +78,7 @@ class DINO(pl.LightningModule):
         loss = self.dino_loss(student_out, teacher_out)
         self._update_teacher()
 
-        self.log("train_loss", loss)
+        self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
     def configure_optimizers(self):

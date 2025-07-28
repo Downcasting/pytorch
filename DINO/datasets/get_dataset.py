@@ -1,46 +1,25 @@
 from torchvision.datasets import CIFAR10, CIFAR100, STL10, SVHN, ImageFolder
 from torchvision import datasets
+from torch.utils.data import DataLoader
 
-def get_dataset(name, transform, root="data", pretrain=True):
+def DINODataModule(name, transform, root="data", batch_size=128, num_workers=4):
     name = str(name).upper()
-    
+    dataset = None
     if name == "CIFAR10":
-        return CIFAR10(root=root, train=True, transform=transform, download=True)
-
-    elif name == "CIFAR100":
-        return CIFAR100(root=root, train=True, transform=transform, download=True)
-
-    elif name == "STL10":
-        split = 'unlabeled' if pretrain else 'train'
-        return STL10(root=root, split=split, transform=transform, download=True)
-
-    elif name == "SVHN":
-        return SVHN(root=root, split='train', transform=transform, download=True)
-
-    elif name == "DEEPFAKE":
-        subfolder = "train" if pretrain else "finetune"
-        return ImageFolder(root=f"{root}/deepfake/{subfolder}", transform=transform)
+        dataset = CIFAR10(root=root, train=True, transform=transform, download=True)
 
     else:
         raise ValueError(f"[get_dataset] Unknown dataset: {name}")
 
-def get_test_dataset(name, transform, root="data"):
+    return DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
+
+def DINOTestDataModule(name, transform, root="data"):
     name = str(name).upper()
 
     if name == "CIFAR10":
-        return CIFAR10(root=root, train=False, transform=transform, download=True)
-
-    elif name == "CIFAR100":
-        return CIFAR100(root=root, train=False, transform=transform, download=True)
-
-    elif name == "STL10":
-        return STL10(root=root, split='test', transform=transform, download=True)
-
-    elif name == "SVHN":
-        return SVHN(root=root, split='test', transform=transform, download=True)
-
-    elif name == "DEEPFAKE":
-        return ImageFolder(root=f"{root}/deepfake/test", transform=transform)
+        dataset = CIFAR10(root=root, train=False, transform=transform, download=True)
 
     else:
         raise ValueError(f"[get_test_dataset] Unknown dataset: {name}")
+    
+
