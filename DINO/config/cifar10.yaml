@@ -11,8 +11,7 @@ training:
     temperature: 0.1
 
 optimization:
-    optimizer: adamw
-    scheduler: True
+    optimizer: AdamW
     warmup: True
     cosine: True
 

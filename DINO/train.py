@@ -4,7 +4,6 @@ from pytorch_lightning.loggers import TensorBoardLogger
 import torch
 import yaml
 
-from config import load_config
 from models.backbone import get_backbone
 from dino import DINO
 from datasets.get_dataset import DINODataModule, DINOTestDataModule

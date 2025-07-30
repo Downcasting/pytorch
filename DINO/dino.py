@@ -4,6 +4,10 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 from copy import deepcopy
 
+from torch.optim import SGD, AdamW
+import torch_optimizer
+
+
 class DINOHead(nn.Module):
     def __init__(self, in_dim, out_dim=65536, use_bn=False):
         super().__init__()
@@ -82,6 +86,40 @@ class DINO(pl.LightningModule):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.AdamW(self.student.parameters(), lr=self.hparams.cfg.training.learning_rate)
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=self.hparams.cfg.training.max_epochs)
+        
+        optimizer_type = self.hparams.cfg['optimization']['optimizer']
+        learning_rate = self.hparams.cfg['training']['learning_rate']
+
+        if optimizer_type == "AdamW":
+            optimizer = AdamW(self.student.parameters(), lr=learning_rate)
+        elif optimizer_type == "SGD":
+            optimizer = SGD(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4)
+        elif optimizer_type == "LARS":
+            optimizer = torch_optimizer.LARS(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
+        else:
+            print(f"Optimizer {optimizer_type} is not supported. Using AdamW as default.")
+            optimizer = AdamW(self.parameters(), lr=learning_rate)
+
+        warmup = self.hparams.cfg['optimization']['warmup']
+        cosine = self.hparams.cfg['optimization']['cosine']
+
+        warmup_epochs = self.hparams.cfg['training']['warmup_epochs']
+        max_epochs = self.hparams.cfg['training']['max_epochs']
+
+        # Use both warmup and cosine annealing
+        if warmup and cosine:
+            scheduler = torch.optim.lr_scheduler.SequentialLR(
+            optimizer,
+            schedulers=[
+                torch.optim.lr_scheduler.LinearLR(optimizer, start_factor=0.1, total_iters=warmup_epochs),
+                torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max_epochs - warmup_epochs)
+            ],
+            milestones=[warmup_epochs]
+            )
+        elif warmup:
+            scheduler = torch.optim.lr_scheduler.LinearLR(optimizer, start_factor=0.1, total_iters=warmup_epochs)
+        elif cosine:
+            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max_epochs)
+        else:
+            scheduler = None
         return [optimizer], [scheduler]

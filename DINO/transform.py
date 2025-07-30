@@ -13,19 +13,19 @@ class GaussianBlur:
 
 def get_dino_transform(cfg, global_crop=True):
     # 공통 변형
-    normalize = T.Normalize(mean=cfg.transform.normalize.mean,
-                            std=cfg.transform.normalize.std)
-    jitter = T.ColorJitter(0.8*cfg.transform.jitter_strength,
-                           0.8*cfg.transform.jitter_strength,
-                           0.8*cfg.transform.jitter_strength,
-                           0.2*cfg.transform.jitter_strength)
+    normalize = T.Normalize(mean=cfg['transform']['normalize']['mean'],
+                            std=cfg['transform']['normalize']['std'])
+    jitter = T.ColorJitter(0.8*cfg['transform']['jitter_strength'],
+                           0.8*cfg['transform']['jitter_strength'],
+                           0.8*cfg['transform']['jitter_strength'],
+                           0.2*cfg['transform']['jitter_strength'])
 
     transform = T.Compose([
-        T.RandomResizedCrop(cfg.dataset.input_size, scale=(0.2, 1.)),
+        T.RandomResizedCrop(cfg['dataset']['input_size'], scale=(0.2, 1.)),
         T.RandomHorizontalFlip(),
         T.RandomApply([jitter], p=0.8),
         T.RandomGrayscale(p=0.2),
-        GaussianBlur() if cfg.transform.gaussian_blur else T.Identity(),
+        GaussianBlur() if cfg['transform']['gaussian_blur'] else T.Identity(),
         T.ToTensor(),
         normalize
     ])
