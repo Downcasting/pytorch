@@ -6,9 +6,11 @@ import yaml
 
 from models.backbone import get_backbone
 from dino import DINO
-from datasets.get_dataset import DINODataModule, DINOTestDataModule
+from datasets.get_dataset import DINODataModule
 
 def main():
+
+    torch.set_float32_matmul_precision('medium')
 
     # 🔧 설정 불러오기
     cfg = yaml.safe_load(open(f"config/{using_data}.yaml", "r"))
@@ -26,7 +28,8 @@ def main():
         transform=cfg['transform'],
         root='./../data',
         batch_size=cfg['training']['batch_size'],
-        num_workers=num_workers
+        num_workers=num_workers,
+        cfg=cfg
     )
     
     # 🧚‍♀️ 콜백 설정

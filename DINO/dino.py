@@ -2,7 +2,6 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 import pytorch_lightning as pl
-from copy import deepcopy
 
 from torch.optim import SGD, AdamW
 import torch_optimizer
@@ -27,6 +26,7 @@ class DINO(pl.LightningModule):
     def __init__(self, student_backbone, teacher_backbone, feature_dim, cfg):
         super().__init__()
         self.save_hyperparameters(ignore=["student_backbone", "teacher_backbone"])
+        self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # 학생/교사 모델
         self.student = nn.Sequential(
@@ -36,7 +36,7 @@ class DINO(pl.LightningModule):
 
         self.teacher = nn.Sequential(
             teacher_backbone,
-            DINOHead(feature_dim)
+            DINOHead(feature_dim, use_bn=True)
         )
         # EMA teacher는 학습하지 않음
         for p in self.teacher.parameters():
@@ -45,7 +45,7 @@ class DINO(pl.LightningModule):
         # 하이퍼파라미터
         self.temperature = cfg['training']['temperature']
         self.momentum = 0.996  # 보통 고정 or cosine schedule 가능
-        self.center = torch.zeros(1, 65536).to(self.device)
+        self.center = torch.zeros(1, 65536).to(self._device)
 
     def forward(self, x):
         return self.student(x)

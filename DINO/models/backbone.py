@@ -27,5 +27,5 @@ def get_backbone(name, image_size=32):
     else:
         raise ValueError(f"Unknown backbone model: {name}")
         exit(1)
-    
+    print(f"Backbone model: {name}, feature dimension: {num_features}")
     return backbone, num_features
