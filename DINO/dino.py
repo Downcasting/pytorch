@@ -8,12 +8,11 @@ import torch_optimizer
 
 
 class DINOHead(nn.Module):
-    def __init__(self, in_dim, out_dim=65536, use_bn=False):
+    def __init__(self, in_dim, out_dim=65536):
         super().__init__()
         hidden_dim = 2048
         self.mlp = nn.Sequential(
             nn.Linear(in_dim, hidden_dim),
-            nn.BatchNorm1d(hidden_dim) if use_bn else nn.Identity(),
             nn.GELU(),
             nn.Linear(hidden_dim, out_dim)
         )
@@ -31,12 +30,12 @@ class DINO(pl.LightningModule):
         # 학생/교사 모델
         self.student = nn.Sequential(
             student_backbone,
-            DINOHead(feature_dim, use_bn=True)
+            DINOHead(feature_dim)
         )
 
         self.teacher = nn.Sequential(
             teacher_backbone,
-            DINOHead(feature_dim, use_bn=True)
+            DINOHead(feature_dim)
         )
         # EMA teacher는 학습하지 않음
         for p in self.teacher.parameters():
@@ -50,10 +49,11 @@ class DINO(pl.LightningModule):
     def forward(self, x):
         return self.student(x)
 
+
     @torch.no_grad()
     def _update_teacher(self):
-        for s, t in zip(self.student.parameters(), self.teacher.parameters()):
-            t.data = t.data * self.momentum + s.data * (1. - self.momentum)
+        for (name_s, param_s), (name_t, param_t) in zip(self.student.named_parameters(), self.teacher.named_parameters()):
+            param_t.data = param_t.data * self.momentum + param_s.data * (1. - self.momentum)
 
     def dino_loss(self, student_out, teacher_out):
         # student_out: [2B, D], teacher_out: [B, D]

@@ -9,3 +9,6 @@ data/
 
 # Tensorboard Logs
 tb_logs/
+
+# Notebook logs
+logs/
