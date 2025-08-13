@@ -1,6 +1,8 @@
 dataset:
     name: cifar10
     input_size: 32
+    global_crop_size: 28
+    local_crop_size: 16
     classes: 10
 
 training:

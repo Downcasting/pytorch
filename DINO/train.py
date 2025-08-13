@@ -7,7 +7,6 @@ import yaml
 from models.backbone import get_backbone
 from dino import DINO
 from datasets.get_dataset import DINODataModule
-
 def main():
 
     torch.set_float32_matmul_precision('medium')
@@ -25,7 +24,6 @@ def main():
     # 🧳 DataModule 준비
     datamodule = DINODataModule(
         name=using_data,
-        transform=cfg['transform'],
         root='./../data',
         batch_size=cfg['training']['batch_size'],
         num_workers=num_workers,
