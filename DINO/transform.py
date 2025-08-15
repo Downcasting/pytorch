@@ -58,8 +58,8 @@ class DINOTransform:
     def __call__(self, x):
         globals_ = [t(x) for t in self.global_transforms]
         locals_ = [t(x) for t in self.local_transforms]
-        return globals_, locals_
-
+        return globals_ + locals_
+    
 def dino_collate_fn(batch):
     # batch: [(views, label), ...]
     views_batch, labels = zip(*batch)
@@ -68,18 +68,19 @@ def dino_collate_fn(batch):
     globals_batch = [v[:2] for v in views_batch]
     locals_batch  = [v[2:] for v in views_batch]
 
-    # crop 기준으로 모으기
-    globals_batch = list(map(list, zip(*globals_batch)))  # [[B개 global1], [B개 global2]]
-    locals_batch  = list(map(list, zip(*locals_batch)))   # [[B개 local1], [B개 local2], ...]
+    # transpose crop-wise
+    globals_batch = list(zip(*globals_batch))  # [(B개의 global1), (B개의 global2)]
+    locals_batch  = list(zip(*locals_batch))   # [(B개의 local1), (B개의 local2), ...]
 
-    # Tensor로 변환
-    globals_batch = [torch.stack(crops) for crops in globals_batch]  # (B, C, H, W)
+    # stack each crop into (B, C, H, W)
+    globals_batch = [torch.stack(crops) for crops in globals_batch]
     locals_batch  = [torch.stack(crops) for crops in locals_batch]
 
-    # global 먼저, 그 뒤 local 붙이기
+    # global 먼저, local 뒤에
     all_crops = globals_batch + locals_batch
 
     return all_crops, torch.tensor(labels)
+
 
 
 class DINOEvalTransform:

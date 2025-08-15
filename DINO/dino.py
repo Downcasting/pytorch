@@ -78,37 +78,58 @@ class DINO(pl.LightningModule):
 
     def dino_loss(self, student_out, teacher_out):
         # student_out: [2B, D], teacher_out: [B, D]
-        student_out = student_out.chunk(6)
-        student_outs = [F.log_softmax(out / self.temperature, dim=-1) for out in student_out]
+        student_out = F.log_softmax(student_out / self.temperature, dim=-1)
 
         # Center 적용
-        teacher_out = (teacher_out - self.center)
-        teacher_out = F.softmax(teacher_out / self.temperature, dim=-1)
-        teacher_out = teacher_out.detach()
+        teacher_out = teacher_out - self.center
+        teacher_out = F.softmax(teacher_out / self.temperature, dim=-1).detach()
 
-        loss = 0
-        for s_out in student_outs:
-            loss += F.kl_div(s_out, teacher_out, reduction='batchmean')
-        loss /= len(student_outs)
+        loss = F.kl_div(student_out, teacher_out, reduction='batchmean')
         return loss
 
     def training_step(self, batch, batch_idx):
-        global_view, local_view = batch  # 두 개의 augmented view
+        # batch: ([global_views...], [local_views...], labels)
+        views, labels = batch
+        # print(f"Views: {len(views)}, Labels: {len(labels)}")
+        global_views = views[:2]
+        local_views = views[2:]
+        # print(f"Global Views: {len(global_views)}, Local Views: {len(local_views)}")
+
+        # 보장: global_views, local_views는 Tensor 리스트임
+        # global 먼저
+        global_view_1, global_view_2 = global_views  # 예: 2개의 글로벌 뷰
+        student_g1 = self.student(global_view_1)
+        student_g2 = self.student(global_view_2)
+
+        # print("Student's global views processed:", student_g1.shape, student_g2.shape)
         
-        student_out1 = self.student(global_view)
-        student_out2 = self.student(local_view)
-
-        student_out = torch.cat([student_out1, student_out2], dim=0)
-
         with torch.no_grad():
-            teacher_out = self.teacher(global_view)
+            teacher_g1 = self.teacher(global_view_1)
+            teacher_g2 = self.teacher(global_view_2)
 
-        loss = self.dino_loss(student_out, teacher_out)
-        self._update_teacher()
-        self._update_center(teacher_out)
+        # print("Teacher's global views processed:", teacher_g1.shape, teacher_g2.shape)
 
-        self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        # 필요 시 local views 처리 (옵션)
+        student_locals = []
+        for lv in local_views:
+            student_locals.append(self.student(lv))
+
+        # print("Student's local views processed:", [sl.shape for sl in student_locals])
+
+        # DINO loss 계산
+        # 예시: global ↔ global, global ↔ local
+        loss = 0
+        loss += self.dino_loss(student_g1, teacher_g2)
+        loss += self.dino_loss(student_g2, teacher_g1)
+
+        # local loss도 쓰고 싶으면 추가
+        for sl in student_locals:
+            loss += self.dino_loss(sl, teacher_g1)
+            loss += self.dino_loss(sl, teacher_g2)
+
+        self.log("train_loss", loss)
         return loss
+
 
     def configure_optimizers(self):
         
