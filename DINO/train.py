@@ -41,7 +41,7 @@ def main():
 
     # TensorBoard Logger 설정
     tb_logger = TensorBoardLogger(
-        save_dir="logs",
+        save_dir="tb_logs",
         name=f"{using_data}_dino_v{version}",
         default_hp_metric=False
     )

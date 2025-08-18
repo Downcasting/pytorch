@@ -127,7 +127,7 @@ class DINO(pl.LightningModule):
             loss += self.dino_loss(sl, teacher_g1)
             loss += self.dino_loss(sl, teacher_g2)
 
-        self.log("train_loss", loss)
+        self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
 
