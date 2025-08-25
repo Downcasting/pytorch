@@ -77,7 +77,6 @@ class DINO(pl.LightningModule):
         self.center = self.center * self.center_momentum + batch_center * (1 - self.center_momentum)
 
     def dino_loss(self, student_out, teacher_out):
-        # student_out: [2B, D], teacher_out: [B, D]
         student_out = F.log_softmax(student_out / self.temperature, dim=-1)
 
         # Center 적용

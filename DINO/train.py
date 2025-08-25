@@ -46,8 +46,10 @@ def main():
         default_hp_metric=False
     )
 
-    # 🚀 Trainer 실행
+    # 🚀 Trainer 실행g
     trainer = pl.Trainer(
+        accumulate_grad_batches=4,
+        precision='16-mixed',
         accelerator="gpu" if torch.cuda.is_available() else "cpu",
         max_epochs=cfg['training']['max_epochs'],
         callbacks=[checkpoint_cb, lr_monitor],
@@ -63,7 +65,7 @@ if __name__ == "__main__":
     ### HYPERPARAMETERS ###
     using_data = "CIFAR10"  # 사용할 데이터셋 이름 (예: CIFAR10, CIFAR100 등)
     using_data = using_data.upper()
-    num_workers = 4  # 데이터 로더의 워커 수
+    num_workers = 8  # 데이터 로더의 워커 수
 
     version = 1
     #######################

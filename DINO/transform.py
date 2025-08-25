@@ -15,36 +15,32 @@ class GaussianBlur:
 
 def get_dino_transform(cfg, global_crop=True, blur_strength=None):
     # 공통 변형
-    normalize = T.Normalize(mean=cfg['transform']['normalize']['mean'],
-                            std=cfg['transform']['normalize']['std'])
     jitter = T.ColorJitter(0.4, 0.4, 0.4, 0.1)
 
     if global_crop:
         scale = (0.4, 1.0)  # Global crop의 스케일
-        crop_size = cfg['dataset']['global_crop_size']
     else:
         scale = (0.05, 0.4)
-        crop_size = cfg['dataset']['local_crop_size']
 
     if cfg['transform']['gaussian_blur']:
         if blur_strength == 'Strong':
-            blur = GaussianBlur(sigma=[0.1, 2.0])
+            blur = 2.0
         elif blur_strength == "Weak":
-            blur = GaussianBlur(sigma=[0.1, 0.5])
+            blur = 0.5
         else:
             print("Invalid blur strength. Using default [0.1, 2.0].")
-            blur = GaussianBlur(sigma=[0.1, 2.0])
+            blur = 2.0
     else:
         blur = T.Identity()  # Gaussian Blur 사용 안함
 
     transform = T.Compose([
-        T.RandomResizedCrop(crop_size, scale=scale),
+        T.RandomResizedCrop(224, scale=scale),
         T.RandomHorizontalFlip(),
         T.RandomApply([jitter], p=0.8),
         T.RandomGrayscale(p=0.2),
-        blur,
+        GaussianBlur(sigma=[0.1, blur]),
         T.ToTensor(),
-        normalize
+        T.Normalize(mean=cfg['transform']['normalize']['mean'], std=cfg['transform']['normalize']['std'])
     ])
     return transform
 
@@ -53,7 +49,7 @@ class DINOTransform:
     def __init__(self, cfg):
         self.global_transforms = [get_dino_transform(cfg, global_crop=True, blur_strength='Weak'), 
                                   get_dino_transform(cfg, global_crop=True, blur_strength='Strong')]
-        self.local_transforms = [get_dino_transform(cfg, global_crop=False, blur_strength='Strong') for _ in range(4)]
+        self.local_transforms = [get_dino_transform(cfg, global_crop=False, blur_strength='Strong') for _ in range(2)]
 
     def __call__(self, x):
         globals_ = [t(x) for t in self.global_transforms]
@@ -80,7 +76,6 @@ def dino_collate_fn(batch):
     all_crops = globals_batch + locals_batch
 
     return all_crops, torch.tensor(labels)
-
 
 
 class DINOEvalTransform:
