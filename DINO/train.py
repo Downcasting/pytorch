@@ -7,7 +7,11 @@ import yaml
 from models.backbone import get_backbone
 from dino import DINO
 from datasets.get_dataset import DINODataModule
+import glob
+import os
+
 def main():
+    global version, using_data, num_workers
 
     torch.set_float32_matmul_precision('medium')
 
@@ -46,7 +50,24 @@ def main():
         default_hp_metric=False
     )
 
-    # 🚀 Trainer 실행g
+    continue_training = False
+    folder_path = f"tb_logs/{using_data}_dino_v{version}"
+
+    while os.path.exists(folder_path):
+        print("Previous run exists. Continue from previous checkpoint?")
+        user_input = input("Enter 'y' to continue or 'n' to start a new run: ")
+        if user_input.lower() == 'y':
+            continue_training = True
+            break
+        elif user_input.lower() == 'n':
+            version += 1
+        elif user_input.lower() == 'q':
+            print("Exiting the program.")
+            return
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
+        folder_path = f"tb_logs/{using_data}_dino_v{version}"
+        
     trainer = pl.Trainer(
         accumulate_grad_batches=4,
         precision='16-mixed',
@@ -56,11 +77,20 @@ def main():
         log_every_n_steps=10,
         logger=tb_logger,
         enable_progress_bar=True,
-    )
+        )
+    # 🚀 Trainer 실행
+    if continue_training:
+        ckpt_list = glob.glob(f"{folder_path}/checkpoints/*.ckpt")
+        resume_ckpt = ckpt_list[0] if ckpt_list else None
+        trainer.fit(model, datamodule=datamodule, ckpt_path=resume_ckpt)
 
-    trainer.fit(model, datamodule=datamodule)
+    else:
+        trainer.fit(model, datamodule=datamodule)
 
+
+    
 if __name__ == "__main__":
+    global version, using_data, num_workers
 
     ### HYPERPARAMETERS ###
     using_data = "CIFAR10"  # 사용할 데이터셋 이름 (예: CIFAR10, CIFAR100 등)

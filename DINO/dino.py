@@ -168,3 +168,7 @@ class DINO(pl.LightningModule):
         else:
             scheduler = None
         return [optimizer], [scheduler]
+    
+    def on_train_epoch_end(self):
+        if (self.current_epoch + 1) % 10 == 0:
+            torch.save(self.encoder.state_dict(), f"encoder.pth")
