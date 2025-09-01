@@ -32,7 +32,7 @@ class DINOEval(pl.LightningModule):
         return self.fc(features)
 
     def load_encoder(self):
-        ckpt_list = glob.glob(f"tb_logs/{self.using_data}_dino_v{version}/checkpoints/*.ckpt")
+        ckpt_list = glob.glob(f"{self.using_data}_v{version}_epoch=*.ckpt")
         checkpoint_location = ckpt_list[0] if ckpt_list else None
 
         ckpt = torch.load(checkpoint_location, map_location='cuda' if torch.cuda.is_available() else 'cpu')
@@ -142,12 +142,30 @@ def main():
         name=f"{using_data}_dinoeval_v{version}",
         default_hp_metric=False
     )
+
+    continue_training = False
+    folder_path = f"tb_logs/DINO Eval_{using_data}/v{version}"
+
+    while os.path.exists(folder_path):
+        print("Previous run exists. Continue from previous checkpoint?")
+        user_input = input("Enter 'y' to continue or 'n' to start a new run: ")
+        if user_input.lower() == 'y':
+            continue_training = True
+            break
+        elif user_input.lower() == 'n':
+            version += 1
+        elif user_input.lower() == 'q':
+            print("Exiting the program.")
+            return
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
+        folder_path = f"tb_logs/DINO Eval_{using_data}/v{version}"
         
     trainer = pl.Trainer(
         accumulate_grad_batches=4,
         precision='16-mixed',
         accelerator="gpu" if torch.cuda.is_available() else "cpu",
-        max_epochs=cfg['training']['max_epochs'],
+        max_epochs=num_epochs,
         callbacks=[checkpoint_cb, lr_monitor],
         log_every_n_steps=10,
         logger=tb_logger,
@@ -155,7 +173,16 @@ def main():
         )
 
     model = DINOEval(cfg=cfg)
-    trainer.fit(model, datamodule=datamodule)
+
+    # 🚀 Trainer 실행
+    if continue_training:
+        ckpt_list = glob.glob(f"{folder_path}/checkpoints/*.ckpt")
+        ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬
+        resume_ckpt = ckpt_list[0] if ckpt_list else None
+        trainer.fit(model, datamodule=datamodule, ckpt_path=resume_ckpt)
+    else:
+        trainer.fit(model, datamodule=datamodule)
+        
 
 
     
@@ -166,6 +193,7 @@ if __name__ == "__main__":
     using_data = "CIFAR10"  # 사용할 데이터셋 이름 (예: CIFAR10, CIFAR100 등)
     using_data = using_data.upper()
     num_workers = 4  # 데이터 로더의 워커 수
+    num_epochs = 50
 
     version = 1
     #######################

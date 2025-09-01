@@ -3,6 +3,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor
 from pytorch_lightning.loggers import TensorBoardLogger
 import torch
 import yaml
+import re
 
 from models.backbone import get_backbone
 from dino import DINO
@@ -23,7 +24,7 @@ def main():
     teacher_backbone, _ = get_backbone(cfg['model']['teacher_backbone'], cfg['dataset']['input_size'])
 
     # 🧪 DINO 모델 생성
-    model = DINO(student_backbone, teacher_backbone, feature_dim, cfg)
+    model = DINO(student_backbone, teacher_backbone, feature_dim, cfg, version)
 
     # 🧳 DataModule 준비
     datamodule = DINODataModule(
@@ -46,15 +47,26 @@ def main():
     # TensorBoard Logger 설정
     tb_logger = TensorBoardLogger(
         save_dir="tb_logs",
-        name=f"{using_data}_dino_v{version}",
+        name=f"DINO_{using_data}",
+        version=f"v{version}",
         default_hp_metric=False
     )
 
     continue_training = False
-    folder_path = f"tb_logs/{using_data}_dino_v{version}"
-
+    folder_path = f"tb_logs/DINO_{using_data}/v{version}"
+    
     while os.path.exists(folder_path):
-        print("Previous run exists. Continue from previous checkpoint?")
+
+        ckpt_list = glob.glob(f"{folder_path}/checkpoints/*.ckpt")
+        ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬
+        resume_ckpt = ckpt_list[0] if ckpt_list else None
+
+        epoch_num = -1
+        match = re.search(r"epoch=(\d+)", os.path.basename(resume_ckpt))
+        if match:
+            epoch_num = int(match.group(1))
+
+        print(f"Previous run (Epoch: {epoch_num}) exists. Continue from previous checkpoint?")
         user_input = input("Enter 'y' to continue or 'n' to start a new run: ")
         if user_input.lower() == 'y':
             continue_training = True
@@ -66,8 +78,8 @@ def main():
             return
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
-        folder_path = f"tb_logs/{using_data}_dino_v{version}"
-        
+        folder_path = f"tb_logs/DINO_{using_data}/v{version}"
+
     trainer = pl.Trainer(
         accumulate_grad_batches=4,
         precision='16-mixed',
@@ -81,6 +93,7 @@ def main():
     # 🚀 Trainer 실행
     if continue_training:
         ckpt_list = glob.glob(f"{folder_path}/checkpoints/*.ckpt")
+        ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬
         resume_ckpt = ckpt_list[0] if ckpt_list else None
         trainer.fit(model, datamodule=datamodule, ckpt_path=resume_ckpt)
 

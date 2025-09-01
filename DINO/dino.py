@@ -36,10 +36,12 @@ class DINOHead(nn.Module):
         return x
 
 class DINO(pl.LightningModule):
-    def __init__(self, student_backbone, teacher_backbone, feature_dim, cfg):
+    def __init__(self, student_backbone, teacher_backbone, feature_dim, cfg, version):
         super().__init__()
         self.save_hyperparameters(ignore=["student_backbone", "teacher_backbone"])
         self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+        self.version = version
 
         # 학생 / 교사 모델
         self.student = nn.Sequential(
@@ -60,6 +62,7 @@ class DINO(pl.LightningModule):
         self.momentum = 0.996
         self.center_momentum = cfg['training'].get('center_momentum', 0.9)
         self.center = torch.zeros(1, 65536).to(self._device)  # teacher 출력 평균값 추적용
+        self.dataset = cfg['dataset']['name'].upper()
 
     def forward(self, x):
         return self.student(x)
@@ -168,7 +171,8 @@ class DINO(pl.LightningModule):
         else:
             scheduler = None
         return [optimizer], [scheduler]
-    
+
     def on_train_epoch_end(self):
+        # TODO: Dataset에 맞게 수정하기
         if (self.current_epoch + 1) % 10 == 0:
-            torch.save(self.encoder.state_dict(), f"encoder.pth")
+            self.trainer.save_checkpoint(f"{self.dataset}_v{self.version}_epoch={self.current_epoch + 1}.ckpt")
