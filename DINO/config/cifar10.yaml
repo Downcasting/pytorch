@@ -18,9 +18,9 @@ optimization:
     cosine: True
 
 model:
-    student_backbone: vits16
+    student_backbone: vitti
     student_projection_dim: 512
-    teacher_backbone: vits16
+    teacher_backbone: vitti
     teacher_projection_dim: 512
 
 transform:

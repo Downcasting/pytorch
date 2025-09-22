@@ -16,7 +16,7 @@ def get_backbone(name, image_size=224):
         backbone.fc = nn.Identity()
     elif name == "vits16":
         backbone = ViTBackbone(
-            image_size=224,
+            image_size=image_size,
             patch_size=32,
             num_classes=0,
             dim=384,
@@ -26,6 +26,18 @@ def get_backbone(name, image_size=224):
             channels=3
         )
         num_features = 384
+    elif name == "vitti":
+        backbone = ViTBackbone(
+            image_size=image_size,
+            patch_size=4,
+            num_classes=0,
+            dim=192,
+            depth=12,
+            heads=3,
+            mlp_dim=768,
+            channels=3
+        )
+        num_features = 192
     else:
         raise ValueError(f"Unknown backbone model: {name}")
         exit(1)

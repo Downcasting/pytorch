@@ -20,7 +20,7 @@ def get_dino_transform(cfg, global_crop=True, blur_strength=None):
     if global_crop:
         scale = (0.4, 1.0)  # Global crop의 스케일
     else:
-        scale = (0.05, 0.4)
+        scale = (0.15, 0.5)
 
     if cfg['transform']['gaussian_blur']:
         if blur_strength == 'Strong':
@@ -31,14 +31,14 @@ def get_dino_transform(cfg, global_crop=True, blur_strength=None):
             print("Invalid blur strength. Using default [0.1, 2.0].")
             blur = 2.0
     else:
-        blur = T.Identity()  # Gaussian Blur 사용 안함
+        blur = -1.0  # Gaussian Blur 사용 안함
 
     transform = T.Compose([
-        T.RandomResizedCrop(224, scale=scale),
+        T.RandomResizedCrop(cfg['dataset']['input_size'], scale=scale),
         T.RandomHorizontalFlip(),
         T.RandomApply([jitter], p=0.8),
         T.RandomGrayscale(p=0.2),
-        GaussianBlur(sigma=[0.1, blur]),
+        GaussianBlur(sigma=[0.1, blur]) if blur > 0 else T.Identity(),
         T.ToTensor(),
         T.Normalize(mean=cfg['transform']['normalize']['mean'], std=cfg['transform']['normalize']['std'])
     ])
@@ -49,7 +49,7 @@ class DINOTransform:
     def __init__(self, cfg):
         self.global_transforms = [get_dino_transform(cfg, global_crop=True, blur_strength='Weak'), 
                                   get_dino_transform(cfg, global_crop=True, blur_strength='Strong')]
-        self.local_transforms = [get_dino_transform(cfg, global_crop=False, blur_strength='Strong') for _ in range(2)]
+        self.local_transforms = [get_dino_transform(cfg, global_crop=False, blur_strength='Strong') for _ in range(4)]
 
     def __call__(self, x):
         globals_ = [t(x) for t in self.global_transforms]

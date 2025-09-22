@@ -61,6 +61,10 @@ def main():
         ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬
         resume_ckpt = ckpt_list[0] if ckpt_list else None
 
+        if resume_ckpt is None:
+            print(f"No checkpoints found in {folder_path}. Starting a new run.")
+            break
+
         epoch_num = -1
         match = re.search(r"epoch=(\d+)", os.path.basename(resume_ckpt))
         if match:
@@ -110,7 +114,7 @@ if __name__ == "__main__":
     using_data = using_data.upper()
     num_workers = 8  # 데이터 로더의 워커 수
 
-    version = 1
+    version = 2
     #######################
 
     main()
