@@ -58,20 +58,27 @@ class DINO(pl.LightningModule):
             p.requires_grad = False  # teacher는 학습하지 않음
 
         # 하이퍼파라미터
-        self.temperature = cfg['training']['temperature']
+        self.teacher_temperature = cfg['training']['teacher_temperature']
+        self.student_temperature = cfg['training']['student_temperature']
         self.momentum = 0.996
         self.center_momentum = cfg['training'].get('center_momentum', 0.9)
         self.center = torch.zeros(1, 65536).to(self._device)  # teacher 출력 평균값 추적용
         self.dataset = cfg['dataset']['name'].upper()
+
+        self.max_epochs = cfg['training']['max_epochs']
 
     def forward(self, x):
         return self.student(x)
 
 
     @torch.no_grad()
-    def _update_teacher(self):
+    def _update_teacher(self, current_step):
+        m_base = 0.9
+        m_final = 0.996
+        # cosine schedule로 momentum 증가
+        momentum = m_base + (m_final - m_base) * (current_step / self.max_epochs)
         for (name_s, param_s), (name_t, param_t) in zip(self.student.named_parameters(), self.teacher.named_parameters()):
-            param_t.data = param_t.data * self.momentum + param_s.data * (1. - self.momentum)
+            param_t.data = param_t.data * momentum + param_s.data * (1. - momentum)
 
     @torch.no_grad()
     def _update_center(self, teacher_output):
@@ -80,11 +87,11 @@ class DINO(pl.LightningModule):
         self.center = self.center * self.center_momentum + batch_center * (1 - self.center_momentum)
 
     def dino_loss(self, student_out, teacher_out):
-        student_out = F.log_softmax(student_out / self.temperature, dim=-1)
+        student_out = F.log_softmax(student_out / self.student_temperature, dim=-1)
 
         # Center 적용
         teacher_out = teacher_out - self.center
-        teacher_out = F.softmax(teacher_out / self.temperature, dim=-1).detach()
+        teacher_out = F.softmax(teacher_out / self.teacher_temperature, dim=-1).detach()
 
         loss = F.kl_div(student_out, teacher_out, reduction='batchmean')
         return loss
@@ -109,8 +116,6 @@ class DINO(pl.LightningModule):
             teacher_g1 = self.teacher(global_view_1)
             teacher_g2 = self.teacher(global_view_2)
 
-        # print("Teacher's global views processed:", teacher_g1.shape, teacher_g2.shape)
-
         # 필요 시 local views 처리 (옵션)
         student_locals = []
         for lv in local_views:
@@ -130,7 +135,11 @@ class DINO(pl.LightningModule):
             loss += self.dino_loss(sl, teacher_g2)
 
         self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
-        return loss
+        return {
+        'loss': loss,
+        'teacher_g1': teacher_g1.detach(),
+        'teacher_g2': teacher_g2.detach()
+    }
 
 
     def configure_optimizers(self):
@@ -141,12 +150,12 @@ class DINO(pl.LightningModule):
         if optimizer_type == "AdamW":
             optimizer = AdamW(self.student.parameters(), lr=learning_rate)
         elif optimizer_type == "SGD":
-            optimizer = SGD(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4)
+            optimizer = SGD(self.student.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4)
         elif optimizer_type == "LARS":
-            optimizer = torch_optimizer.LARS(self.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
+            optimizer = torch_optimizer.LARS(self.student.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-6, trust_coefficient=0.001, eps=1e-8)
         else:
             print(f"Optimizer {optimizer_type} is not supported. Using AdamW as default.")
-            optimizer = AdamW(self.parameters(), lr=learning_rate)
+            optimizer = AdamW(self.student.parameters(), lr=learning_rate)
 
         warmup = self.hparams.cfg['optimization']['warmup']
         cosine = self.hparams.cfg['optimization']['cosine']
@@ -173,6 +182,21 @@ class DINO(pl.LightningModule):
         return [optimizer], [scheduler]
 
     def on_train_epoch_end(self):
+
         # TODO: Dataset에 맞게 수정하기
         if (self.current_epoch + 1) % 10 == 0:
             self.trainer.save_checkpoint(f"{self.dataset}_v{self.version}_epoch={self.current_epoch + 1}.ckpt")
+
+    def on_train_batch_end(self, outputs, batch, batch_idx, dataloader_idx=0):
+        self._update_teacher(current_step=self.global_step)
+
+        # teacher 출력값 받아서 center 바로 업데이트
+        teacher_g1, teacher_g2 = outputs['teacher_g1'], outputs['teacher_g2']  # batch별 teacher output
+        batch_center = torch.cat([teacher_g1, teacher_g2], dim=0).mean(dim=0, keepdim=True)
+
+        # moving average로 center 업데이트
+        if not hasattr(self, "center"):
+            self.register_buffer('center', torch.zeros_like(batch_center))
+            self.center_momentum = 0.9  # 논문 기준 0.9~0.99
+
+        self.center = self.center * self.center_momentum + batch_center * (1 - self.center_momentum)

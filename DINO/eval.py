@@ -33,7 +33,10 @@ class DINOEval(pl.LightningModule):
 
     def load_encoder(self):
         ckpt_list = glob.glob(f"{self.using_data}_v{version}_epoch=*.ckpt")
+        ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬
         checkpoint_location = ckpt_list[0] if ckpt_list else None
+
+        print(f"Loading checkpoint from: {checkpoint_location}")
 
         ckpt = torch.load(checkpoint_location, map_location='cuda' if torch.cuda.is_available() else 'cpu')
         state_dict = ckpt['state_dict']
@@ -139,7 +142,7 @@ def main():
     # TensorBoard Logger 설정
     tb_logger = TensorBoardLogger(
         save_dir="tb_logs",
-        name=f"{using_data}_dinoeval_v{version}",
+        name=f"DINO Eval_{using_data}/v{version}",
         default_hp_metric=False
     )
 
@@ -179,6 +182,7 @@ def main():
         ckpt_list = glob.glob(f"{folder_path}/checkpoints/*.ckpt")
         ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬
         resume_ckpt = ckpt_list[0] if ckpt_list else None
+        print(f"Resuming from checkpoint: {resume_ckpt}")
         trainer.fit(model, datamodule=datamodule, ckpt_path=resume_ckpt)
     else:
         trainer.fit(model, datamodule=datamodule)
@@ -195,7 +199,7 @@ if __name__ == "__main__":
     num_workers = 4  # 데이터 로더의 워커 수
     num_epochs = 50
 
-    version = 1
+    version = 2
     #######################
 
     main()

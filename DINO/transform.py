@@ -3,15 +3,20 @@ from PIL import ImageFilter
 import random
 
 import torch
+import torch.nn as nn
 
-class GaussianBlur:
+class GaussianBlur(nn.Module):
     """약한/강한 Gaussian Blur 커스터마이징."""
     def __init__(self, sigma=[0.1, 2.0]):
+        super().__init__()
         self.sigma = sigma
 
-    def __call__(self, x):
+    def forward(self, x):
         sigma = random.uniform(*self.sigma)
         return x.filter(ImageFilter.GaussianBlur(radius=sigma))
+    
+    def __repr__(self):
+        return f"GaussianBlur(sigma={self.sigma})"
 
 def get_dino_transform(cfg, global_crop=True, blur_strength=None):
     # 공통 변형
@@ -24,12 +29,12 @@ def get_dino_transform(cfg, global_crop=True, blur_strength=None):
 
     if cfg['transform']['gaussian_blur']:
         if blur_strength == 'Strong':
-            blur = 2.0
+            blur_prob = 1.0
         elif blur_strength == "Weak":
-            blur = 0.5
+            blur_prob = 0.1
         else:
             print("Invalid blur strength. Using default [0.1, 2.0].")
-            blur = 2.0
+            blur_prob = 1.0
     else:
         blur = -1.0  # Gaussian Blur 사용 안함
 
@@ -38,7 +43,7 @@ def get_dino_transform(cfg, global_crop=True, blur_strength=None):
         T.RandomHorizontalFlip(),
         T.RandomApply([jitter], p=0.8),
         T.RandomGrayscale(p=0.2),
-        GaussianBlur(sigma=[0.1, blur]) if blur > 0 else T.Identity(),
+        T.RandomApply([GaussianBlur(sigma=[0.1, 2.0])], p=blur_prob) if blur_prob > 0 else T.Identity(),
         T.ToTensor(),
         T.Normalize(mean=cfg['transform']['normalize']['mean'], std=cfg['transform']['normalize']['std'])
     ])
@@ -49,7 +54,7 @@ class DINOTransform:
     def __init__(self, cfg):
         self.global_transforms = [get_dino_transform(cfg, global_crop=True, blur_strength='Weak'), 
                                   get_dino_transform(cfg, global_crop=True, blur_strength='Strong')]
-        self.local_transforms = [get_dino_transform(cfg, global_crop=False, blur_strength='Strong') for _ in range(4)]
+        self.local_transforms = [get_dino_transform(cfg, global_crop=False, blur_strength='Strong') for _ in range(cfg['transform']['crop_number'])]
 
     def __call__(self, x):
         globals_ = [t(x) for t in self.global_transforms]
@@ -81,7 +86,16 @@ def dino_collate_fn(batch):
 class DINOEvalTransform:
     """평가용 transform 클래스"""
     def __init__(self, cfg):
-        self.transform = get_dino_transform(cfg, global_crop=True, blur_strength='Weak')
+        input_size = cfg['dataset']['input_size']
+        self.transform = T.Compose([
+            T.Resize(int(input_size * 1.14)),   # 보통 약간 크게 resize
+            T.CenterCrop(input_size),          # 중앙에서 자르기
+            T.ToTensor(),
+            T.Normalize(
+                mean=cfg['transform']['normalize']['mean'],
+                std=cfg['transform']['normalize']['std']
+            ),
+        ])
 
     def __call__(self, x):
         return self.transform(x)

@@ -10,7 +10,8 @@ training:
     max_epochs: 100
     warmup_epochs: 10
     learning_rate: 0.0005
-    temperature: 0.1
+    teacher_temperature: 0.04
+    student_temperature: 0.1
 
 optimization:
     optimizer: AdamW
@@ -29,3 +30,4 @@ transform:
         mean: [0.4914, 0.4822, 0.4465]
         std: [0.2023, 0.1994, 0.2010]
     jitter_strength: 0.5
+    crop_number: 4
