@@ -29,7 +29,7 @@ import torchvision.transforms as transforms
 from datasets.get_dataset import get_dataset
 from models.backbone import get_backbone
 
-
+from callback import OnlineLinearEvaluation
 
 class SimCLRTrainDataTransform(object):
     
@@ -328,16 +328,16 @@ if __name__ == '__main__':
 
     # Choose your dataset here
     # Supported datasets: "CIFAR10", "CIFAR100", "STL10", "SVHN", "DEEPFAKE"
-    using_data = "CIFAR100"
+    using_data = "CIFAR10"
 
     # Number of workers for DataLoader
     num_workers = 4
 
     # Save model every * epochs
     save_every_epochs = 25
-    
-    # Version of the mode
-    version = 2
+
+    # Version of the model
+    version = 22
 
     #################################################################################################
     #################################################################################################
@@ -393,6 +393,18 @@ if __name__ == '__main__':
         )
         save_version_info()
 
+    # Callback 추가
+    online_eval_interval = 2
+
+    online_eval_callback = OnlineLinearEvaluation(
+        dataset_config=dataset_config,
+        transform_config=transform_config,
+        batch_size=128,
+        num_workers=4,
+        probe_epochs=5,
+        eval_every_n_epochs=online_eval_interval,
+        feature_dim=model_config['projection_dim']
+    )
 
     logger = TensorBoardLogger("tb_logs", name=f"SimCLR_{using_data}", version=f"v{version}")
     
@@ -401,7 +413,9 @@ if __name__ == '__main__':
         enable_progress_bar=True, 
         devices=1, 
         accelerator="gpu",
-        logger=logger)
+        logger=logger,
+        callbacks=[online_eval_callback],
+        )
     
     trainer.fit(model, ckpt_path=latest_checkpoint if continue_training else None)
 

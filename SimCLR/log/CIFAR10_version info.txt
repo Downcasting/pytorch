@@ -497,3 +497,18 @@ v21 has reached epoch 900.
 v21 has reached epoch 950.
 v21 has reached epoch 1000.
 
+----------------------------------------
+[Version: 22]
+
+Date: 2025-09-28 21:54:21.961510
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+

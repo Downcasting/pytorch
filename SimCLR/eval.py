@@ -39,41 +39,6 @@ class LinearClassifier(pl.LightningModule):
     
     def load_encoder(self, encoder_location):
         checkpoint = torch.load(encoder_location, map_location='cuda')
-        '''
-        new_state_dict = OrderedDict()
-        key_map = {
-            "0.": "conv1.",
-            "1.": "bn1.",
-            "4.": "layer1.",
-            "5.": "layer2.",
-            "6.": "layer3.",
-            "7.": "layer4."
-        }
-
-        for k, v in checkpoint.items():
-            new_key = k
-            for old, new in key_map.items():
-                if k.startswith(old):
-                    new_key = k.replace(old, new, 1)
-                    break
-            new_state_dict[new_key] = v
-        '''
-        '''
-        # 1️⃣ ResNet-18 / ResNet-50 불러오기 (pretrained=False 명시)
-        if self.resnet18:
-            encoder = torchvision.models.resnet18(weights=None)  # ResNet-18 사용
-        else:
-            encoder = torchvision.models.resnet50(weights=None)  # ResNet-50 사용
-
-        # !!! ResNet-18/50의 conv1 레이어를 CIFAR-10에 맞게 수정
-        encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-        # 첫 번째 max pooling operation 제거
-        encoder.maxpool = nn.Identity() 
-
-        # 3️⃣ Encoder의 마지막 fc 레이어 제거 (feature extractor만 사용)
-        encoder = nn.Sequential(*list(encoder.children())[:-1])  # 🔥 마지막 FC 제거!
-        '''
-
         encoder = get_backbone(model_config["backbone"], using_data=dataset_config["name"])
 
         # 2️⃣ SimCLR Encoder 불러오기
