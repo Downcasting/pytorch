@@ -23,15 +23,15 @@ def get_dino_transform(cfg, global_crop=True, blur_strength=None):
     jitter = T.ColorJitter(0.4, 0.4, 0.4, 0.1)
 
     if global_crop:
-        scale = (0.4, 1.0)  # Global crop의 스케일
+        scale = (0.5, 1.0)  # Global crop의 스케일
     else:
-        scale = (0.15, 0.5)
+        scale = (0.1, 0.3)
 
     if cfg['transform']['gaussian_blur']:
         if blur_strength == 'Strong':
             blur_prob = 1.0
         elif blur_strength == "Weak":
-            blur_prob = 0.1
+            blur_prob = 0.2
         else:
             print("Invalid blur strength. Using default [0.1, 2.0].")
             blur_prob = 1.0
@@ -42,7 +42,7 @@ def get_dino_transform(cfg, global_crop=True, blur_strength=None):
         T.RandomResizedCrop(cfg['dataset']['input_size'], scale=scale),
         T.RandomHorizontalFlip(),
         T.RandomApply([jitter], p=0.8),
-        T.RandomGrayscale(p=0.2),
+        T.RandomGrayscale(p=0.5),
         T.RandomApply([GaussianBlur(sigma=[0.1, 2.0])], p=blur_prob) if blur_prob > 0 else T.Identity(),
         T.ToTensor(),
         T.Normalize(mean=cfg['transform']['normalize']['mean'], std=cfg['transform']['normalize']['std'])

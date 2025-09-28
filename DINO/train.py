@@ -114,7 +114,7 @@ if __name__ == "__main__":
     using_data = using_data.upper()
     num_workers = 8  # 데이터 로더의 워커 수
 
-    version = 6
+    version = 7
     #######################
 
     main()
