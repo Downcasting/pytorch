@@ -60,7 +60,6 @@ class DINO(pl.LightningModule):
         # 하이퍼파라미터
         self.teacher_temperature = cfg['training']['teacher_temperature']
         self.student_temperature = cfg['training']['student_temperature']
-        self.momentum = 0.996
         self.center_momentum = cfg['training'].get('center_momentum', 0.9)
         self.center = torch.zeros(1, 65536).to(self._device)  # teacher 출력 평균값 추적용
         self.dataset = cfg['dataset']['name'].upper()
@@ -73,8 +72,8 @@ class DINO(pl.LightningModule):
 
     @torch.no_grad()
     def _update_teacher(self, current_step):
-        m_base = 0.9
-        m_final = 0.996
+        m_base = 0.996
+        m_final = 0.999
         # cosine schedule로 momentum 증가
         momentum = m_base + (m_final - m_base) * (current_step / self.max_epochs)
         for (name_s, param_s), (name_t, param_t) in zip(self.student.named_parameters(), self.teacher.named_parameters()):
@@ -181,22 +180,37 @@ class DINO(pl.LightningModule):
             scheduler = None
         return [optimizer], [scheduler]
 
-    def on_train_epoch_end(self):
-
-        # TODO: Dataset에 맞게 수정하기
-        if (self.current_epoch + 1) % 10 == 0:
-            self.trainer.save_checkpoint(f"{self.dataset}_v{self.version}_epoch={self.current_epoch + 1}.ckpt")
-
     def on_train_batch_end(self, outputs, batch, batch_idx, dataloader_idx=0):
+        # ✅ teacher는 batch마다 업데이트
         self._update_teacher(current_step=self.global_step)
 
-        # teacher 출력값 받아서 center 바로 업데이트
-        teacher_g1, teacher_g2 = outputs['teacher_g1'], outputs['teacher_g2']  # batch별 teacher output
+        # ✅ teacher 출력 평균만 epoch 동안 누적
+        teacher_g1, teacher_g2 = outputs['teacher_g1'], outputs['teacher_g2']
         batch_center = torch.cat([teacher_g1, teacher_g2], dim=0).mean(dim=0, keepdim=True)
 
-        # moving average로 center 업데이트
-        if not hasattr(self, "center"):
-            self.register_buffer('center', torch.zeros_like(batch_center))
-            self.center_momentum = 0.9  # 논문 기준 0.9~0.99
+        if not hasattr(self, "center_sum"):
+            self.center_sum = torch.zeros_like(batch_center)
+            self.center_count = 0
 
-        self.center = self.center * self.center_momentum + batch_center * (1 - self.center_momentum)
+        self.center_sum += batch_center.detach()
+        self.center_count += 1
+
+    def on_train_epoch_end(self):
+        # ✅ epoch 끝날 때 한 번만 center 업데이트
+        if hasattr(self, "center_sum") and self.center_count > 0:
+            epoch_center = self.center_sum / self.center_count  # 평균만 사용
+
+            if not hasattr(self, "center"):
+                self.register_buffer('center', torch.zeros_like(epoch_center))
+                self.center_momentum = 0.96  # 논문 기준 0.9~0.99
+
+            # moving average update
+            self.center = self.center * self.center_momentum + epoch_center.to(self.center.device) * (1 - self.center_momentum)
+
+            # epoch 통계 초기화
+            self.center_sum.zero_()
+            self.center_count = 0
+
+        # ✅ checkpoint 저장
+        if (self.current_epoch + 1) % 10 == 0:
+            self.trainer.save_checkpoint(f"{self.dataset}_v{self.version}_epoch={self.current_epoch + 1}.ckpt")

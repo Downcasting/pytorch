@@ -10,7 +10,7 @@ training:
     max_epochs: 100
     warmup_epochs: 10
     learning_rate: 0.0005
-    teacher_temperature: 0.04
+    teacher_temperature: 0.07
     student_temperature: 0.1
 
 optimization:
