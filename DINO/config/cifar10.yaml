@@ -9,9 +9,9 @@ training:
     batch_size: 128
     max_epochs: 100
     warmup_epochs: 10
-    learning_rate: 0.0005
-    teacher_temperature: 0.07
-    student_temperature: 0.1
+    learning_rate: 0.0002
+    teacher_temperature: 0.2
+    student_temperature: 0.15
 
 optimization:
     optimizer: AdamW
