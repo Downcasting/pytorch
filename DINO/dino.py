@@ -202,7 +202,7 @@ class DINO(pl.LightningModule):
 
             if not hasattr(self, "center"):
                 self.register_buffer('center', torch.zeros_like(epoch_center))
-                self.center_momentum = 0.96  # 논문 기준 0.9~0.99
+                self.center_momentum = 0.99  # 논문 기준 0.9~0.99
 
             # moving average update
             self.center = self.center * self.center_momentum + epoch_center.to(self.center.device) * (1 - self.center_momentum)
