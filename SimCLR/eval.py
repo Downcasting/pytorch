@@ -158,11 +158,11 @@ if __name__ == "__main__":
 
     ### ResNet-18 or ResNet-50 ###
 
-    using_data = "cifar100"
+    using_data = "cifar10"
     using_data = using_data.upper()  # 대문자로 변환
     batch_size = 128
     num_workers = 4 # DataLoader의 num_workers 설정
-    version = 2 # 버전
+    version = 25 # 버전
     max_epochs = 100 # 최대 에폭
     ##############################
 
@@ -186,6 +186,7 @@ if __name__ == "__main__":
 
     torch.set_float32_matmul_precision('medium')
     # 1️⃣ 모델 초기화
+    # 이번에만 다르게
     model = LinearClassifier(encoder_location=f"{using_data}_v{version}_encoder.pth", num_classes=num_of_classes)
     # 2️⃣ Trainer 설정
     trainer = pl.Trainer(max_epochs=max_epochs, accelerator="gpu", devices=1, logger=logger)

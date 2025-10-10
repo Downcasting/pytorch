@@ -4,6 +4,8 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 import torchvision.transforms as transforms
 
+import copy
+
 # 로컬 모듈 import (경로에 맞게 수정 필요 시 수정)
 from datasets.get_dataset import get_dataset, get_test_dataset
 
@@ -83,9 +85,12 @@ class OnlineLinearEvaluation(pl.Callback):
         train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=True, persistent_workers=True)
         val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=False, persistent_workers=True)
 
+        # !!! Encoder를 복사하지 않고 Deep Copy로 변경 !!!
+        encoder_copy = copy.deepcopy(pl_module.encoder)
+
         # Linear Probe 모델 초기화
         probe_model = LinearProbe(
-            encoder=pl_module.encoder, 
+            encoder=encoder_copy,
             num_classes=self.dataset_config['classes'],
             feature_dim=self.feature_dim,
         ).to(pl_module.device)
@@ -105,3 +110,7 @@ class OnlineLinearEvaluation(pl.Callback):
         pl_module.log("online_val_acc", final_val_acc, on_step=False, on_epoch=True, prog_bar=True)
         
         print(f"Epoch {current_epoch}: --- Online Linear Evaluation Finished --- Val Acc: {final_val_acc:.4f}\n")
+
+        pl_module.train()  # 메인 모듈을 다시 훈련 모드로 전환
+
+        pl_module.to(pl_module.device)  # 메인 모듈이 올바른 장치에 있는지 확인

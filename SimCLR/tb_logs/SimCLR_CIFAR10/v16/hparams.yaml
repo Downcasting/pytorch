@@ -1,0 +1,10 @@
+batch_size: 256
+loss_temperature: 0.5
+lr: 0.25
+max_epochs: 400
+resnet18: true
+use_SGD: false
+use_cosine: true
+use_scheduler: true
+use_warmup: true
+warmup_epochs: 5

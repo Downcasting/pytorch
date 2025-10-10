@@ -512,3 +512,123 @@ Using scheduler: Yes
 Using optimizer: SGD
 ----------------------------------------
 
+----------------------------------------
+[Version: 23]
+
+Date: 2025-09-30 11:40:43.973486
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 22]
+
+Date: 2025-09-30 12:04:05.720748
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 22]
+
+Date: 2025-09-30 12:08:02.624470
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 22]
+
+Date: 2025-09-30 12:19:55.147561
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 23]
+
+Date: 2025-10-01 14:59:29.709654
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 24]
+
+Date: 2025-10-08 14:22:31.407795
+Dataset: cifar10
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 25]
+
+Date: 2025-10-09 20:50:50.143480
+Dataset: cifar10
+Batch Size: 256
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+
+----------------------------------------
+[Version: 25]
+
+Date: 2025-10-09 20:53:35.450136
+Dataset: cifar10
+Batch Size: 128
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+

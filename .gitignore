@@ -7,8 +7,5 @@ data/
 # Checkpoints   
 *.ckpt
 
-# Tensorboard Logs
-tb_logs/
-
 # Notebook logs
 logs/

@@ -1,0 +1,30 @@
+dataset:
+  classes: 100
+  input_size: 32
+  name: cifar100
+model:
+  backbone: resnet18
+  projection_dim: 512
+optimization:
+  cosine: true
+  optimizer: LARS
+  scheduler: true
+  warmup: true
+training:
+  batch_size: 512
+  learning_rate: 0.6
+  max_epochs: 1000
+  temperature: 0.5
+  warmup_epochs: 5
+transform:
+  gaussian_blur: false
+  jitter_strength: 0.5
+  normalize:
+    mean:
+    - 0.507
+    - 0.4865
+    - 0.4409
+    std:
+    - 0.2673
+    - 0.2564
+    - 0.2762
