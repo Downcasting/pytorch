@@ -605,9 +605,9 @@ Using optimizer: SGD
 ----------------------------------------
 [Version: 25]
 
-Date: 2025-10-09 20:50:50.143480
+Date: 2025-10-09 20:53:35.450136
 Dataset: cifar10
-Batch Size: 256
+Batch Size: 128
 Max Epochs: 1000
 Temperature: 0.5
 Learning Rate: 0.4
@@ -618,11 +618,11 @@ Using optimizer: SGD
 ----------------------------------------
 
 ----------------------------------------
-[Version: 25]
+[Version: 26]
 
-Date: 2025-10-09 20:53:35.450136
+Date: 2025-10-10 21:44:42.911188
 Dataset: cifar10
-Batch Size: 128
+Batch Size: 512
 Max Epochs: 1000
 Temperature: 0.5
 Learning Rate: 0.4

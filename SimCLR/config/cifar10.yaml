@@ -4,7 +4,7 @@ dataset:
     classes: 10
 
 training:
-    batch_size: 128
+    batch_size: 512
     max_epochs: 1000
     warmup_epochs: 5
     learning_rate: 0.4
@@ -21,7 +21,7 @@ model:
     projection_dim: 512
 
 transform:
-    gaussian_blur: False
+    gaussian_blur: True
     normalize:
         mean: [0.4914, 0.4822, 0.4465]
         std: [0.2023, 0.1994, 0.2010]

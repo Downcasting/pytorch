@@ -11,7 +11,7 @@ training:
     temperature: 0.5
 
 optimization:
-    optimizer: LARS
+    optimizer: SGD
     scheduler: True
     warmup: True
     cosine: True
