@@ -632,3 +632,18 @@ Using scheduler: Yes
 Using optimizer: SGD
 ----------------------------------------
 
+----------------------------------------
+[Version: 27]
+
+Date: 2025-10-26 15:10:28.036224
+Dataset: cifar10
+Batch Size: 128
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.4
+Warmup Epochs: 5
+Using Model: resnet50
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+

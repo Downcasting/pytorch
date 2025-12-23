@@ -15,24 +15,19 @@ from collections import OrderedDict
 
 import yaml
 
-# 로컬 모듈
 from datasets.get_dataset import get_dataset, get_test_dataset
 from models.backbone import get_backbone
 
-# 1️⃣ CIFAR-10 데이터셋 로드
-
-
-# 새로운 키를 적용한 state_dict 로드
 
 class LinearClassifier(pl.LightningModule):
     def __init__(self, encoder_location, num_classes=10):
         super().__init__()
         self.encoder = self.load_encoder(encoder_location)
-        feature_dim = model_config["projection_dim"]  # feature_dim은 config에서 가져옴
+        feature_dim = model_config["projection_dim"]
         self.fc = nn.Linear(feature_dim, num_classes)
 
     def forward(self, x):
-        with torch.no_grad():  # Encoder 부분은 gradient 계산 안 함
+        with torch.no_grad():
             features = self.encoder(x)
             features = torch.flatten(features, start_dim=1)  # Flatten the features
         return self.fc(features)
@@ -41,7 +36,6 @@ class LinearClassifier(pl.LightningModule):
         checkpoint = torch.load(encoder_location, map_location='cuda')
         encoder = get_backbone(model_config["backbone"], using_data=dataset_config["name"])
 
-        # 2️⃣ SimCLR Encoder 불러오기
         # encoder.load_state_dict(new_state_dict, strict=False)
 
         missing, unexpected = encoder.load_state_dict(checkpoint, strict=False)
@@ -64,10 +58,10 @@ class LinearClassifier(pl.LightningModule):
                     print("Invalid input. Please enter 'y' or 'n'.")
             
 
-        # 4️⃣ Encoder freeze (학습 X)
-        encoder = encoder.cuda()  # GPU로 이동
+        
+        encoder = encoder.cuda()
         for param in encoder.parameters():
-            param.requires_grad = False  # encoder의 가중치는 학습하지 않음 (freeze)
+            param.requires_grad = False  # Freeze encoder parameters
 
         return encoder
     
@@ -78,11 +72,11 @@ class LinearClassifier(pl.LightningModule):
         outputs = self(images)
         loss = F.cross_entropy(outputs, labels)
 
-        preds = torch.argmax(outputs, dim=1)  # 🔥 가장 확률 높은 class 선택
-        acc = (preds == labels).float().mean()  # 🔥 Accuracy 계산
+        preds = torch.argmax(outputs, dim=1)
+        acc = (preds == labels).float().mean()
 
         self.log("train_loss", loss, prog_bar=True, logger=True)
-        self.log("train_acc", acc, prog_bar=True, logger=True)  # 🔥 Accuracy 로그 추가!
+        self.log("train_acc", acc, prog_bar=True, logger=True)
 
         # Log the loss value
         return loss
@@ -94,17 +88,16 @@ class LinearClassifier(pl.LightningModule):
         outputs = self(images)
         loss = F.cross_entropy(outputs, labels)
 
-        preds = torch.argmax(outputs, dim=1)  # 🔥 가장 확률 높은 class 선택
-        acc = (preds == labels).float().mean()  # 🔥 Accuracy 계산
+        preds = torch.argmax(outputs, dim=1)
+        acc = (preds == labels).float().mean()
 
         self.log("val_loss", loss, prog_bar=True, logger=True)
-        self.log("val_acc", acc, prog_bar=True, logger=True)  # 🔥 Accuracy 로그 추가!
+        self.log("val_acc", acc, prog_bar=True, logger=True)
 
         # Log the loss value
         return loss
 
     def configure_optimizers(self):
-        # 4️⃣ Linear Classifier 학습을 위한 optimizer 설정
         optimizer = optim.Adam(self.fc.parameters(), lr=0.001)
         scheduler = {
             "scheduler" : optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3),
@@ -159,11 +152,11 @@ if __name__ == "__main__":
     ### ResNet-18 or ResNet-50 ###
 
     using_data = "cifar10"
-    using_data = using_data.upper()  # 대문자로 변환
+    using_data = using_data.upper()
     batch_size = 128
-    num_workers = 4 # DataLoader의 num_workers 설정
-    version = 25 # 버전
-    max_epochs = 100 # 최대 에폭
+    num_workers = 4 # DataLoader의 num_workers
+    version = 24 # version
+    max_epochs = 100 # Maximum epochs
     ##############################
 
     config = yaml.safe_load(open(f"config/{using_data.lower()}.yaml", "r"))
@@ -185,12 +178,11 @@ if __name__ == "__main__":
     logger = TensorBoardLogger("tb_logs", name=f"SimCLR Eval_{using_data}", version=f"v{version}")
 
     torch.set_float32_matmul_precision('medium')
-    # 1️⃣ 모델 초기화
-    # 이번에만 다르게
+    # Model Initialization
     model = LinearClassifier(encoder_location=f"{using_data}_v{version}_encoder.pth", num_classes=num_of_classes)
-    # 2️⃣ Trainer 설정
+    # Trainer 설정
     trainer = pl.Trainer(max_epochs=max_epochs, accelerator="gpu", devices=1, logger=logger)
-    # 3️⃣ 모델 학습
+    # Model Training
     trainer.fit(model)
-    # 4️⃣ 모델 저장
-    # trainer.save_checkpoint("linear_classifier_300.ckpt")  # ✅ Lightning 권장 방식
+    # Model Saving
+    # trainer.save_checkpoint("linear_classifier_300.ckpt") 

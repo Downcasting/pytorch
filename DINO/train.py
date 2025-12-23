@@ -16,17 +16,17 @@ def main():
 
     torch.set_float32_matmul_precision('medium')
 
-    # 🔧 설정 불러오기
+    # 설정 불러오기
     cfg = yaml.safe_load(open(f"config/{using_data}.yaml", "r"))
 
-    # 🧠 백본 모델 로딩
+    # 백본 모델 로딩
     student_backbone, feature_dim = get_backbone(cfg['model']['student_backbone'], cfg['dataset']['input_size'])
     teacher_backbone, _ = get_backbone(cfg['model']['teacher_backbone'], cfg['dataset']['input_size'])
 
-    # 🧪 DINO 모델 생성
+    # DINO 모델 생성
     model = DINO(student_backbone, teacher_backbone, feature_dim, cfg, version)
 
-    # 🧳 DataModule 준비
+    # DataModule 준비
     datamodule = DINODataModule(
         name=using_data,
         root='./../data',
@@ -35,7 +35,7 @@ def main():
         cfg=cfg
     )
     
-    # 🧚‍♀️ 콜백 설정
+    # 콜백 설정
     checkpoint_cb = ModelCheckpoint(
         monitor="train_loss",
         save_top_k=1,
@@ -94,7 +94,7 @@ def main():
         logger=tb_logger,
         enable_progress_bar=True,
         )
-    # 🚀 Trainer 실행
+    # Trainer 실행
     if continue_training:
         ckpt_list = glob.glob(f"{folder_path}/checkpoints/*.ckpt")
         ckpt_list = sorted(ckpt_list, key=os.path.getmtime, reverse=True)  # 가장 최근 파일이 앞으로 오도록 정렬

@@ -67,3 +67,18 @@ Using scheduler: Yes
 Using optimizer: LARS
 ----------------------------------------
 
+----------------------------------------
+[Version: 3]
+
+Date: 2025-10-28 22:42:08.812693
+Dataset: cifar100
+Batch Size: 512
+Max Epochs: 1000
+Temperature: 0.5
+Learning Rate: 0.6
+Warmup Epochs: 5
+Using Model: resnet18
+Using scheduler: Yes
+Using optimizer: SGD
+----------------------------------------
+

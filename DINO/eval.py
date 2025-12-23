@@ -77,12 +77,11 @@ class DINOEval(pl.LightningModule):
         outputs = self(images)
         loss = F.cross_entropy(outputs, labels)
 
-        preds = torch.argmax(outputs, dim=1)  # 🔥 가장 확률 높은 class 선택
-        acc = (preds == labels).float().mean()  # 🔥 Accuracy 계산
+        preds = torch.argmax(outputs, dim=1)  # 가장 확률 높은 class 선택
+        acc = (preds == labels).float().mean()  # Accuracy 계산
 
         self.log("train_loss", loss, prog_bar=True, logger=True)
-        self.log("train_acc", acc, prog_bar=True, logger=True)  # 🔥 Accuracy 로그 추가!
-
+        self.log("train_acc", acc, prog_bar=True, logger=True)  # Accuracy 로그 추가!
         # Log the loss value
         return loss
     
@@ -93,12 +92,11 @@ class DINOEval(pl.LightningModule):
         outputs = self(images)
         loss = F.cross_entropy(outputs, labels)
 
-        preds = torch.argmax(outputs, dim=1)  # 🔥 가장 확률 높은 class 선택
-        acc = (preds == labels).float().mean()  # 🔥 Accuracy 계산
+        preds = torch.argmax(outputs, dim=1)  # 가장 확률 높은 class 선택
+        acc = (preds == labels).float().mean()  # Accuracy 계산
 
         self.log("val_loss", loss, prog_bar=True, logger=True)
-        self.log("val_acc", acc, prog_bar=True, logger=True)  # 🔥 Accuracy 로그 추가!
-
+        self.log("val_acc", acc, prog_bar=True, logger=True)  # Accuracy 로그 추가!
         # Log the loss value
         return loss
     

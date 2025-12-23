@@ -1,0 +1,1259 @@
+[Finetune][Epoch 1] Step 100/391 | LR 8.80e-05 | CE 2.1243
+[Finetune][Epoch 1] Step 200/391 | LR 1.26e-04 | CE 1.7857
+[Finetune][Epoch 1] Step 300/391 | LR 1.65e-04 | CE 1.5778
+[Finetune][Epoch 1] Step 391/391 | LR 2.00e-04 | CE 1.2954
+[Finetune] Epoch 1/50 - test acc: 49.13% (best 49.13%)
+[Finetune][Epoch 2] Step 100/391 | LR 2.38e-04 | CE 1.3441
+[Finetune][Epoch 2] Step 200/391 | LR 2.77e-04 | CE 1.2704
+[Finetune][Epoch 2] Step 300/391 | LR 3.15e-04 | CE 1.1986
+[Finetune][Epoch 2] Step 391/391 | LR 3.50e-04 | CE 1.0665
+[Finetune] Epoch 2/50 - test acc: 58.81% (best 58.81%)
+[Finetune][Epoch 3] Step 100/391 | LR 3.88e-04 | CE 1.0944
+[Finetune][Epoch 3] Step 200/391 | LR 4.27e-04 | CE 1.0559
+[Finetune][Epoch 3] Step 300/391 | LR 4.65e-04 | CE 1.0307
+[Finetune][Epoch 3] Step 391/391 | LR 5.00e-04 | CE 0.9096
+[Finetune] Epoch 3/50 - test acc: 63.50% (best 63.50%)
+[Finetune][Epoch 4] Step 100/391 | LR 5.00e-04 | CE 0.9438
+[Finetune][Epoch 4] Step 200/391 | LR 5.00e-04 | CE 0.9070
+[Finetune][Epoch 4] Step 300/391 | LR 5.00e-04 | CE 0.8927
+[Finetune][Epoch 4] Step 391/391 | LR 4.99e-04 | CE 0.7938
+[Finetune] Epoch 4/50 - test acc: 67.70% (best 67.70%)
+[Finetune][Epoch 5] Step 100/391 | LR 4.99e-04 | CE 0.7977
+[Finetune][Epoch 5] Step 200/391 | LR 4.99e-04 | CE 0.8023
+[Finetune][Epoch 5] Step 300/391 | LR 4.98e-04 | CE 0.7741
+[Finetune][Epoch 5] Step 391/391 | LR 4.98e-04 | CE 0.6881
+[Finetune] Epoch 5/50 - test acc: 70.21% (best 70.21%)
+[Finetune][Epoch 6] Step 100/391 | LR 4.97e-04 | CE 0.6932
+[Finetune][Epoch 6] Step 200/391 | LR 4.97e-04 | CE 0.7127
+[Finetune][Epoch 6] Step 300/391 | LR 4.96e-04 | CE 0.7006
+[Finetune][Epoch 6] Step 391/391 | LR 4.95e-04 | CE 0.6217
+[Finetune] Epoch 6/50 - test acc: 71.45% (best 71.45%)
+[Finetune][Epoch 7] Step 100/391 | LR 4.94e-04 | CE 0.5957
+[Finetune][Epoch 7] Step 200/391 | LR 4.93e-04 | CE 0.6117
+[Finetune][Epoch 7] Step 300/391 | LR 4.92e-04 | CE 0.6452
+[Finetune][Epoch 7] Step 391/391 | LR 4.91e-04 | CE 0.5701
+[Finetune] Epoch 7/50 - test acc: 74.23% (best 74.23%)
+[Finetune][Epoch 8] Step 100/391 | LR 4.90e-04 | CE 0.5248
+[Finetune][Epoch 8] Step 200/391 | LR 4.89e-04 | CE 0.5531
+[Finetune][Epoch 8] Step 300/391 | LR 4.88e-04 | CE 0.5419
+[Finetune][Epoch 8] Step 391/391 | LR 4.86e-04 | CE 0.5040
+[Finetune] Epoch 8/50 - test acc: 74.43% (best 74.43%)
+[Finetune][Epoch 9] Step 100/391 | LR 4.85e-04 | CE 0.4488
+[Finetune][Epoch 9] Step 200/391 | LR 4.83e-04 | CE 0.4809
+[Finetune][Epoch 9] Step 300/391 | LR 4.82e-04 | CE 0.5052
+[Finetune][Epoch 9] Step 391/391 | LR 4.80e-04 | CE 0.4536
+[Finetune] Epoch 9/50 - test acc: 74.35% (best 74.43%)
+[Finetune][Epoch 10] Step 100/391 | LR 4.79e-04 | CE 0.4005
+[Finetune][Epoch 10] Step 200/391 | LR 4.77e-04 | CE 0.4243
+[Finetune][Epoch 10] Step 300/391 | LR 4.75e-04 | CE 0.4413
+[Finetune][Epoch 10] Step 391/391 | LR 4.73e-04 | CE 0.4152
+[Finetune] Epoch 10/50 - test acc: 75.48% (best 75.48%)
+[Finetune][Epoch 11] Step 100/391 | LR 4.71e-04 | CE 0.3479
+[Finetune][Epoch 11] Step 200/391 | LR 4.69e-04 | CE 0.3694
+[Finetune][Epoch 11] Step 300/391 | LR 4.67e-04 | CE 0.3863
+[Finetune][Epoch 11] Step 391/391 | LR 4.65e-04 | CE 0.3413
+[Finetune] Epoch 11/50 - test acc: 75.20% (best 75.48%)
+[Finetune][Epoch 12] Step 100/391 | LR 4.63e-04 | CE 0.2767
+[Finetune][Epoch 12] Step 200/391 | LR 4.61e-04 | CE 0.3133
+[Finetune][Epoch 12] Step 300/391 | LR 4.59e-04 | CE 0.3299
+[Finetune][Epoch 12] Step 391/391 | LR 4.57e-04 | CE 0.3161
+[Finetune] Epoch 12/50 - test acc: 75.71% (best 75.71%)
+[Finetune][Epoch 13] Step 100/391 | LR 4.54e-04 | CE 0.2320
+[Finetune][Epoch 13] Step 200/391 | LR 4.52e-04 | CE 0.2651
+[Finetune][Epoch 13] Step 300/391 | LR 4.49e-04 | CE 0.2977
+[Finetune][Epoch 13] Step 391/391 | LR 4.47e-04 | CE 0.2736
+[Finetune] Epoch 13/50 - test acc: 75.38% (best 75.71%)
+[Finetune][Epoch 14] Step 100/391 | LR 4.44e-04 | CE 0.1951
+[Finetune][Epoch 14] Step 200/391 | LR 4.41e-04 | CE 0.2307
+[Finetune][Epoch 14] Step 300/391 | LR 4.39e-04 | CE 0.2511
+[Finetune][Epoch 14] Step 391/391 | LR 4.36e-04 | CE 0.2315
+[Finetune] Epoch 14/50 - test acc: 74.31% (best 75.71%)
+[Finetune][Epoch 15] Step 100/391 | LR 4.33e-04 | CE 0.1653
+[Finetune][Epoch 15] Step 200/391 | LR 4.30e-04 | CE 0.1842
+[Finetune][Epoch 15] Step 300/391 | LR 4.27e-04 | CE 0.2230
+[Finetune][Epoch 15] Step 391/391 | LR 4.25e-04 | CE 0.2011
+[Finetune] Epoch 15/50 - test acc: 75.64% (best 75.71%)
+[Finetune][Epoch 16] Step 100/391 | LR 4.22e-04 | CE 0.1269
+[Finetune][Epoch 16] Step 200/391 | LR 4.18e-04 | CE 0.1506
+[Finetune][Epoch 16] Step 300/391 | LR 4.15e-04 | CE 0.1864
+[Finetune][Epoch 16] Step 391/391 | LR 4.12e-04 | CE 0.1674
+[Finetune] Epoch 16/50 - test acc: 76.07% (best 76.07%)
+[Finetune][Epoch 17] Step 100/391 | LR 4.09e-04 | CE 0.1194
+[Finetune][Epoch 17] Step 200/391 | LR 4.06e-04 | CE 0.1196
+[Finetune][Epoch 17] Step 300/391 | LR 4.02e-04 | CE 0.1559
+[Finetune][Epoch 17] Step 391/391 | LR 3.99e-04 | CE 0.1450
+[Finetune] Epoch 17/50 - test acc: 74.12% (best 76.07%)
+[Finetune][Epoch 18] Step 100/391 | LR 3.96e-04 | CE 0.0936
+[Finetune][Epoch 18] Step 200/391 | LR 3.92e-04 | CE 0.1050
+[Finetune][Epoch 18] Step 300/391 | LR 3.89e-04 | CE 0.1235
+[Finetune][Epoch 18] Step 391/391 | LR 3.86e-04 | CE 0.1411
+[Finetune] Epoch 18/50 - test acc: 74.48% (best 76.07%)
+[Finetune][Epoch 19] Step 100/391 | LR 3.82e-04 | CE 0.0963
+[Finetune][Epoch 19] Step 200/391 | LR 3.79e-04 | CE 0.0934
+[Finetune][Epoch 19] Step 300/391 | LR 3.75e-04 | CE 0.1083
+[Finetune][Epoch 19] Step 391/391 | LR 3.71e-04 | CE 0.0968
+[Finetune] Epoch 19/50 - test acc: 75.43% (best 76.07%)
+[Finetune][Epoch 20] Step 100/391 | LR 3.68e-04 | CE 0.0732
+[Finetune][Epoch 20] Step 200/391 | LR 3.64e-04 | CE 0.0731
+[Finetune][Epoch 20] Step 300/391 | LR 3.60e-04 | CE 0.0968
+[Finetune][Epoch 20] Step 391/391 | LR 3.57e-04 | CE 0.0816
+[Finetune] Epoch 20/50 - test acc: 76.36% (best 76.36%)
+[Finetune][Epoch 21] Step 100/391 | LR 3.53e-04 | CE 0.0576
+[Finetune][Epoch 21] Step 200/391 | LR 3.49e-04 | CE 0.0639
+[Finetune][Epoch 21] Step 300/391 | LR 3.45e-04 | CE 0.0927
+[Finetune][Epoch 21] Step 391/391 | LR 3.41e-04 | CE 0.0988
+[Finetune] Epoch 21/50 - test acc: 76.14% (best 76.36%)
+[Finetune][Epoch 22] Step 100/391 | LR 3.38e-04 | CE 0.0613
+[Finetune][Epoch 22] Step 200/391 | LR 3.34e-04 | CE 0.0499
+[Finetune][Epoch 22] Step 300/391 | LR 3.30e-04 | CE 0.0586
+[Finetune][Epoch 22] Step 391/391 | LR 3.26e-04 | CE 0.0743
+[Finetune] Epoch 22/50 - test acc: 76.40% (best 76.40%)
+[Finetune][Epoch 23] Step 100/391 | LR 3.22e-04 | CE 0.0557
+[Finetune][Epoch 23] Step 200/391 | LR 3.18e-04 | CE 0.0400
+[Finetune][Epoch 23] Step 300/391 | LR 3.14e-04 | CE 0.0507
+[Finetune][Epoch 23] Step 391/391 | LR 3.10e-04 | CE 0.0572
+[Finetune] Epoch 23/50 - test acc: 76.32% (best 76.40%)
+[Finetune][Epoch 24] Step 100/391 | LR 3.06e-04 | CE 0.0362
+[Finetune][Epoch 24] Step 200/391 | LR 3.02e-04 | CE 0.0537
+[Finetune][Epoch 24] Step 300/391 | LR 2.97e-04 | CE 0.0649
+[Finetune][Epoch 24] Step 391/391 | LR 2.94e-04 | CE 0.0589
+[Finetune] Epoch 24/50 - test acc: 75.94% (best 76.40%)
+[Finetune][Epoch 25] Step 100/391 | LR 2.90e-04 | CE 0.0448
+[Finetune][Epoch 25] Step 200/391 | LR 2.85e-04 | CE 0.0388
+[Finetune][Epoch 25] Step 300/391 | LR 2.81e-04 | CE 0.0291
+[Finetune][Epoch 25] Step 391/391 | LR 2.77e-04 | CE 0.0490
+[Finetune] Epoch 25/50 - test acc: 76.12% (best 76.40%)
+[Finetune][Epoch 26] Step 100/391 | LR 2.73e-04 | CE 0.0323
+[Finetune][Epoch 26] Step 200/391 | LR 2.69e-04 | CE 0.0373
+[Finetune][Epoch 26] Step 300/391 | LR 2.65e-04 | CE 0.0335
+[Finetune][Epoch 26] Step 391/391 | LR 2.61e-04 | CE 0.0372
+[Finetune] Epoch 26/50 - test acc: 76.42% (best 76.42%)
+[Finetune][Epoch 27] Step 100/391 | LR 2.57e-04 | CE 0.0335
+[Finetune][Epoch 27] Step 200/391 | LR 2.52e-04 | CE 0.0357
+[Finetune][Epoch 27] Step 300/391 | LR 2.48e-04 | CE 0.0279
+[Finetune][Epoch 27] Step 391/391 | LR 2.44e-04 | CE 0.0216
+[Finetune] Epoch 27/50 - test acc: 77.12% (best 77.12%)
+[Finetune][Epoch 28] Step 100/391 | LR 2.40e-04 | CE 0.0161
+[Finetune][Epoch 28] Step 200/391 | LR 2.36e-04 | CE 0.0169
+[Finetune][Epoch 28] Step 300/391 | LR 2.32e-04 | CE 0.0170
+[Finetune][Epoch 28] Step 391/391 | LR 2.28e-04 | CE 0.0189
+[Finetune] Epoch 28/50 - test acc: 76.34% (best 77.12%)
+[Finetune][Epoch 29] Step 100/391 | LR 2.24e-04 | CE 0.0234
+[Finetune][Epoch 29] Step 200/391 | LR 2.19e-04 | CE 0.0280
+[Finetune][Epoch 29] Step 300/391 | LR 2.15e-04 | CE 0.0382
+[Finetune][Epoch 29] Step 391/391 | LR 2.11e-04 | CE 0.0240
+[Finetune] Epoch 29/50 - test acc: 76.92% (best 77.12%)
+[Finetune][Epoch 30] Step 100/391 | LR 2.07e-04 | CE 0.0212
+[Finetune][Epoch 30] Step 200/391 | LR 2.03e-04 | CE 0.0149
+[Finetune][Epoch 30] Step 300/391 | LR 1.99e-04 | CE 0.0109
+[Finetune][Epoch 30] Step 391/391 | LR 1.95e-04 | CE 0.0147
+[Finetune] Epoch 30/50 - test acc: 76.97% (best 77.12%)
+[Finetune][Epoch 31] Step 100/391 | LR 1.91e-04 | CE 0.0091
+[Finetune][Epoch 31] Step 200/391 | LR 1.87e-04 | CE 0.0118
+[Finetune][Epoch 31] Step 300/391 | LR 1.83e-04 | CE 0.0147
+[Finetune][Epoch 31] Step 391/391 | LR 1.79e-04 | CE 0.0135
+[Finetune] Epoch 31/50 - test acc: 77.01% (best 77.12%)
+[Finetune][Epoch 32] Step 100/391 | LR 1.75e-04 | CE 0.0144
+[Finetune][Epoch 32] Step 200/391 | LR 1.71e-04 | CE 0.0073
+[Finetune][Epoch 32] Step 300/391 | LR 1.67e-04 | CE 0.0136
+[Finetune][Epoch 32] Step 391/391 | LR 1.64e-04 | CE 0.0124
+[Finetune] Epoch 32/50 - test acc: 77.13% (best 77.13%)
+[Finetune][Epoch 33] Step 100/391 | LR 1.60e-04 | CE 0.0098
+[Finetune][Epoch 33] Step 200/391 | LR 1.56e-04 | CE 0.0083
+[Finetune][Epoch 33] Step 300/391 | LR 1.52e-04 | CE 0.0083
+[Finetune][Epoch 33] Step 391/391 | LR 1.48e-04 | CE 0.0077
+[Finetune] Epoch 33/50 - test acc: 77.63% (best 77.63%)
+[Finetune][Epoch 34] Step 100/391 | LR 1.45e-04 | CE 0.0045
+[Finetune][Epoch 34] Step 200/391 | LR 1.41e-04 | CE 0.0017
+[Finetune][Epoch 34] Step 300/391 | LR 1.37e-04 | CE 0.0022
+[Finetune][Epoch 34] Step 391/391 | LR 1.34e-04 | CE 0.0030
+[Finetune] Epoch 34/50 - test acc: 77.79% (best 77.79%)
+[Finetune][Epoch 35] Step 100/391 | LR 1.30e-04 | CE 0.0041
+[Finetune][Epoch 35] Step 200/391 | LR 1.26e-04 | CE 0.0030
+[Finetune][Epoch 35] Step 300/391 | LR 1.23e-04 | CE 0.0011
+[Finetune][Epoch 35] Step 391/391 | LR 1.19e-04 | CE 0.0010
+[Finetune] Epoch 35/50 - test acc: 77.92% (best 77.92%)
+[Finetune][Epoch 36] Step 100/391 | LR 1.16e-04 | CE 0.0009
+[Finetune][Epoch 36] Step 200/391 | LR 1.12e-04 | CE 0.0003
+[Finetune][Epoch 36] Step 300/391 | LR 1.09e-04 | CE 0.0003
+[Finetune][Epoch 36] Step 391/391 | LR 1.06e-04 | CE 0.0002
+[Finetune] Epoch 36/50 - test acc: 78.21% (best 78.21%)
+[Finetune][Epoch 37] Step 100/391 | LR 1.02e-04 | CE 0.0002
+[Finetune][Epoch 37] Step 200/391 | LR 9.90e-05 | CE 0.0002
+[Finetune][Epoch 37] Step 300/391 | LR 9.57e-05 | CE 0.0002
+[Finetune][Epoch 37] Step 391/391 | LR 9.27e-05 | CE 0.0008
+[Finetune] Epoch 37/50 - test acc: 78.15% (best 78.21%)
+[Finetune][Epoch 38] Step 100/391 | LR 8.95e-05 | CE 0.0002
+[Finetune][Epoch 38] Step 200/391 | LR 8.64e-05 | CE 0.0007
+[Finetune][Epoch 38] Step 300/391 | LR 8.33e-05 | CE 0.0002
+[Finetune][Epoch 38] Step 391/391 | LR 8.05e-05 | CE 0.0001
+[Finetune] Epoch 38/50 - test acc: 78.30% (best 78.30%)
+[Finetune][Epoch 39] Step 100/391 | LR 7.75e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 200/391 | LR 7.45e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 300/391 | LR 7.16e-05 | CE 0.0006
+[Finetune][Epoch 39] Step 391/391 | LR 6.90e-05 | CE 0.0002
+[Finetune] Epoch 39/50 - test acc: 78.29% (best 78.30%)
+[Finetune][Epoch 40] Step 100/391 | LR 6.62e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 200/391 | LR 6.34e-05 | CE 0.0003
+[Finetune][Epoch 40] Step 300/391 | LR 6.07e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 391/391 | LR 5.83e-05 | CE 0.0001
+[Finetune] Epoch 40/50 - test acc: 78.35% (best 78.35%)
+[Finetune][Epoch 41] Step 100/391 | LR 5.57e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 200/391 | LR 5.32e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 300/391 | LR 5.07e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 391/391 | LR 4.85e-05 | CE 0.0001
+[Finetune] Epoch 41/50 - test acc: 78.40% (best 78.40%)
+[Finetune][Epoch 42] Step 100/391 | LR 4.61e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 200/391 | LR 4.38e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 300/391 | LR 4.16e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 391/391 | LR 3.96e-05 | CE 0.0001
+[Finetune] Epoch 42/50 - test acc: 78.46% (best 78.46%)
+[Finetune][Epoch 43] Step 100/391 | LR 3.74e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 200/391 | LR 3.54e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 300/391 | LR 3.34e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 391/391 | LR 3.16e-05 | CE 0.0001
+[Finetune] Epoch 43/50 - test acc: 78.48% (best 78.48%)
+[Finetune][Epoch 44] Step 100/391 | LR 2.97e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 200/391 | LR 2.79e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 300/391 | LR 2.62e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 391/391 | LR 2.47e-05 | CE 0.0001
+[Finetune] Epoch 44/50 - test acc: 78.52% (best 78.52%)
+[Finetune][Epoch 45] Step 100/391 | LR 2.30e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 200/391 | LR 2.15e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 300/391 | LR 2.00e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 391/391 | LR 1.87e-05 | CE 0.0001
+[Finetune] Epoch 45/50 - test acc: 78.54% (best 78.54%)
+[Finetune][Epoch 46] Step 100/391 | LR 1.74e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 200/391 | LR 1.61e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 300/391 | LR 1.49e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 391/391 | LR 1.38e-05 | CE 0.0001
+[Finetune] Epoch 46/50 - test acc: 78.55% (best 78.55%)
+[Finetune][Epoch 47] Step 100/391 | LR 1.27e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 200/391 | LR 1.17e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 300/391 | LR 1.08e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 391/391 | LR 9.97e-06 | CE 0.0001
+[Finetune] Epoch 47/50 - test acc: 78.50% (best 78.55%)
+[Finetune][Epoch 48] Step 100/391 | LR 9.16e-06 | CE 0.0001
+[Finetune][Epoch 48] Step 200/391 | LR 8.42e-06 | CE 0.0001
+[Finetune][Epoch 48] Step 300/391 | LR 7.76e-06 | CE 0.0001
+[Finetune][Epoch 48] Step 391/391 | LR 7.21e-06 | CE 0.0001
+[Finetune] Epoch 48/50 - test acc: 78.51% (best 78.55%)
+[Finetune][Epoch 49] Step 100/391 | LR 6.69e-06 | CE 0.0001
+[Finetune][Epoch 49] Step 200/391 | LR 6.23e-06 | CE 0.0001
+[Finetune][Epoch 49] Step 300/391 | LR 5.84e-06 | CE 0.0001
+[Finetune][Epoch 49] Step 391/391 | LR 5.56e-06 | CE 0.0001
+[Finetune] Epoch 49/50 - test acc: 78.49% (best 78.55%)
+[Finetune][Epoch 50] Step 100/391 | LR 5.31e-06 | CE 0.0001
+[Finetune][Epoch 50] Step 200/391 | LR 5.13e-06 | CE 0.0001
+[Finetune][Epoch 50] Step 300/391 | LR 5.03e-06 | CE 0.0001
+[Finetune][Epoch 50] Step 391/391 | LR 5.00e-06 | CE 0.0001
+[Finetune] Epoch 50/50 - test acc: 78.46% (best 78.55%)
+[Result] mask_ratio=0.25: best test acc = 78.55%
+
+[Finetune][Epoch 1] Step 100/391 | LR 8.80e-05 | CE 2.1431
+[Finetune][Epoch 1] Step 200/391 | LR 1.26e-04 | CE 1.8001
+[Finetune][Epoch 1] Step 300/391 | LR 1.65e-04 | CE 1.5071
+[Finetune][Epoch 1] Step 391/391 | LR 2.00e-04 | CE 1.2478
+[Finetune] Epoch 1/50 - test acc: 50.68% (best 50.68%)
+[Finetune][Epoch 2] Step 100/391 | LR 2.38e-04 | CE 1.2694
+[Finetune][Epoch 2] Step 200/391 | LR 2.77e-04 | CE 1.1841
+[Finetune][Epoch 2] Step 300/391 | LR 3.15e-04 | CE 1.1408
+[Finetune][Epoch 2] Step 391/391 | LR 3.50e-04 | CE 1.0123
+[Finetune] Epoch 2/50 - test acc: 58.99% (best 58.99%)
+[Finetune][Epoch 3] Step 100/391 | LR 3.88e-04 | CE 1.0176
+[Finetune][Epoch 3] Step 200/391 | LR 4.27e-04 | CE 0.9802
+[Finetune][Epoch 3] Step 300/391 | LR 4.65e-04 | CE 0.9761
+[Finetune][Epoch 3] Step 391/391 | LR 5.00e-04 | CE 0.8458
+[Finetune] Epoch 3/50 - test acc: 65.35% (best 65.35%)
+[Finetune][Epoch 4] Step 100/391 | LR 5.00e-04 | CE 0.8833
+[Finetune][Epoch 4] Step 200/391 | LR 5.00e-04 | CE 0.8408
+[Finetune][Epoch 4] Step 300/391 | LR 5.00e-04 | CE 0.8149
+[Finetune][Epoch 4] Step 391/391 | LR 4.99e-04 | CE 0.7341
+[Finetune] Epoch 4/50 - test acc: 70.78% (best 70.78%)
+[Finetune][Epoch 5] Step 100/391 | LR 4.99e-04 | CE 0.7133
+[Finetune][Epoch 5] Step 200/391 | LR 4.99e-04 | CE 0.7302
+[Finetune][Epoch 5] Step 300/391 | LR 4.98e-04 | CE 0.7142
+[Finetune][Epoch 5] Step 391/391 | LR 4.98e-04 | CE 0.6504
+[Finetune] Epoch 5/50 - test acc: 72.58% (best 72.58%)
+[Finetune][Epoch 6] Step 100/391 | LR 4.97e-04 | CE 0.6096
+[Finetune][Epoch 6] Step 200/391 | LR 4.97e-04 | CE 0.6212
+[Finetune][Epoch 6] Step 300/391 | LR 4.96e-04 | CE 0.6522
+[Finetune][Epoch 6] Step 391/391 | LR 4.95e-04 | CE 0.5640
+[Finetune] Epoch 6/50 - test acc: 74.47% (best 74.47%)
+[Finetune][Epoch 7] Step 100/391 | LR 4.94e-04 | CE 0.5397
+[Finetune][Epoch 7] Step 200/391 | LR 4.93e-04 | CE 0.5652
+[Finetune][Epoch 7] Step 300/391 | LR 4.92e-04 | CE 0.5464
+[Finetune][Epoch 7] Step 391/391 | LR 4.91e-04 | CE 0.5149
+[Finetune] Epoch 7/50 - test acc: 74.21% (best 74.47%)
+[Finetune][Epoch 8] Step 100/391 | LR 4.90e-04 | CE 0.4619
+[Finetune][Epoch 8] Step 200/391 | LR 4.89e-04 | CE 0.4963
+[Finetune][Epoch 8] Step 300/391 | LR 4.88e-04 | CE 0.4809
+[Finetune][Epoch 8] Step 391/391 | LR 4.86e-04 | CE 0.4656
+[Finetune] Epoch 8/50 - test acc: 74.38% (best 74.47%)
+[Finetune][Epoch 9] Step 100/391 | LR 4.85e-04 | CE 0.3919
+[Finetune][Epoch 9] Step 200/391 | LR 4.83e-04 | CE 0.4179
+[Finetune][Epoch 9] Step 300/391 | LR 4.82e-04 | CE 0.4234
+[Finetune][Epoch 9] Step 391/391 | LR 4.80e-04 | CE 0.4165
+[Finetune] Epoch 9/50 - test acc: 76.47% (best 76.47%)
+[Finetune][Epoch 10] Step 100/391 | LR 4.79e-04 | CE 0.3371
+[Finetune][Epoch 10] Step 200/391 | LR 4.77e-04 | CE 0.3504
+[Finetune][Epoch 10] Step 300/391 | LR 4.75e-04 | CE 0.3724
+[Finetune][Epoch 10] Step 391/391 | LR 4.73e-04 | CE 0.3528
+[Finetune] Epoch 10/50 - test acc: 75.70% (best 76.47%)
+[Finetune][Epoch 11] Step 100/391 | LR 4.71e-04 | CE 0.2712
+[Finetune][Epoch 11] Step 200/391 | LR 4.69e-04 | CE 0.3052
+[Finetune][Epoch 11] Step 300/391 | LR 4.67e-04 | CE 0.3270
+[Finetune][Epoch 11] Step 391/391 | LR 4.65e-04 | CE 0.3067
+[Finetune] Epoch 11/50 - test acc: 76.78% (best 76.78%)
+[Finetune][Epoch 12] Step 100/391 | LR 4.63e-04 | CE 0.2238
+[Finetune][Epoch 12] Step 200/391 | LR 4.61e-04 | CE 0.2548
+[Finetune][Epoch 12] Step 300/391 | LR 4.59e-04 | CE 0.2879
+[Finetune][Epoch 12] Step 391/391 | LR 4.57e-04 | CE 0.2568
+[Finetune] Epoch 12/50 - test acc: 76.60% (best 76.78%)
+[Finetune][Epoch 13] Step 100/391 | LR 4.54e-04 | CE 0.1795
+[Finetune][Epoch 13] Step 200/391 | LR 4.52e-04 | CE 0.2081
+[Finetune][Epoch 13] Step 300/391 | LR 4.49e-04 | CE 0.2468
+[Finetune][Epoch 13] Step 391/391 | LR 4.47e-04 | CE 0.2289
+[Finetune] Epoch 13/50 - test acc: 76.75% (best 76.78%)
+[Finetune][Epoch 14] Step 100/391 | LR 4.44e-04 | CE 0.1625
+[Finetune][Epoch 14] Step 200/391 | LR 4.41e-04 | CE 0.1670
+[Finetune][Epoch 14] Step 300/391 | LR 4.39e-04 | CE 0.1801
+[Finetune][Epoch 14] Step 391/391 | LR 4.36e-04 | CE 0.1868
+[Finetune] Epoch 14/50 - test acc: 77.20% (best 77.20%)
+[Finetune][Epoch 15] Step 100/391 | LR 4.33e-04 | CE 0.1182
+[Finetune][Epoch 15] Step 200/391 | LR 4.30e-04 | CE 0.1409
+[Finetune][Epoch 15] Step 300/391 | LR 4.27e-04 | CE 0.1625
+[Finetune][Epoch 15] Step 391/391 | LR 4.25e-04 | CE 0.1838
+[Finetune] Epoch 15/50 - test acc: 75.89% (best 77.20%)
+[Finetune][Epoch 16] Step 100/391 | LR 4.22e-04 | CE 0.1124
+[Finetune][Epoch 16] Step 200/391 | LR 4.18e-04 | CE 0.1251
+[Finetune][Epoch 16] Step 300/391 | LR 4.15e-04 | CE 0.1331
+[Finetune][Epoch 16] Step 391/391 | LR 4.12e-04 | CE 0.1380
+[Finetune] Epoch 16/50 - test acc: 76.57% (best 77.20%)
+[Finetune][Epoch 17] Step 100/391 | LR 4.09e-04 | CE 0.0912
+[Finetune][Epoch 17] Step 200/391 | LR 4.06e-04 | CE 0.1043
+[Finetune][Epoch 17] Step 300/391 | LR 4.02e-04 | CE 0.1204
+[Finetune][Epoch 17] Step 391/391 | LR 3.99e-04 | CE 0.1294
+[Finetune] Epoch 17/50 - test acc: 76.07% (best 77.20%)
+[Finetune][Epoch 18] Step 100/391 | LR 3.96e-04 | CE 0.0871
+[Finetune][Epoch 18] Step 200/391 | LR 3.92e-04 | CE 0.0839
+[Finetune][Epoch 18] Step 300/391 | LR 3.89e-04 | CE 0.1136
+[Finetune][Epoch 18] Step 391/391 | LR 3.86e-04 | CE 0.1150
+[Finetune] Epoch 18/50 - test acc: 77.07% (best 77.20%)
+[Finetune][Epoch 19] Step 100/391 | LR 3.82e-04 | CE 0.0648
+[Finetune][Epoch 19] Step 200/391 | LR 3.79e-04 | CE 0.0559
+[Finetune][Epoch 19] Step 300/391 | LR 3.75e-04 | CE 0.0839
+[Finetune][Epoch 19] Step 391/391 | LR 3.71e-04 | CE 0.0870
+[Finetune] Epoch 19/50 - test acc: 76.69% (best 77.20%)
+[Finetune][Epoch 20] Step 100/391 | LR 3.68e-04 | CE 0.0589
+[Finetune][Epoch 20] Step 200/391 | LR 3.64e-04 | CE 0.0827
+[Finetune][Epoch 20] Step 300/391 | LR 3.60e-04 | CE 0.0683
+[Finetune][Epoch 20] Step 391/391 | LR 3.57e-04 | CE 0.0762
+[Finetune] Epoch 20/50 - test acc: 76.47% (best 77.20%)
+[Finetune][Epoch 21] Step 100/391 | LR 3.53e-04 | CE 0.0688
+[Finetune][Epoch 21] Step 200/391 | LR 3.49e-04 | CE 0.0722
+[Finetune][Epoch 21] Step 300/391 | LR 3.45e-04 | CE 0.0718
+[Finetune][Epoch 21] Step 391/391 | LR 3.41e-04 | CE 0.0620
+[Finetune] Epoch 21/50 - test acc: 77.76% (best 77.76%)
+[Finetune][Epoch 22] Step 100/391 | LR 3.38e-04 | CE 0.0443
+[Finetune][Epoch 22] Step 200/391 | LR 3.34e-04 | CE 0.0513
+[Finetune][Epoch 22] Step 300/391 | LR 3.30e-04 | CE 0.0508
+[Finetune][Epoch 22] Step 391/391 | LR 3.26e-04 | CE 0.0580
+[Finetune] Epoch 22/50 - test acc: 76.49% (best 77.76%)
+[Finetune][Epoch 23] Step 100/391 | LR 3.22e-04 | CE 0.0523
+[Finetune][Epoch 23] Step 200/391 | LR 3.18e-04 | CE 0.0460
+[Finetune][Epoch 23] Step 300/391 | LR 3.14e-04 | CE 0.0478
+[Finetune][Epoch 23] Step 391/391 | LR 3.10e-04 | CE 0.0522
+[Finetune] Epoch 23/50 - test acc: 76.02% (best 77.76%)
+[Finetune][Epoch 24] Step 100/391 | LR 3.06e-04 | CE 0.0473
+[Finetune][Epoch 24] Step 200/391 | LR 3.02e-04 | CE 0.0329
+[Finetune][Epoch 24] Step 300/391 | LR 2.97e-04 | CE 0.0475
+[Finetune][Epoch 24] Step 391/391 | LR 2.94e-04 | CE 0.0365
+[Finetune] Epoch 24/50 - test acc: 76.99% (best 77.76%)
+[Finetune][Epoch 25] Step 100/391 | LR 2.90e-04 | CE 0.0409
+[Finetune][Epoch 25] Step 200/391 | LR 2.85e-04 | CE 0.0346
+[Finetune][Epoch 25] Step 300/391 | LR 2.81e-04 | CE 0.0341
+[Finetune][Epoch 25] Step 391/391 | LR 2.77e-04 | CE 0.0461
+[Finetune] Epoch 25/50 - test acc: 77.43% (best 77.76%)
+[Finetune][Epoch 26] Step 100/391 | LR 2.73e-04 | CE 0.0283
+[Finetune][Epoch 26] Step 200/391 | LR 2.69e-04 | CE 0.0352
+[Finetune][Epoch 26] Step 300/391 | LR 2.65e-04 | CE 0.0301
+[Finetune][Epoch 26] Step 391/391 | LR 2.61e-04 | CE 0.0384
+[Finetune] Epoch 26/50 - test acc: 77.71% (best 77.76%)
+[Finetune][Epoch 27] Step 100/391 | LR 2.57e-04 | CE 0.0221
+[Finetune][Epoch 27] Step 200/391 | LR 2.52e-04 | CE 0.0289
+[Finetune][Epoch 27] Step 300/391 | LR 2.48e-04 | CE 0.0265
+[Finetune][Epoch 27] Step 391/391 | LR 2.44e-04 | CE 0.0241
+[Finetune] Epoch 27/50 - test acc: 77.10% (best 77.76%)
+[Finetune][Epoch 28] Step 100/391 | LR 2.40e-04 | CE 0.0247
+[Finetune][Epoch 28] Step 200/391 | LR 2.36e-04 | CE 0.0233
+[Finetune][Epoch 28] Step 300/391 | LR 2.32e-04 | CE 0.0164
+[Finetune][Epoch 28] Step 391/391 | LR 2.28e-04 | CE 0.0197
+[Finetune] Epoch 28/50 - test acc: 77.89% (best 77.89%)
+[Finetune][Epoch 29] Step 100/391 | LR 2.24e-04 | CE 0.0176
+[Finetune][Epoch 29] Step 200/391 | LR 2.19e-04 | CE 0.0188
+[Finetune][Epoch 29] Step 300/391 | LR 2.15e-04 | CE 0.0210
+[Finetune][Epoch 29] Step 391/391 | LR 2.11e-04 | CE 0.0158
+[Finetune] Epoch 29/50 - test acc: 77.34% (best 77.89%)
+[Finetune][Epoch 30] Step 100/391 | LR 2.07e-04 | CE 0.0171
+[Finetune][Epoch 30] Step 200/391 | LR 2.03e-04 | CE 0.0191
+[Finetune][Epoch 30] Step 300/391 | LR 1.99e-04 | CE 0.0106
+[Finetune][Epoch 30] Step 391/391 | LR 1.95e-04 | CE 0.0091
+[Finetune] Epoch 30/50 - test acc: 78.07% (best 78.07%)
+[Finetune][Epoch 31] Step 100/391 | LR 1.91e-04 | CE 0.0082
+[Finetune][Epoch 31] Step 200/391 | LR 1.87e-04 | CE 0.0097
+[Finetune][Epoch 31] Step 300/391 | LR 1.83e-04 | CE 0.0147
+[Finetune][Epoch 31] Step 391/391 | LR 1.79e-04 | CE 0.0088
+[Finetune] Epoch 31/50 - test acc: 77.72% (best 78.07%)
+[Finetune][Epoch 32] Step 100/391 | LR 1.75e-04 | CE 0.0135
+[Finetune][Epoch 32] Step 200/391 | LR 1.71e-04 | CE 0.0163
+[Finetune][Epoch 32] Step 300/391 | LR 1.67e-04 | CE 0.0185
+[Finetune][Epoch 32] Step 391/391 | LR 1.64e-04 | CE 0.0171
+[Finetune] Epoch 32/50 - test acc: 77.05% (best 78.07%)
+[Finetune][Epoch 33] Step 100/391 | LR 1.60e-04 | CE 0.0151
+[Finetune][Epoch 33] Step 200/391 | LR 1.56e-04 | CE 0.0053
+[Finetune][Epoch 33] Step 300/391 | LR 1.52e-04 | CE 0.0044
+[Finetune][Epoch 33] Step 391/391 | LR 1.48e-04 | CE 0.0034
+[Finetune] Epoch 33/50 - test acc: 78.76% (best 78.76%)
+[Finetune][Epoch 34] Step 100/391 | LR 1.45e-04 | CE 0.0016
+[Finetune][Epoch 34] Step 200/391 | LR 1.41e-04 | CE 0.0022
+[Finetune][Epoch 34] Step 300/391 | LR 1.37e-04 | CE 0.0023
+[Finetune][Epoch 34] Step 391/391 | LR 1.34e-04 | CE 0.0014
+[Finetune] Epoch 34/50 - test acc: 79.13% (best 79.13%)
+[Finetune][Epoch 35] Step 100/391 | LR 1.30e-04 | CE 0.0016
+[Finetune][Epoch 35] Step 200/391 | LR 1.26e-04 | CE 0.0007
+[Finetune][Epoch 35] Step 300/391 | LR 1.23e-04 | CE 0.0005
+[Finetune][Epoch 35] Step 391/391 | LR 1.19e-04 | CE 0.0003
+[Finetune] Epoch 35/50 - test acc: 79.45% (best 79.45%)
+[Finetune][Epoch 36] Step 100/391 | LR 1.16e-04 | CE 0.0002
+[Finetune][Epoch 36] Step 200/391 | LR 1.12e-04 | CE 0.0002
+[Finetune][Epoch 36] Step 300/391 | LR 1.09e-04 | CE 0.0002
+[Finetune][Epoch 36] Step 391/391 | LR 1.06e-04 | CE 0.0002
+[Finetune] Epoch 36/50 - test acc: 79.48% (best 79.48%)
+[Finetune][Epoch 37] Step 100/391 | LR 1.02e-04 | CE 0.0001
+[Finetune][Epoch 37] Step 200/391 | LR 9.90e-05 | CE 0.0001
+[Finetune][Epoch 37] Step 300/391 | LR 9.57e-05 | CE 0.0001
+[Finetune][Epoch 37] Step 391/391 | LR 9.27e-05 | CE 0.0001
+[Finetune] Epoch 37/50 - test acc: 79.45% (best 79.48%)
+[Finetune][Epoch 38] Step 100/391 | LR 8.95e-05 | CE 0.0001
+[Finetune][Epoch 38] Step 200/391 | LR 8.64e-05 | CE 0.0001
+[Finetune][Epoch 38] Step 300/391 | LR 8.33e-05 | CE 0.0001
+[Finetune][Epoch 38] Step 391/391 | LR 8.05e-05 | CE 0.0001
+[Finetune] Epoch 38/50 - test acc: 79.46% (best 79.48%)
+[Finetune][Epoch 39] Step 100/391 | LR 7.75e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 200/391 | LR 7.45e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 300/391 | LR 7.16e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 391/391 | LR 6.90e-05 | CE 0.0001
+[Finetune] Epoch 39/50 - test acc: 79.50% (best 79.50%)
+[Finetune][Epoch 40] Step 100/391 | LR 6.62e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 200/391 | LR 6.34e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 300/391 | LR 6.07e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 391/391 | LR 5.83e-05 | CE 0.0001
+[Finetune] Epoch 40/50 - test acc: 79.48% (best 79.50%)
+[Finetune][Epoch 41] Step 100/391 | LR 5.57e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 200/391 | LR 5.32e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 300/391 | LR 5.07e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 391/391 | LR 4.85e-05 | CE 0.0001
+[Finetune] Epoch 41/50 - test acc: 79.52% (best 79.52%)
+[Finetune][Epoch 42] Step 100/391 | LR 4.61e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 200/391 | LR 4.38e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 300/391 | LR 4.16e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 391/391 | LR 3.96e-05 | CE 0.0001
+[Finetune] Epoch 42/50 - test acc: 79.48% (best 79.52%)
+[Finetune][Epoch 43] Step 100/391 | LR 3.74e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 200/391 | LR 3.54e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 300/391 | LR 3.34e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 391/391 | LR 3.16e-05 | CE 0.0001
+[Finetune] Epoch 43/50 - test acc: 79.54% (best 79.54%)
+[Finetune][Epoch 44] Step 100/391 | LR 2.97e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 200/391 | LR 2.79e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 300/391 | LR 2.62e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 391/391 | LR 2.47e-05 | CE 0.0001
+[Finetune] Epoch 44/50 - test acc: 79.60% (best 79.60%)
+[Finetune][Epoch 45] Step 100/391 | LR 2.30e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 200/391 | LR 2.15e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 300/391 | LR 2.00e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 391/391 | LR 1.87e-05 | CE 0.0001
+[Finetune] Epoch 45/50 - test acc: 79.64% (best 79.64%)
+[Finetune][Epoch 46] Step 100/391 | LR 1.74e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 200/391 | LR 1.61e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 300/391 | LR 1.49e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 391/391 | LR 1.38e-05 | CE 0.0001
+[Finetune] Epoch 46/50 - test acc: 79.59% (best 79.64%)
+[Finetune][Epoch 47] Step 100/391 | LR 1.27e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 200/391 | LR 1.17e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 300/391 | LR 1.08e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 391/391 | LR 9.97e-06 | CE 0.0001
+[Finetune] Epoch 47/50 - test acc: 79.63% (best 79.64%)
+[Finetune][Epoch 48] Step 100/391 | LR 9.16e-06 | CE 0.0001
+[Finetune][Epoch 48] Step 200/391 | LR 8.42e-06 | CE 0.0001
+[Finetune][Epoch 48] Step 300/391 | LR 7.76e-06 | CE 0.0001
+[Finetune][Epoch 48] Step 391/391 | LR 7.21e-06 | CE 0.0001
+[Finetune] Epoch 48/50 - test acc: 79.61% (best 79.64%)
+[Finetune][Epoch 49] Step 100/391 | LR 6.69e-06 | CE 0.0001
+[Finetune][Epoch 49] Step 200/391 | LR 6.23e-06 | CE 0.0001
+[Finetune][Epoch 49] Step 300/391 | LR 5.84e-06 | CE 0.0001
+[Finetune][Epoch 49] Step 391/391 | LR 5.56e-06 | CE 0.0001
+[Finetune] Epoch 49/50 - test acc: 79.58% (best 79.64%)
+[Finetune][Epoch 50] Step 100/391 | LR 5.31e-06 | CE 0.0001
+[Finetune][Epoch 50] Step 200/391 | LR 5.13e-06 | CE 0.0001
+[Finetune][Epoch 50] Step 300/391 | LR 5.03e-06 | CE 0.0001
+[Finetune][Epoch 50] Step 391/391 | LR 5.00e-06 | CE 0.0001
+[Finetune] Epoch 50/50 - test acc: 79.60% (best 79.64%)
+[Result] mask_ratio=0.5: best test acc = 79.64%
+
+=== Pretraining with mask_ratio=0.75 ===
+[Pretrain][Epoch 1] Step 100/390 | LR 9.04e-05 | Loss 0.8899
+[Pretrain][Epoch 1] Step 200/390 | LR 1.67e-04 | Loss 0.7590
+[Pretrain][Epoch 1] Step 300/390 | LR 2.43e-04 | Loss 0.6583
+[Pretrain][Epoch 1] Step 390/390 | LR 3.11e-04 | Loss 0.5338
+[Pretrain] Epoch 1/100 | Avg Loss: 0.7285
+[Pretrain][Epoch 2] Step 100/390 | LR 3.88e-04 | Loss 0.5420
+[Pretrain][Epoch 2] Step 200/390 | LR 4.64e-04 | Loss 0.5100
+[Pretrain][Epoch 2] Step 300/390 | LR 5.40e-04 | Loss 0.4904
+[Pretrain][Epoch 2] Step 390/390 | LR 6.09e-04 | Loss 0.4346
+[Pretrain] Epoch 2/100 | Avg Loss: 0.5069
+[Pretrain][Epoch 3] Step 100/390 | LR 6.85e-04 | Loss 0.4745
+[Pretrain][Epoch 3] Step 200/390 | LR 7.61e-04 | Loss 0.4685
+[Pretrain][Epoch 3] Step 300/390 | LR 8.37e-04 | Loss 0.4643
+[Pretrain][Epoch 3] Step 390/390 | LR 9.06e-04 | Loss 0.4161
+[Pretrain] Epoch 3/100 | Avg Loss: 0.4676
+[Pretrain][Epoch 4] Step 100/390 | LR 9.82e-04 | Loss 0.4553
+[Pretrain][Epoch 4] Step 200/390 | LR 1.06e-03 | Loss 0.4565
+[Pretrain][Epoch 4] Step 300/390 | LR 1.13e-03 | Loss 0.4523
+[Pretrain][Epoch 4] Step 390/390 | LR 1.20e-03 | Loss 0.4048
+[Pretrain] Epoch 4/100 | Avg Loss: 0.4536
+[Pretrain][Epoch 5] Step 100/390 | LR 1.28e-03 | Loss 0.4466
+[Pretrain][Epoch 5] Step 200/390 | LR 1.36e-03 | Loss 0.4437
+[Pretrain][Epoch 5] Step 300/390 | LR 1.43e-03 | Loss 0.4403
+[Pretrain][Epoch 5] Step 390/390 | LR 1.50e-03 | Loss 0.3993
+[Pretrain] Epoch 5/100 | Avg Loss: 0.4435
+[Pretrain][Epoch 6] Step 100/390 | LR 1.50e-03 | Loss 0.4395
+[Pretrain][Epoch 6] Step 200/390 | LR 1.50e-03 | Loss 0.4353
+[Pretrain][Epoch 6] Step 300/390 | LR 1.50e-03 | Loss 0.4304
+[Pretrain][Epoch 6] Step 390/390 | LR 1.50e-03 | Loss 0.3849
+[Pretrain] Epoch 6/100 | Avg Loss: 0.4334
+[Pretrain][Epoch 7] Step 100/390 | LR 1.50e-03 | Loss 0.4245
+[Pretrain][Epoch 7] Step 200/390 | LR 1.50e-03 | Loss 0.4237
+[Pretrain][Epoch 7] Step 300/390 | LR 1.50e-03 | Loss 0.4237
+[Pretrain][Epoch 7] Step 390/390 | LR 1.50e-03 | Loss 0.3763
+[Pretrain] Epoch 7/100 | Avg Loss: 0.4226
+[Pretrain][Epoch 8] Step 100/390 | LR 1.50e-03 | Loss 0.4186
+[Pretrain][Epoch 8] Step 200/390 | LR 1.50e-03 | Loss 0.4168
+[Pretrain][Epoch 8] Step 300/390 | LR 1.50e-03 | Loss 0.4118
+[Pretrain][Epoch 8] Step 390/390 | LR 1.50e-03 | Loss 0.3703
+[Pretrain] Epoch 8/100 | Avg Loss: 0.4147
+[Pretrain][Epoch 9] Step 100/390 | LR 1.50e-03 | Loss 0.4115
+[Pretrain][Epoch 9] Step 200/390 | LR 1.50e-03 | Loss 0.4074
+[Pretrain][Epoch 9] Step 300/390 | LR 1.49e-03 | Loss 0.4088
+[Pretrain][Epoch 9] Step 390/390 | LR 1.49e-03 | Loss 0.3680
+[Pretrain] Epoch 9/100 | Avg Loss: 0.4091
+[Pretrain][Epoch 10] Step 100/390 | LR 1.49e-03 | Loss 0.4057
+[Pretrain][Epoch 10] Step 200/390 | LR 1.49e-03 | Loss 0.4058
+[Pretrain][Epoch 10] Step 300/390 | LR 1.49e-03 | Loss 0.4036
+[Pretrain][Epoch 10] Step 390/390 | LR 1.49e-03 | Loss 0.3629
+[Pretrain] Epoch 10/100 | Avg Loss: 0.4046
+[Pretrain][Epoch 11] Step 100/390 | LR 1.49e-03 | Loss 0.4026
+[Pretrain][Epoch 11] Step 200/390 | LR 1.49e-03 | Loss 0.4003
+[Pretrain][Epoch 11] Step 300/390 | LR 1.49e-03 | Loss 0.4005
+[Pretrain][Epoch 11] Step 390/390 | LR 1.49e-03 | Loss 0.3595
+[Pretrain] Epoch 11/100 | Avg Loss: 0.4007
+[Pretrain][Epoch 12] Step 100/390 | LR 1.49e-03 | Loss 0.4005
+[Pretrain][Epoch 12] Step 200/390 | LR 1.48e-03 | Loss 0.3981
+[Pretrain][Epoch 12] Step 300/390 | LR 1.48e-03 | Loss 0.3953
+[Pretrain][Epoch 12] Step 390/390 | LR 1.48e-03 | Loss 0.3573
+[Pretrain] Epoch 12/100 | Avg Loss: 0.3977
+[Pretrain][Epoch 13] Step 100/390 | LR 1.48e-03 | Loss 0.3965
+[Pretrain][Epoch 13] Step 200/390 | LR 1.48e-03 | Loss 0.3953
+[Pretrain][Epoch 13] Step 300/390 | LR 1.48e-03 | Loss 0.3955
+[Pretrain][Epoch 13] Step 390/390 | LR 1.48e-03 | Loss 0.3516
+[Pretrain] Epoch 13/100 | Avg Loss: 0.3946
+[Pretrain][Epoch 14] Step 100/390 | LR 1.48e-03 | Loss 0.3903
+[Pretrain][Epoch 14] Step 200/390 | LR 1.47e-03 | Loss 0.3935
+[Pretrain][Epoch 14] Step 300/390 | LR 1.47e-03 | Loss 0.3913
+[Pretrain][Epoch 14] Step 390/390 | LR 1.47e-03 | Loss 0.3539
+[Pretrain] Epoch 14/100 | Avg Loss: 0.3920
+[Pretrain][Epoch 15] Step 100/390 | LR 1.47e-03 | Loss 0.3896
+[Pretrain][Epoch 15] Step 200/390 | LR 1.47e-03 | Loss 0.3900
+[Pretrain][Epoch 15] Step 300/390 | LR 1.47e-03 | Loss 0.3901
+[Pretrain][Epoch 15] Step 390/390 | LR 1.46e-03 | Loss 0.3520
+[Pretrain] Epoch 15/100 | Avg Loss: 0.3902
+[Pretrain][Epoch 16] Step 100/390 | LR 1.46e-03 | Loss 0.3875
+[Pretrain][Epoch 16] Step 200/390 | LR 1.46e-03 | Loss 0.3856
+[Pretrain][Epoch 16] Step 300/390 | LR 1.46e-03 | Loss 0.3893
+[Pretrain][Epoch 16] Step 390/390 | LR 1.46e-03 | Loss 0.3485
+[Pretrain] Epoch 16/100 | Avg Loss: 0.3874
+[Pretrain][Epoch 17] Step 100/390 | LR 1.45e-03 | Loss 0.3870
+[Pretrain][Epoch 17] Step 200/390 | LR 1.45e-03 | Loss 0.3851
+[Pretrain][Epoch 17] Step 300/390 | LR 1.45e-03 | Loss 0.3851
+[Pretrain][Epoch 17] Step 390/390 | LR 1.45e-03 | Loss 0.3475
+[Pretrain] Epoch 17/100 | Avg Loss: 0.3858
+[Pretrain][Epoch 18] Step 100/390 | LR 1.45e-03 | Loss 0.3864
+[Pretrain][Epoch 18] Step 200/390 | LR 1.44e-03 | Loss 0.3842
+[Pretrain][Epoch 18] Step 300/390 | LR 1.44e-03 | Loss 0.3843
+[Pretrain][Epoch 18] Step 390/390 | LR 1.44e-03 | Loss 0.3457
+[Pretrain] Epoch 18/100 | Avg Loss: 0.3847
+[Pretrain][Epoch 19] Step 100/390 | LR 1.44e-03 | Loss 0.3817
+[Pretrain][Epoch 19] Step 200/390 | LR 1.43e-03 | Loss 0.3829
+[Pretrain][Epoch 19] Step 300/390 | LR 1.43e-03 | Loss 0.3840
+[Pretrain][Epoch 19] Step 390/390 | LR 1.43e-03 | Loss 0.3457
+[Pretrain] Epoch 19/100 | Avg Loss: 0.3831
+[Pretrain][Epoch 20] Step 100/390 | LR 1.43e-03 | Loss 0.3807
+[Pretrain][Epoch 20] Step 200/390 | LR 1.42e-03 | Loss 0.3837
+[Pretrain][Epoch 20] Step 300/390 | LR 1.42e-03 | Loss 0.3827
+[Pretrain][Epoch 20] Step 390/390 | LR 1.42e-03 | Loss 0.3438
+[Pretrain] Epoch 20/100 | Avg Loss: 0.3823
+[Pretrain][Epoch 21] Step 100/390 | LR 1.42e-03 | Loss 0.3813
+[Pretrain][Epoch 21] Step 200/390 | LR 1.41e-03 | Loss 0.3806
+[Pretrain][Epoch 21] Step 300/390 | LR 1.41e-03 | Loss 0.3811
+[Pretrain][Epoch 21] Step 390/390 | LR 1.41e-03 | Loss 0.3419
+[Pretrain] Epoch 21/100 | Avg Loss: 0.3807
+[Pretrain][Epoch 22] Step 100/390 | LR 1.40e-03 | Loss 0.3793
+[Pretrain][Epoch 22] Step 200/390 | LR 1.40e-03 | Loss 0.3787
+[Pretrain][Epoch 22] Step 300/390 | LR 1.40e-03 | Loss 0.3785
+[Pretrain][Epoch 22] Step 390/390 | LR 1.40e-03 | Loss 0.3439
+[Pretrain] Epoch 22/100 | Avg Loss: 0.3796
+[Pretrain][Epoch 23] Step 100/390 | LR 1.39e-03 | Loss 0.3792
+[Pretrain][Epoch 23] Step 200/390 | LR 1.39e-03 | Loss 0.3762
+[Pretrain][Epoch 23] Step 300/390 | LR 1.39e-03 | Loss 0.3802
+[Pretrain][Epoch 23] Step 390/390 | LR 1.38e-03 | Loss 0.3402
+[Pretrain] Epoch 23/100 | Avg Loss: 0.3784
+[Pretrain][Epoch 24] Step 100/390 | LR 1.38e-03 | Loss 0.3772
+[Pretrain][Epoch 24] Step 200/390 | LR 1.38e-03 | Loss 0.3769
+[Pretrain][Epoch 24] Step 300/390 | LR 1.37e-03 | Loss 0.3802
+[Pretrain][Epoch 24] Step 390/390 | LR 1.37e-03 | Loss 0.3404
+[Pretrain] Epoch 24/100 | Avg Loss: 0.3781
+[Pretrain][Epoch 25] Step 100/390 | LR 1.37e-03 | Loss 0.3766
+[Pretrain][Epoch 25] Step 200/390 | LR 1.36e-03 | Loss 0.3774
+[Pretrain][Epoch 25] Step 300/390 | LR 1.36e-03 | Loss 0.3766
+[Pretrain][Epoch 25] Step 390/390 | LR 1.36e-03 | Loss 0.3389
+[Pretrain] Epoch 25/100 | Avg Loss: 0.3768
+[Pretrain][Epoch 26] Step 100/390 | LR 1.35e-03 | Loss 0.3756
+[Pretrain][Epoch 26] Step 200/390 | LR 1.35e-03 | Loss 0.3777
+[Pretrain][Epoch 26] Step 300/390 | LR 1.35e-03 | Loss 0.3748
+[Pretrain][Epoch 26] Step 390/390 | LR 1.34e-03 | Loss 0.3383
+[Pretrain] Epoch 26/100 | Avg Loss: 0.3760
+[Pretrain][Epoch 27] Step 100/390 | LR 1.34e-03 | Loss 0.3745
+[Pretrain][Epoch 27] Step 200/390 | LR 1.34e-03 | Loss 0.3768
+[Pretrain][Epoch 27] Step 300/390 | LR 1.33e-03 | Loss 0.3753
+[Pretrain][Epoch 27] Step 390/390 | LR 1.33e-03 | Loss 0.3387
+[Pretrain] Epoch 27/100 | Avg Loss: 0.3757
+[Pretrain][Epoch 28] Step 100/390 | LR 1.33e-03 | Loss 0.3760
+[Pretrain][Epoch 28] Step 200/390 | LR 1.32e-03 | Loss 0.3737
+[Pretrain][Epoch 28] Step 300/390 | LR 1.32e-03 | Loss 0.3735
+[Pretrain][Epoch 28] Step 390/390 | LR 1.31e-03 | Loss 0.3354
+[Pretrain] Epoch 28/100 | Avg Loss: 0.3740
+[Pretrain][Epoch 29] Step 100/390 | LR 1.31e-03 | Loss 0.3744
+[Pretrain][Epoch 29] Step 200/390 | LR 1.31e-03 | Loss 0.3737
+[Pretrain][Epoch 29] Step 300/390 | LR 1.30e-03 | Loss 0.3707
+[Pretrain][Epoch 29] Step 390/390 | LR 1.30e-03 | Loss 0.3370
+[Pretrain] Epoch 29/100 | Avg Loss: 0.3733
+[Pretrain][Epoch 30] Step 100/390 | LR 1.29e-03 | Loss 0.3724
+[Pretrain][Epoch 30] Step 200/390 | LR 1.29e-03 | Loss 0.3739
+[Pretrain][Epoch 30] Step 300/390 | LR 1.29e-03 | Loss 0.3720
+[Pretrain][Epoch 30] Step 390/390 | LR 1.28e-03 | Loss 0.3357
+[Pretrain] Epoch 30/100 | Avg Loss: 0.3728
+[Pretrain][Epoch 31] Step 100/390 | LR 1.28e-03 | Loss 0.3730
+[Pretrain][Epoch 31] Step 200/390 | LR 1.27e-03 | Loss 0.3698
+[Pretrain][Epoch 31] Step 300/390 | LR 1.27e-03 | Loss 0.3720
+[Pretrain][Epoch 31] Step 390/390 | LR 1.27e-03 | Loss 0.3347
+[Pretrain] Epoch 31/100 | Avg Loss: 0.3717
+[Pretrain][Epoch 32] Step 100/390 | LR 1.26e-03 | Loss 0.3727
+[Pretrain][Epoch 32] Step 200/390 | LR 1.26e-03 | Loss 0.3696
+[Pretrain][Epoch 32] Step 300/390 | LR 1.25e-03 | Loss 0.3699
+[Pretrain][Epoch 32] Step 390/390 | LR 1.25e-03 | Loss 0.3321
+[Pretrain] Epoch 32/100 | Avg Loss: 0.3703
+[Pretrain][Epoch 33] Step 100/390 | LR 1.24e-03 | Loss 0.3712
+[Pretrain][Epoch 33] Step 200/390 | LR 1.24e-03 | Loss 0.3697
+[Pretrain][Epoch 33] Step 300/390 | LR 1.23e-03 | Loss 0.3694
+[Pretrain][Epoch 33] Step 390/390 | LR 1.23e-03 | Loss 0.3325
+[Pretrain] Epoch 33/100 | Avg Loss: 0.3700
+[Pretrain][Epoch 34] Step 100/390 | LR 1.23e-03 | Loss 0.3702
+[Pretrain][Epoch 34] Step 200/390 | LR 1.22e-03 | Loss 0.3687
+[Pretrain][Epoch 34] Step 300/390 | LR 1.22e-03 | Loss 0.3698
+[Pretrain][Epoch 34] Step 390/390 | LR 1.21e-03 | Loss 0.3315
+[Pretrain] Epoch 34/100 | Avg Loss: 0.3693
+[Pretrain][Epoch 35] Step 100/390 | LR 1.21e-03 | Loss 0.3684
+[Pretrain][Epoch 35] Step 200/390 | LR 1.20e-03 | Loss 0.3672
+[Pretrain][Epoch 35] Step 300/390 | LR 1.20e-03 | Loss 0.3695
+[Pretrain][Epoch 35] Step 390/390 | LR 1.19e-03 | Loss 0.3333
+[Pretrain] Epoch 35/100 | Avg Loss: 0.3688
+[Pretrain][Epoch 36] Step 100/390 | LR 1.19e-03 | Loss 0.3666
+[Pretrain][Epoch 36] Step 200/390 | LR 1.18e-03 | Loss 0.3706
+[Pretrain][Epoch 36] Step 300/390 | LR 1.18e-03 | Loss 0.3691
+[Pretrain][Epoch 36] Step 390/390 | LR 1.18e-03 | Loss 0.3311
+[Pretrain] Epoch 36/100 | Avg Loss: 0.3686
+[Pretrain][Epoch 37] Step 100/390 | LR 1.17e-03 | Loss 0.3696
+[Pretrain][Epoch 37] Step 200/390 | LR 1.17e-03 | Loss 0.3677
+[Pretrain][Epoch 37] Step 300/390 | LR 1.16e-03 | Loss 0.3668
+[Pretrain][Epoch 37] Step 390/390 | LR 1.16e-03 | Loss 0.3304
+[Pretrain] Epoch 37/100 | Avg Loss: 0.3678
+[Pretrain][Epoch 38] Step 100/390 | LR 1.15e-03 | Loss 0.3665
+[Pretrain][Epoch 38] Step 200/390 | LR 1.15e-03 | Loss 0.3680
+[Pretrain][Epoch 38] Step 300/390 | LR 1.14e-03 | Loss 0.3650
+[Pretrain][Epoch 38] Step 390/390 | LR 1.14e-03 | Loss 0.3307
+[Pretrain] Epoch 38/100 | Avg Loss: 0.3667
+[Pretrain][Epoch 39] Step 100/390 | LR 1.13e-03 | Loss 0.3644
+[Pretrain][Epoch 39] Step 200/390 | LR 1.13e-03 | Loss 0.3688
+[Pretrain][Epoch 39] Step 300/390 | LR 1.12e-03 | Loss 0.3645
+[Pretrain][Epoch 39] Step 390/390 | LR 1.12e-03 | Loss 0.3305
+[Pretrain] Epoch 39/100 | Avg Loss: 0.3662
+[Pretrain][Epoch 40] Step 100/390 | LR 1.11e-03 | Loss 0.3677
+[Pretrain][Epoch 40] Step 200/390 | LR 1.11e-03 | Loss 0.3652
+[Pretrain][Epoch 40] Step 300/390 | LR 1.10e-03 | Loss 0.3647
+[Pretrain][Epoch 40] Step 390/390 | LR 1.10e-03 | Loss 0.3314
+[Pretrain] Epoch 40/100 | Avg Loss: 0.3664
+[Pretrain][Epoch 41] Step 100/390 | LR 1.09e-03 | Loss 0.3660
+[Pretrain][Epoch 41] Step 200/390 | LR 1.09e-03 | Loss 0.3644
+[Pretrain][Epoch 41] Step 300/390 | LR 1.08e-03 | Loss 0.3658
+[Pretrain][Epoch 41] Step 390/390 | LR 1.08e-03 | Loss 0.3294
+[Pretrain] Epoch 41/100 | Avg Loss: 0.3656
+[Pretrain][Epoch 42] Step 100/390 | LR 1.07e-03 | Loss 0.3643
+[Pretrain][Epoch 42] Step 200/390 | LR 1.06e-03 | Loss 0.3641
+[Pretrain][Epoch 42] Step 300/390 | LR 1.06e-03 | Loss 0.3650
+[Pretrain][Epoch 42] Step 390/390 | LR 1.05e-03 | Loss 0.3299
+[Pretrain] Epoch 42/100 | Avg Loss: 0.3649
+[Pretrain][Epoch 43] Step 100/390 | LR 1.05e-03 | Loss 0.3647
+[Pretrain][Epoch 43] Step 200/390 | LR 1.04e-03 | Loss 0.3633
+[Pretrain][Epoch 43] Step 300/390 | LR 1.04e-03 | Loss 0.3639
+[Pretrain][Epoch 43] Step 390/390 | LR 1.03e-03 | Loss 0.3286
+[Pretrain] Epoch 43/100 | Avg Loss: 0.3643
+[Pretrain][Epoch 44] Step 100/390 | LR 1.03e-03 | Loss 0.3639
+[Pretrain][Epoch 44] Step 200/390 | LR 1.02e-03 | Loss 0.3635
+[Pretrain][Epoch 44] Step 300/390 | LR 1.02e-03 | Loss 0.3627
+[Pretrain][Epoch 44] Step 390/390 | LR 1.01e-03 | Loss 0.3274
+[Pretrain] Epoch 44/100 | Avg Loss: 0.3635
+[Pretrain][Epoch 45] Step 100/390 | LR 1.01e-03 | Loss 0.3632
+[Pretrain][Epoch 45] Step 200/390 | LR 1.00e-03 | Loss 0.3633
+[Pretrain][Epoch 45] Step 300/390 | LR 9.96e-04 | Loss 0.3628
+[Pretrain][Epoch 45] Step 390/390 | LR 9.91e-04 | Loss 0.3265
+[Pretrain] Epoch 45/100 | Avg Loss: 0.3630
+[Pretrain][Epoch 46] Step 100/390 | LR 9.85e-04 | Loss 0.3627
+[Pretrain][Epoch 46] Step 200/390 | LR 9.80e-04 | Loss 0.3626
+[Pretrain][Epoch 46] Step 300/390 | LR 9.74e-04 | Loss 0.3618
+[Pretrain][Epoch 46] Step 390/390 | LR 9.69e-04 | Loss 0.3251
+[Pretrain] Epoch 46/100 | Avg Loss: 0.3621
+[Pretrain][Epoch 47] Step 100/390 | LR 9.63e-04 | Loss 0.3638
+[Pretrain][Epoch 47] Step 200/390 | LR 9.58e-04 | Loss 0.3606
+[Pretrain][Epoch 47] Step 300/390 | LR 9.52e-04 | Loss 0.3618
+[Pretrain][Epoch 47] Step 390/390 | LR 9.47e-04 | Loss 0.3242
+[Pretrain] Epoch 47/100 | Avg Loss: 0.3616
+[Pretrain][Epoch 48] Step 100/390 | LR 9.42e-04 | Loss 0.3606
+[Pretrain][Epoch 48] Step 200/390 | LR 9.36e-04 | Loss 0.3621
+[Pretrain][Epoch 48] Step 300/390 | LR 9.30e-04 | Loss 0.3602
+[Pretrain][Epoch 48] Step 390/390 | LR 9.25e-04 | Loss 0.3258
+[Pretrain] Epoch 48/100 | Avg Loss: 0.3612
+[Pretrain][Epoch 49] Step 100/390 | LR 9.19e-04 | Loss 0.3608
+[Pretrain][Epoch 49] Step 200/390 | LR 9.14e-04 | Loss 0.3610
+[Pretrain][Epoch 49] Step 300/390 | LR 9.08e-04 | Loss 0.3619
+[Pretrain][Epoch 49] Step 390/390 | LR 9.03e-04 | Loss 0.3235
+[Pretrain] Epoch 49/100 | Avg Loss: 0.3608
+[Pretrain][Epoch 50] Step 100/390 | LR 8.97e-04 | Loss 0.3627
+[Pretrain][Epoch 50] Step 200/390 | LR 8.92e-04 | Loss 0.3594
+[Pretrain][Epoch 50] Step 300/390 | LR 8.86e-04 | Loss 0.3600
+[Pretrain][Epoch 50] Step 390/390 | LR 8.81e-04 | Loss 0.3238
+[Pretrain] Epoch 50/100 | Avg Loss: 0.3605
+[Pretrain][Epoch 51] Step 100/390 | LR 8.75e-04 | Loss 0.3589
+[Pretrain][Epoch 51] Step 200/390 | LR 8.69e-04 | Loss 0.3584
+[Pretrain][Epoch 51] Step 300/390 | LR 8.64e-04 | Loss 0.3612
+[Pretrain][Epoch 51] Step 390/390 | LR 8.59e-04 | Loss 0.3246
+[Pretrain] Epoch 51/100 | Avg Loss: 0.3598
+[Pretrain][Epoch 52] Step 100/390 | LR 8.53e-04 | Loss 0.3606
+[Pretrain][Epoch 52] Step 200/390 | LR 8.47e-04 | Loss 0.3598
+[Pretrain][Epoch 52] Step 300/390 | LR 8.41e-04 | Loss 0.3601
+[Pretrain][Epoch 52] Step 390/390 | LR 8.36e-04 | Loss 0.3220
+[Pretrain] Epoch 52/100 | Avg Loss: 0.3596
+[Pretrain][Epoch 53] Step 100/390 | LR 8.30e-04 | Loss 0.3595
+[Pretrain][Epoch 53] Step 200/390 | LR 8.25e-04 | Loss 0.3578
+[Pretrain][Epoch 53] Step 300/390 | LR 8.19e-04 | Loss 0.3598
+[Pretrain][Epoch 53] Step 390/390 | LR 8.14e-04 | Loss 0.3224
+[Pretrain] Epoch 53/100 | Avg Loss: 0.3588
+[Pretrain][Epoch 54] Step 100/390 | LR 8.08e-04 | Loss 0.3590
+[Pretrain][Epoch 54] Step 200/390 | LR 8.02e-04 | Loss 0.3604
+[Pretrain][Epoch 54] Step 300/390 | LR 7.97e-04 | Loss 0.3594
+[Pretrain][Epoch 54] Step 390/390 | LR 7.92e-04 | Loss 0.3215
+[Pretrain] Epoch 54/100 | Avg Loss: 0.3591
+[Pretrain][Epoch 55] Step 100/390 | LR 7.86e-04 | Loss 0.3559
+[Pretrain][Epoch 55] Step 200/390 | LR 7.80e-04 | Loss 0.3563
+[Pretrain][Epoch 55] Step 300/390 | LR 7.74e-04 | Loss 0.3602
+[Pretrain][Epoch 55] Step 390/390 | LR 7.69e-04 | Loss 0.3221
+[Pretrain] Epoch 55/100 | Avg Loss: 0.3576
+[Pretrain][Epoch 56] Step 100/390 | LR 7.64e-04 | Loss 0.3569
+[Pretrain][Epoch 56] Step 200/390 | LR 7.58e-04 | Loss 0.3577
+[Pretrain][Epoch 56] Step 300/390 | LR 7.52e-04 | Loss 0.3560
+[Pretrain][Epoch 56] Step 390/390 | LR 7.47e-04 | Loss 0.3211
+[Pretrain] Epoch 56/100 | Avg Loss: 0.3568
+[Pretrain][Epoch 57] Step 100/390 | LR 7.41e-04 | Loss 0.3578
+[Pretrain][Epoch 57] Step 200/390 | LR 7.36e-04 | Loss 0.3553
+[Pretrain][Epoch 57] Step 300/390 | LR 7.30e-04 | Loss 0.3579
+[Pretrain][Epoch 57] Step 390/390 | LR 7.25e-04 | Loss 0.3198
+[Pretrain] Epoch 57/100 | Avg Loss: 0.3566
+[Pretrain][Epoch 58] Step 100/390 | LR 7.19e-04 | Loss 0.3572
+[Pretrain][Epoch 58] Step 200/390 | LR 7.14e-04 | Loss 0.3552
+[Pretrain][Epoch 58] Step 300/390 | LR 7.08e-04 | Loss 0.3576
+[Pretrain][Epoch 58] Step 390/390 | LR 7.03e-04 | Loss 0.3198
+[Pretrain] Epoch 58/100 | Avg Loss: 0.3564
+[Pretrain][Epoch 59] Step 100/390 | LR 6.97e-04 | Loss 0.3551
+[Pretrain][Epoch 59] Step 200/390 | LR 6.92e-04 | Loss 0.3560
+[Pretrain][Epoch 59] Step 300/390 | LR 6.86e-04 | Loss 0.3566
+[Pretrain][Epoch 59] Step 390/390 | LR 6.81e-04 | Loss 0.3194
+[Pretrain] Epoch 59/100 | Avg Loss: 0.3557
+[Pretrain][Epoch 60] Step 100/390 | LR 6.75e-04 | Loss 0.3558
+[Pretrain][Epoch 60] Step 200/390 | LR 6.70e-04 | Loss 0.3544
+[Pretrain][Epoch 60] Step 300/390 | LR 6.64e-04 | Loss 0.3567
+[Pretrain][Epoch 60] Step 390/390 | LR 6.59e-04 | Loss 0.3185
+[Pretrain] Epoch 60/100 | Avg Loss: 0.3552
+[Pretrain][Epoch 61] Step 100/390 | LR 6.54e-04 | Loss 0.3552
+[Pretrain][Epoch 61] Step 200/390 | LR 6.48e-04 | Loss 0.3546
+[Pretrain][Epoch 61] Step 300/390 | LR 6.43e-04 | Loss 0.3538
+[Pretrain][Epoch 61] Step 390/390 | LR 6.38e-04 | Loss 0.3196
+[Pretrain] Epoch 61/100 | Avg Loss: 0.3546
+[Pretrain][Epoch 62] Step 100/390 | LR 6.32e-04 | Loss 0.3551
+[Pretrain][Epoch 62] Step 200/390 | LR 6.27e-04 | Loss 0.3520
+[Pretrain][Epoch 62] Step 300/390 | LR 6.21e-04 | Loss 0.3548
+[Pretrain][Epoch 62] Step 390/390 | LR 6.16e-04 | Loss 0.3191
+[Pretrain] Epoch 62/100 | Avg Loss: 0.3541
+[Pretrain][Epoch 63] Step 100/390 | LR 6.11e-04 | Loss 0.3527
+[Pretrain][Epoch 63] Step 200/390 | LR 6.06e-04 | Loss 0.3539
+[Pretrain][Epoch 63] Step 300/390 | LR 6.00e-04 | Loss 0.3542
+[Pretrain][Epoch 63] Step 390/390 | LR 5.95e-04 | Loss 0.3181
+[Pretrain] Epoch 63/100 | Avg Loss: 0.3536
+[Pretrain][Epoch 64] Step 100/390 | LR 5.90e-04 | Loss 0.3539
+[Pretrain][Epoch 64] Step 200/390 | LR 5.85e-04 | Loss 0.3509
+[Pretrain][Epoch 64] Step 300/390 | LR 5.79e-04 | Loss 0.3537
+[Pretrain][Epoch 64] Step 390/390 | LR 5.74e-04 | Loss 0.3169
+[Pretrain] Epoch 64/100 | Avg Loss: 0.3527
+[Pretrain][Epoch 65] Step 100/390 | LR 5.69e-04 | Loss 0.3515
+[Pretrain][Epoch 65] Step 200/390 | LR 5.64e-04 | Loss 0.3527
+[Pretrain][Epoch 65] Step 300/390 | LR 5.59e-04 | Loss 0.3533
+[Pretrain][Epoch 65] Step 390/390 | LR 5.54e-04 | Loss 0.3173
+[Pretrain] Epoch 65/100 | Avg Loss: 0.3525
+[Pretrain][Epoch 66] Step 100/390 | LR 5.49e-04 | Loss 0.3539
+[Pretrain][Epoch 66] Step 200/390 | LR 5.43e-04 | Loss 0.3503
+[Pretrain][Epoch 66] Step 300/390 | LR 5.38e-04 | Loss 0.3512
+[Pretrain][Epoch 66] Step 390/390 | LR 5.34e-04 | Loss 0.3173
+[Pretrain] Epoch 66/100 | Avg Loss: 0.3520
+[Pretrain][Epoch 67] Step 100/390 | LR 5.28e-04 | Loss 0.3508
+[Pretrain][Epoch 67] Step 200/390 | LR 5.23e-04 | Loss 0.3512
+[Pretrain][Epoch 67] Step 300/390 | LR 5.18e-04 | Loss 0.3507
+[Pretrain][Epoch 67] Step 390/390 | LR 5.14e-04 | Loss 0.3172
+[Pretrain] Epoch 67/100 | Avg Loss: 0.3513
+[Pretrain][Epoch 68] Step 100/390 | LR 5.09e-04 | Loss 0.3524
+[Pretrain][Epoch 68] Step 200/390 | LR 5.04e-04 | Loss 0.3491
+[Pretrain][Epoch 68] Step 300/390 | LR 4.99e-04 | Loss 0.3510
+[Pretrain][Epoch 68] Step 390/390 | LR 4.94e-04 | Loss 0.3163
+[Pretrain] Epoch 68/100 | Avg Loss: 0.3510
+[Pretrain][Epoch 69] Step 100/390 | LR 4.89e-04 | Loss 0.3500
+[Pretrain][Epoch 69] Step 200/390 | LR 4.84e-04 | Loss 0.3506
+[Pretrain][Epoch 69] Step 300/390 | LR 4.79e-04 | Loss 0.3506
+[Pretrain][Epoch 69] Step 390/390 | LR 4.75e-04 | Loss 0.3166
+[Pretrain] Epoch 69/100 | Avg Loss: 0.3507
+[Pretrain][Epoch 70] Step 100/390 | LR 4.70e-04 | Loss 0.3501
+[Pretrain][Epoch 70] Step 200/390 | LR 4.65e-04 | Loss 0.3511
+[Pretrain][Epoch 70] Step 300/390 | LR 4.60e-04 | Loss 0.3502
+[Pretrain][Epoch 70] Step 390/390 | LR 4.56e-04 | Loss 0.3157
+[Pretrain] Epoch 70/100 | Avg Loss: 0.3505
+[Pretrain][Epoch 71] Step 100/390 | LR 4.51e-04 | Loss 0.3503
+[Pretrain][Epoch 71] Step 200/390 | LR 4.46e-04 | Loss 0.3491
+[Pretrain][Epoch 71] Step 300/390 | LR 4.42e-04 | Loss 0.3492
+[Pretrain][Epoch 71] Step 390/390 | LR 4.37e-04 | Loss 0.3158
+[Pretrain] Epoch 71/100 | Avg Loss: 0.3498
+[Pretrain][Epoch 72] Step 100/390 | LR 4.33e-04 | Loss 0.3499
+[Pretrain][Epoch 72] Step 200/390 | LR 4.28e-04 | Loss 0.3499
+[Pretrain][Epoch 72] Step 300/390 | LR 4.23e-04 | Loss 0.3485
+[Pretrain][Epoch 72] Step 390/390 | LR 4.19e-04 | Loss 0.3141
+[Pretrain] Epoch 72/100 | Avg Loss: 0.3493
+[Pretrain][Epoch 73] Step 100/390 | LR 4.15e-04 | Loss 0.3490
+[Pretrain][Epoch 73] Step 200/390 | LR 4.10e-04 | Loss 0.3475
+[Pretrain][Epoch 73] Step 300/390 | LR 4.06e-04 | Loss 0.3480
+[Pretrain][Epoch 73] Step 390/390 | LR 4.02e-04 | Loss 0.3137
+[Pretrain] Epoch 73/100 | Avg Loss: 0.3483
+[Pretrain][Epoch 74] Step 100/390 | LR 3.97e-04 | Loss 0.3508
+[Pretrain][Epoch 74] Step 200/390 | LR 3.93e-04 | Loss 0.3447
+[Pretrain][Epoch 74] Step 300/390 | LR 3.88e-04 | Loss 0.3467
+[Pretrain][Epoch 74] Step 390/390 | LR 3.85e-04 | Loss 0.3139
+[Pretrain] Epoch 74/100 | Avg Loss: 0.3477
+[Pretrain][Epoch 75] Step 100/390 | LR 3.80e-04 | Loss 0.3487
+[Pretrain][Epoch 75] Step 200/390 | LR 3.76e-04 | Loss 0.3477
+[Pretrain][Epoch 75] Step 300/390 | LR 3.72e-04 | Loss 0.3471
+[Pretrain][Epoch 75] Step 390/390 | LR 3.68e-04 | Loss 0.3111
+[Pretrain] Epoch 75/100 | Avg Loss: 0.3473
+[Pretrain][Epoch 76] Step 100/390 | LR 3.64e-04 | Loss 0.3468
+[Pretrain][Epoch 76] Step 200/390 | LR 3.60e-04 | Loss 0.3489
+[Pretrain][Epoch 76] Step 300/390 | LR 3.55e-04 | Loss 0.3454
+[Pretrain][Epoch 76] Step 390/390 | LR 3.52e-04 | Loss 0.3123
+[Pretrain] Epoch 76/100 | Avg Loss: 0.3470
+[Pretrain][Epoch 77] Step 100/390 | LR 3.48e-04 | Loss 0.3461
+[Pretrain][Epoch 77] Step 200/390 | LR 3.44e-04 | Loss 0.3453
+[Pretrain][Epoch 77] Step 300/390 | LR 3.40e-04 | Loss 0.3484
+[Pretrain][Epoch 77] Step 390/390 | LR 3.36e-04 | Loss 0.3122
+[Pretrain] Epoch 77/100 | Avg Loss: 0.3467
+[Pretrain][Epoch 78] Step 100/390 | LR 3.32e-04 | Loss 0.3470
+[Pretrain][Epoch 78] Step 200/390 | LR 3.28e-04 | Loss 0.3452
+[Pretrain][Epoch 78] Step 300/390 | LR 3.24e-04 | Loss 0.3457
+[Pretrain][Epoch 78] Step 390/390 | LR 3.21e-04 | Loss 0.3131
+[Pretrain] Epoch 78/100 | Avg Loss: 0.3464
+[Pretrain][Epoch 79] Step 100/390 | LR 3.17e-04 | Loss 0.3454
+[Pretrain][Epoch 79] Step 200/390 | LR 3.13e-04 | Loss 0.3465
+[Pretrain][Epoch 79] Step 300/390 | LR 3.10e-04 | Loss 0.3454
+[Pretrain][Epoch 79] Step 390/390 | LR 3.06e-04 | Loss 0.3121
+[Pretrain] Epoch 79/100 | Avg Loss: 0.3460
+[Pretrain][Epoch 80] Step 100/390 | LR 3.03e-04 | Loss 0.3450
+[Pretrain][Epoch 80] Step 200/390 | LR 2.99e-04 | Loss 0.3448
+[Pretrain][Epoch 80] Step 300/390 | LR 2.96e-04 | Loss 0.3457
+[Pretrain][Epoch 80] Step 390/390 | LR 2.92e-04 | Loss 0.3110
+[Pretrain] Epoch 80/100 | Avg Loss: 0.3452
+[Pretrain][Epoch 81] Step 100/390 | LR 2.89e-04 | Loss 0.3443
+[Pretrain][Epoch 81] Step 200/390 | LR 2.85e-04 | Loss 0.3465
+[Pretrain][Epoch 81] Step 300/390 | LR 2.82e-04 | Loss 0.3433
+[Pretrain][Epoch 81] Step 390/390 | LR 2.79e-04 | Loss 0.3110
+[Pretrain] Epoch 81/100 | Avg Loss: 0.3449
+[Pretrain][Epoch 82] Step 100/390 | LR 2.76e-04 | Loss 0.3457
+[Pretrain][Epoch 82] Step 200/390 | LR 2.72e-04 | Loss 0.3427
+[Pretrain][Epoch 82] Step 300/390 | LR 2.69e-04 | Loss 0.3446
+[Pretrain][Epoch 82] Step 390/390 | LR 2.66e-04 | Loss 0.3106
+[Pretrain] Epoch 82/100 | Avg Loss: 0.3445
+[Pretrain][Epoch 83] Step 100/390 | LR 2.63e-04 | Loss 0.3435
+[Pretrain][Epoch 83] Step 200/390 | LR 2.60e-04 | Loss 0.3439
+[Pretrain][Epoch 83] Step 300/390 | LR 2.57e-04 | Loss 0.3435
+[Pretrain][Epoch 83] Step 390/390 | LR 2.54e-04 | Loss 0.3093
+[Pretrain] Epoch 83/100 | Avg Loss: 0.3436
+[Pretrain][Epoch 84] Step 100/390 | LR 2.51e-04 | Loss 0.3427
+[Pretrain][Epoch 84] Step 200/390 | LR 2.48e-04 | Loss 0.3448
+[Pretrain][Epoch 84] Step 300/390 | LR 2.45e-04 | Loss 0.3444
+[Pretrain][Epoch 84] Step 390/390 | LR 2.42e-04 | Loss 0.3074
+[Pretrain] Epoch 84/100 | Avg Loss: 0.3434
+[Pretrain][Epoch 85] Step 100/390 | LR 2.39e-04 | Loss 0.3442
+[Pretrain][Epoch 85] Step 200/390 | LR 2.37e-04 | Loss 0.3441
+[Pretrain][Epoch 85] Step 300/390 | LR 2.34e-04 | Loss 0.3421
+[Pretrain][Epoch 85] Step 390/390 | LR 2.31e-04 | Loss 0.3089
+[Pretrain] Epoch 85/100 | Avg Loss: 0.3434
+[Pretrain][Epoch 86] Step 100/390 | LR 2.29e-04 | Loss 0.3433
+[Pretrain][Epoch 86] Step 200/390 | LR 2.26e-04 | Loss 0.3420
+[Pretrain][Epoch 86] Step 300/390 | LR 2.23e-04 | Loss 0.3419
+[Pretrain][Epoch 86] Step 390/390 | LR 2.21e-04 | Loss 0.3085
+[Pretrain] Epoch 86/100 | Avg Loss: 0.3425
+[Pretrain][Epoch 87] Step 100/390 | LR 2.19e-04 | Loss 0.3419
+[Pretrain][Epoch 87] Step 200/390 | LR 2.16e-04 | Loss 0.3423
+[Pretrain][Epoch 87] Step 300/390 | LR 2.14e-04 | Loss 0.3452
+[Pretrain][Epoch 87] Step 390/390 | LR 2.11e-04 | Loss 0.3085
+[Pretrain] Epoch 87/100 | Avg Loss: 0.3431
+[Pretrain][Epoch 88] Step 100/390 | LR 2.09e-04 | Loss 0.3413
+[Pretrain][Epoch 88] Step 200/390 | LR 2.07e-04 | Loss 0.3414
+[Pretrain][Epoch 88] Step 300/390 | LR 2.04e-04 | Loss 0.3454
+[Pretrain][Epoch 88] Step 390/390 | LR 2.02e-04 | Loss 0.3070
+[Pretrain] Epoch 88/100 | Avg Loss: 0.3423
+[Pretrain][Epoch 89] Step 100/390 | LR 2.00e-04 | Loss 0.3418
+[Pretrain][Epoch 89] Step 200/390 | LR 1.98e-04 | Loss 0.3407
+[Pretrain][Epoch 89] Step 300/390 | LR 1.96e-04 | Loss 0.3427
+[Pretrain][Epoch 89] Step 390/390 | LR 1.94e-04 | Loss 0.3063
+[Pretrain] Epoch 89/100 | Avg Loss: 0.3414
+[Pretrain][Epoch 90] Step 100/390 | LR 1.92e-04 | Loss 0.3411
+[Pretrain][Epoch 90] Step 200/390 | LR 1.90e-04 | Loss 0.3430
+[Pretrain][Epoch 90] Step 300/390 | LR 1.88e-04 | Loss 0.3395
+[Pretrain][Epoch 90] Step 390/390 | LR 1.87e-04 | Loss 0.3078
+[Pretrain] Epoch 90/100 | Avg Loss: 0.3414
+[Pretrain][Epoch 91] Step 100/390 | LR 1.85e-04 | Loss 0.3411
+[Pretrain][Epoch 91] Step 200/390 | LR 1.83e-04 | Loss 0.3424
+[Pretrain][Epoch 91] Step 300/390 | LR 1.81e-04 | Loss 0.3404
+[Pretrain][Epoch 91] Step 390/390 | LR 1.80e-04 | Loss 0.3072
+[Pretrain] Epoch 91/100 | Avg Loss: 0.3413
+[Pretrain][Epoch 92] Step 100/390 | LR 1.78e-04 | Loss 0.3402
+[Pretrain][Epoch 92] Step 200/390 | LR 1.76e-04 | Loss 0.3415
+[Pretrain][Epoch 92] Step 300/390 | LR 1.75e-04 | Loss 0.3412
+[Pretrain][Epoch 92] Step 390/390 | LR 1.73e-04 | Loss 0.3068
+[Pretrain] Epoch 92/100 | Avg Loss: 0.3410
+[Pretrain][Epoch 93] Step 100/390 | LR 1.72e-04 | Loss 0.3421
+[Pretrain][Epoch 93] Step 200/390 | LR 1.71e-04 | Loss 0.3420
+[Pretrain][Epoch 93] Step 300/390 | LR 1.69e-04 | Loss 0.3400
+[Pretrain][Epoch 93] Step 390/390 | LR 1.68e-04 | Loss 0.3065
+[Pretrain] Epoch 93/100 | Avg Loss: 0.3412
+[Pretrain][Epoch 94] Step 100/390 | LR 1.67e-04 | Loss 0.3408
+[Pretrain][Epoch 94] Step 200/390 | LR 1.65e-04 | Loss 0.3424
+[Pretrain][Epoch 94] Step 300/390 | LR 1.64e-04 | Loss 0.3412
+[Pretrain][Epoch 94] Step 390/390 | LR 1.63e-04 | Loss 0.3051
+[Pretrain] Epoch 94/100 | Avg Loss: 0.3409
+[Pretrain][Epoch 95] Step 100/390 | LR 1.62e-04 | Loss 0.3422
+[Pretrain][Epoch 95] Step 200/390 | LR 1.61e-04 | Loss 0.3409
+[Pretrain][Epoch 95] Step 300/390 | LR 1.60e-04 | Loss 0.3394
+[Pretrain][Epoch 95] Step 390/390 | LR 1.59e-04 | Loss 0.3066
+[Pretrain] Epoch 95/100 | Avg Loss: 0.3408
+[Pretrain][Epoch 96] Step 100/390 | LR 1.58e-04 | Loss 0.3403
+[Pretrain][Epoch 96] Step 200/390 | LR 1.57e-04 | Loss 0.3408
+[Pretrain][Epoch 96] Step 300/390 | LR 1.57e-04 | Loss 0.3408
+[Pretrain][Epoch 96] Step 390/390 | LR 1.56e-04 | Loss 0.3063
+[Pretrain] Epoch 96/100 | Avg Loss: 0.3406
+[Pretrain][Epoch 97] Step 100/390 | LR 1.55e-04 | Loss 0.3393
+[Pretrain][Epoch 97] Step 200/390 | LR 1.54e-04 | Loss 0.3398
+[Pretrain][Epoch 97] Step 300/390 | LR 1.54e-04 | Loss 0.3407
+[Pretrain][Epoch 97] Step 390/390 | LR 1.53e-04 | Loss 0.3078
+[Pretrain] Epoch 97/100 | Avg Loss: 0.3404
+[Pretrain][Epoch 98] Step 100/390 | LR 1.53e-04 | Loss 0.3393
+[Pretrain][Epoch 98] Step 200/390 | LR 1.52e-04 | Loss 0.3394
+[Pretrain][Epoch 98] Step 300/390 | LR 1.52e-04 | Loss 0.3407
+[Pretrain][Epoch 98] Step 390/390 | LR 1.51e-04 | Loss 0.3067
+[Pretrain] Epoch 98/100 | Avg Loss: 0.3400
+[Pretrain][Epoch 99] Step 100/390 | LR 1.51e-04 | Loss 0.3395
+[Pretrain][Epoch 99] Step 200/390 | LR 1.51e-04 | Loss 0.3406
+[Pretrain][Epoch 99] Step 300/390 | LR 1.51e-04 | Loss 0.3400
+[Pretrain][Epoch 99] Step 390/390 | LR 1.50e-04 | Loss 0.3050
+[Pretrain] Epoch 99/100 | Avg Loss: 0.3398
+[Pretrain][Epoch 100] Step 100/390 | LR 1.50e-04 | Loss 0.3387
+[Pretrain][Epoch 100] Step 200/390 | LR 1.50e-04 | Loss 0.3402
+[Pretrain][Epoch 100] Step 300/390 | LR 1.50e-04 | Loss 0.3407
+[Pretrain][Epoch 100] Step 390/390 | LR 1.50e-04 | Loss 0.3047
+[Pretrain] Epoch 100/100 | Avg Loss: 0.3396
+=== Finetuning (mask_ratio=0.75) ===
+[Finetune][Epoch 1] Step 100/391 | LR 8.80e-05 | CE 2.1490
+[Finetune][Epoch 1] Step 200/391 | LR 1.26e-04 | CE 1.7825
+[Finetune][Epoch 1] Step 300/391 | LR 1.65e-04 | CE 1.4243
+[Finetune][Epoch 1] Step 391/391 | LR 2.00e-04 | CE 1.1441
+[Finetune] Epoch 1/50 - test acc: 56.67% (best 56.67%)
+[Finetune][Epoch 2] Step 100/391 | LR 2.38e-04 | CE 1.1464
+[Finetune][Epoch 2] Step 200/391 | LR 2.77e-04 | CE 1.0482
+[Finetune][Epoch 2] Step 300/391 | LR 3.15e-04 | CE 1.0122
+[Finetune][Epoch 2] Step 391/391 | LR 3.50e-04 | CE 0.8519
+[Finetune] Epoch 2/50 - test acc: 66.43% (best 66.43%)
+[Finetune][Epoch 3] Step 100/391 | LR 3.88e-04 | CE 0.8565
+[Finetune][Epoch 3] Step 200/391 | LR 4.27e-04 | CE 0.8611
+[Finetune][Epoch 3] Step 300/391 | LR 4.65e-04 | CE 0.8262
+[Finetune][Epoch 3] Step 391/391 | LR 5.00e-04 | CE 0.7433
+[Finetune] Epoch 3/50 - test acc: 70.94% (best 70.94%)
+[Finetune][Epoch 4] Step 100/391 | LR 5.00e-04 | CE 0.7126
+[Finetune][Epoch 4] Step 200/391 | LR 5.00e-04 | CE 0.7105
+[Finetune][Epoch 4] Step 300/391 | LR 5.00e-04 | CE 0.6893
+[Finetune][Epoch 4] Step 391/391 | LR 4.99e-04 | CE 0.6283
+[Finetune] Epoch 4/50 - test acc: 73.05% (best 73.05%)
+[Finetune][Epoch 5] Step 100/391 | LR 4.99e-04 | CE 0.6116
+[Finetune][Epoch 5] Step 200/391 | LR 4.99e-04 | CE 0.6071
+[Finetune][Epoch 5] Step 300/391 | LR 4.98e-04 | CE 0.5981
+[Finetune][Epoch 5] Step 391/391 | LR 4.98e-04 | CE 0.5426
+[Finetune] Epoch 5/50 - test acc: 76.42% (best 76.42%)
+[Finetune][Epoch 6] Step 100/391 | LR 4.97e-04 | CE 0.5173
+[Finetune][Epoch 6] Step 200/391 | LR 4.97e-04 | CE 0.5149
+[Finetune][Epoch 6] Step 300/391 | LR 4.96e-04 | CE 0.5008
+[Finetune][Epoch 6] Step 391/391 | LR 4.95e-04 | CE 0.4746
+[Finetune] Epoch 6/50 - test acc: 77.32% (best 77.32%)
+[Finetune][Epoch 7] Step 100/391 | LR 4.94e-04 | CE 0.4316
+[Finetune][Epoch 7] Step 200/391 | LR 4.93e-04 | CE 0.4298
+[Finetune][Epoch 7] Step 300/391 | LR 4.92e-04 | CE 0.4468
+[Finetune][Epoch 7] Step 391/391 | LR 4.91e-04 | CE 0.4112
+[Finetune] Epoch 7/50 - test acc: 77.94% (best 77.94%)
+[Finetune][Epoch 8] Step 100/391 | LR 4.90e-04 | CE 0.3582
+[Finetune][Epoch 8] Step 200/391 | LR 4.89e-04 | CE 0.3792
+[Finetune][Epoch 8] Step 300/391 | LR 4.88e-04 | CE 0.3775
+[Finetune][Epoch 8] Step 391/391 | LR 4.86e-04 | CE 0.3542
+[Finetune] Epoch 8/50 - test acc: 78.00% (best 78.00%)
+[Finetune][Epoch 9] Step 100/391 | LR 4.85e-04 | CE 0.2978
+[Finetune][Epoch 9] Step 200/391 | LR 4.83e-04 | CE 0.3248
+[Finetune][Epoch 9] Step 300/391 | LR 4.82e-04 | CE 0.3181
+[Finetune][Epoch 9] Step 391/391 | LR 4.80e-04 | CE 0.3010
+[Finetune] Epoch 9/50 - test acc: 78.70% (best 78.70%)
+[Finetune][Epoch 10] Step 100/391 | LR 4.79e-04 | CE 0.2317
+[Finetune][Epoch 10] Step 200/391 | LR 4.77e-04 | CE 0.2783
+[Finetune][Epoch 10] Step 300/391 | LR 4.75e-04 | CE 0.2772
+[Finetune][Epoch 10] Step 391/391 | LR 4.73e-04 | CE 0.2631
+[Finetune] Epoch 10/50 - test acc: 79.22% (best 79.22%)
+[Finetune][Epoch 11] Step 100/391 | LR 4.71e-04 | CE 0.2114
+[Finetune][Epoch 11] Step 200/391 | LR 4.69e-04 | CE 0.2121
+[Finetune][Epoch 11] Step 300/391 | LR 4.67e-04 | CE 0.2277
+[Finetune][Epoch 11] Step 391/391 | LR 4.65e-04 | CE 0.2275
+[Finetune] Epoch 11/50 - test acc: 76.93% (best 79.22%)
+[Finetune][Epoch 12] Step 100/391 | LR 4.63e-04 | CE 0.1648
+[Finetune][Epoch 12] Step 200/391 | LR 4.61e-04 | CE 0.1867
+[Finetune][Epoch 12] Step 300/391 | LR 4.59e-04 | CE 0.1842
+[Finetune][Epoch 12] Step 391/391 | LR 4.57e-04 | CE 0.1888
+[Finetune] Epoch 12/50 - test acc: 78.84% (best 79.22%)
+[Finetune][Epoch 13] Step 100/391 | LR 4.54e-04 | CE 0.1229
+[Finetune][Epoch 13] Step 200/391 | LR 4.52e-04 | CE 0.1434
+[Finetune][Epoch 13] Step 300/391 | LR 4.49e-04 | CE 0.1761
+[Finetune][Epoch 13] Step 391/391 | LR 4.47e-04 | CE 0.1632
+[Finetune] Epoch 13/50 - test acc: 78.57% (best 79.22%)
+[Finetune][Epoch 14] Step 100/391 | LR 4.44e-04 | CE 0.1046
+[Finetune][Epoch 14] Step 200/391 | LR 4.41e-04 | CE 0.1176
+[Finetune][Epoch 14] Step 300/391 | LR 4.39e-04 | CE 0.1685
+[Finetune][Epoch 14] Step 391/391 | LR 4.36e-04 | CE 0.1181
+[Finetune] Epoch 14/50 - test acc: 79.08% (best 79.22%)
+[Finetune][Epoch 15] Step 100/391 | LR 4.33e-04 | CE 0.0827
+[Finetune][Epoch 15] Step 200/391 | LR 4.30e-04 | CE 0.1021
+[Finetune][Epoch 15] Step 300/391 | LR 4.27e-04 | CE 0.1179
+[Finetune][Epoch 15] Step 391/391 | LR 4.25e-04 | CE 0.1100
+[Finetune] Epoch 15/50 - test acc: 78.86% (best 79.22%)
+[Finetune][Epoch 16] Step 100/391 | LR 4.22e-04 | CE 0.0878
+[Finetune][Epoch 16] Step 200/391 | LR 4.18e-04 | CE 0.0878
+[Finetune][Epoch 16] Step 300/391 | LR 4.15e-04 | CE 0.1114
+[Finetune][Epoch 16] Step 391/391 | LR 4.12e-04 | CE 0.1118
+[Finetune] Epoch 16/50 - test acc: 79.13% (best 79.22%)
+[Finetune][Epoch 17] Step 100/391 | LR 4.09e-04 | CE 0.0608
+[Finetune][Epoch 17] Step 200/391 | LR 4.06e-04 | CE 0.0713
+[Finetune][Epoch 17] Step 300/391 | LR 4.02e-04 | CE 0.0797
+[Finetune][Epoch 17] Step 391/391 | LR 3.99e-04 | CE 0.0884
+[Finetune] Epoch 17/50 - test acc: 78.20% (best 79.22%)
+[Finetune][Epoch 18] Step 100/391 | LR 3.96e-04 | CE 0.0793
+[Finetune][Epoch 18] Step 200/391 | LR 3.92e-04 | CE 0.0605
+[Finetune][Epoch 18] Step 300/391 | LR 3.89e-04 | CE 0.0715
+[Finetune][Epoch 18] Step 391/391 | LR 3.86e-04 | CE 0.0741
+[Finetune] Epoch 18/50 - test acc: 78.75% (best 79.22%)
+[Finetune][Epoch 19] Step 100/391 | LR 3.82e-04 | CE 0.0559
+[Finetune][Epoch 19] Step 200/391 | LR 3.79e-04 | CE 0.0523
+[Finetune][Epoch 19] Step 300/391 | LR 3.75e-04 | CE 0.0624
+[Finetune][Epoch 19] Step 391/391 | LR 3.71e-04 | CE 0.0636
+[Finetune] Epoch 19/50 - test acc: 78.38% (best 79.22%)
+[Finetune][Epoch 20] Step 100/391 | LR 3.68e-04 | CE 0.0605
+[Finetune][Epoch 20] Step 200/391 | LR 3.64e-04 | CE 0.0469
+[Finetune][Epoch 20] Step 300/391 | LR 3.60e-04 | CE 0.0447
+[Finetune][Epoch 20] Step 391/391 | LR 3.57e-04 | CE 0.0757
+[Finetune] Epoch 20/50 - test acc: 78.69% (best 79.22%)
+[Finetune][Epoch 21] Step 100/391 | LR 3.53e-04 | CE 0.0601
+[Finetune][Epoch 21] Step 200/391 | LR 3.49e-04 | CE 0.0427
+[Finetune][Epoch 21] Step 300/391 | LR 3.45e-04 | CE 0.0571
+[Finetune][Epoch 21] Step 391/391 | LR 3.41e-04 | CE 0.0390
+[Finetune] Epoch 21/50 - test acc: 79.64% (best 79.64%)
+[Finetune][Epoch 22] Step 100/391 | LR 3.38e-04 | CE 0.0293
+[Finetune][Epoch 22] Step 200/391 | LR 3.34e-04 | CE 0.0325
+[Finetune][Epoch 22] Step 300/391 | LR 3.30e-04 | CE 0.0416
+[Finetune][Epoch 22] Step 391/391 | LR 3.26e-04 | CE 0.0352
+[Finetune] Epoch 22/50 - test acc: 79.08% (best 79.64%)
+[Finetune][Epoch 23] Step 100/391 | LR 3.22e-04 | CE 0.0414
+[Finetune][Epoch 23] Step 200/391 | LR 3.18e-04 | CE 0.0398
+[Finetune][Epoch 23] Step 300/391 | LR 3.14e-04 | CE 0.0633
+[Finetune][Epoch 23] Step 391/391 | LR 3.10e-04 | CE 0.0552
+[Finetune] Epoch 23/50 - test acc: 77.86% (best 79.64%)
+[Finetune][Epoch 24] Step 100/391 | LR 3.06e-04 | CE 0.0339
+[Finetune][Epoch 24] Step 200/391 | LR 3.02e-04 | CE 0.0251
+[Finetune][Epoch 24] Step 300/391 | LR 2.97e-04 | CE 0.0400
+[Finetune][Epoch 24] Step 391/391 | LR 2.94e-04 | CE 0.0291
+[Finetune] Epoch 24/50 - test acc: 79.87% (best 79.87%)
+[Finetune][Epoch 25] Step 100/391 | LR 2.90e-04 | CE 0.0222
+[Finetune][Epoch 25] Step 200/391 | LR 2.85e-04 | CE 0.0263
+[Finetune][Epoch 25] Step 300/391 | LR 2.81e-04 | CE 0.0384
+[Finetune][Epoch 25] Step 391/391 | LR 2.77e-04 | CE 0.0299
+[Finetune] Epoch 25/50 - test acc: 78.78% (best 79.87%)
+[Finetune][Epoch 26] Step 100/391 | LR 2.73e-04 | CE 0.0231
+[Finetune][Epoch 26] Step 200/391 | LR 2.69e-04 | CE 0.0271
+[Finetune][Epoch 26] Step 300/391 | LR 2.65e-04 | CE 0.0314
+[Finetune][Epoch 26] Step 391/391 | LR 2.61e-04 | CE 0.0162
+[Finetune] Epoch 26/50 - test acc: 80.58% (best 80.58%)
+[Finetune][Epoch 27] Step 100/391 | LR 2.57e-04 | CE 0.0070
+[Finetune][Epoch 27] Step 200/391 | LR 2.52e-04 | CE 0.0080
+[Finetune][Epoch 27] Step 300/391 | LR 2.48e-04 | CE 0.0076
+[Finetune][Epoch 27] Step 391/391 | LR 2.44e-04 | CE 0.0127
+[Finetune] Epoch 27/50 - test acc: 79.56% (best 80.58%)
+[Finetune][Epoch 28] Step 100/391 | LR 2.40e-04 | CE 0.0159
+[Finetune][Epoch 28] Step 200/391 | LR 2.36e-04 | CE 0.0244
+[Finetune][Epoch 28] Step 300/391 | LR 2.32e-04 | CE 0.0326
+[Finetune][Epoch 28] Step 391/391 | LR 2.28e-04 | CE 0.0387
+[Finetune] Epoch 28/50 - test acc: 80.26% (best 80.58%)
+[Finetune][Epoch 29] Step 100/391 | LR 2.24e-04 | CE 0.0267
+[Finetune][Epoch 29] Step 200/391 | LR 2.19e-04 | CE 0.0239
+[Finetune][Epoch 29] Step 300/391 | LR 2.15e-04 | CE 0.0180
+[Finetune][Epoch 29] Step 391/391 | LR 2.11e-04 | CE 0.0136
+[Finetune] Epoch 29/50 - test acc: 80.68% (best 80.68%)
+[Finetune][Epoch 30] Step 100/391 | LR 2.07e-04 | CE 0.0058
+[Finetune][Epoch 30] Step 200/391 | LR 2.03e-04 | CE 0.0053
+[Finetune][Epoch 30] Step 300/391 | LR 1.99e-04 | CE 0.0081
+[Finetune][Epoch 30] Step 391/391 | LR 1.95e-04 | CE 0.0085
+[Finetune] Epoch 30/50 - test acc: 80.76% (best 80.76%)
+[Finetune][Epoch 31] Step 100/391 | LR 1.91e-04 | CE 0.0083
+[Finetune][Epoch 31] Step 200/391 | LR 1.87e-04 | CE 0.0089
+[Finetune][Epoch 31] Step 300/391 | LR 1.83e-04 | CE 0.0071
+[Finetune][Epoch 31] Step 391/391 | LR 1.79e-04 | CE 0.0058
+[Finetune] Epoch 31/50 - test acc: 80.20% (best 80.76%)
+[Finetune][Epoch 32] Step 100/391 | LR 1.75e-04 | CE 0.0035
+[Finetune][Epoch 32] Step 200/391 | LR 1.71e-04 | CE 0.0015
+[Finetune][Epoch 32] Step 300/391 | LR 1.67e-04 | CE 0.0019
+[Finetune][Epoch 32] Step 391/391 | LR 1.64e-04 | CE 0.0010
+[Finetune] Epoch 32/50 - test acc: 81.19% (best 81.19%)
+[Finetune][Epoch 33] Step 100/391 | LR 1.60e-04 | CE 0.0008
+[Finetune][Epoch 33] Step 200/391 | LR 1.56e-04 | CE 0.0005
+[Finetune][Epoch 33] Step 300/391 | LR 1.52e-04 | CE 0.0004
+[Finetune][Epoch 33] Step 391/391 | LR 1.48e-04 | CE 0.0003
+[Finetune] Epoch 33/50 - test acc: 81.63% (best 81.63%)
+[Finetune][Epoch 34] Step 100/391 | LR 1.45e-04 | CE 0.0002
+[Finetune][Epoch 34] Step 200/391 | LR 1.41e-04 | CE 0.0002
+[Finetune][Epoch 34] Step 300/391 | LR 1.37e-04 | CE 0.0002
+[Finetune][Epoch 34] Step 391/391 | LR 1.34e-04 | CE 0.0002
+[Finetune] Epoch 34/50 - test acc: 81.85% (best 81.85%)
+[Finetune][Epoch 35] Step 100/391 | LR 1.30e-04 | CE 0.0001
+[Finetune][Epoch 35] Step 200/391 | LR 1.26e-04 | CE 0.0001
+[Finetune][Epoch 35] Step 300/391 | LR 1.23e-04 | CE 0.0001
+[Finetune][Epoch 35] Step 391/391 | LR 1.19e-04 | CE 0.0001
+[Finetune] Epoch 35/50 - test acc: 81.93% (best 81.93%)
+[Finetune][Epoch 36] Step 100/391 | LR 1.16e-04 | CE 0.0001
+[Finetune][Epoch 36] Step 200/391 | LR 1.12e-04 | CE 0.0001
+[Finetune][Epoch 36] Step 300/391 | LR 1.09e-04 | CE 0.0001
+[Finetune][Epoch 36] Step 391/391 | LR 1.06e-04 | CE 0.0001
+[Finetune] Epoch 36/50 - test acc: 81.92% (best 81.93%)
+[Finetune][Epoch 37] Step 100/391 | LR 1.02e-04 | CE 0.0001
+[Finetune][Epoch 37] Step 200/391 | LR 9.90e-05 | CE 0.0001
+[Finetune][Epoch 37] Step 300/391 | LR 9.57e-05 | CE 0.0001
+[Finetune][Epoch 37] Step 391/391 | LR 9.27e-05 | CE 0.0001
+[Finetune] Epoch 37/50 - test acc: 81.92% (best 81.93%)
+[Finetune][Epoch 38] Step 100/391 | LR 8.95e-05 | CE 0.0001
+[Finetune][Epoch 38] Step 200/391 | LR 8.64e-05 | CE 0.0001
+[Finetune][Epoch 38] Step 300/391 | LR 8.33e-05 | CE 0.0001
+[Finetune][Epoch 38] Step 391/391 | LR 8.05e-05 | CE 0.0001
+[Finetune] Epoch 38/50 - test acc: 81.94% (best 81.94%)
+[Finetune][Epoch 39] Step 100/391 | LR 7.75e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 200/391 | LR 7.45e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 300/391 | LR 7.16e-05 | CE 0.0001
+[Finetune][Epoch 39] Step 391/391 | LR 6.90e-05 | CE 0.0001
+[Finetune] Epoch 39/50 - test acc: 81.91% (best 81.94%)
+[Finetune][Epoch 40] Step 100/391 | LR 6.62e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 200/391 | LR 6.34e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 300/391 | LR 6.07e-05 | CE 0.0001
+[Finetune][Epoch 40] Step 391/391 | LR 5.83e-05 | CE 0.0001
+[Finetune] Epoch 40/50 - test acc: 81.96% (best 81.96%)
+[Finetune][Epoch 41] Step 100/391 | LR 5.57e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 200/391 | LR 5.32e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 300/391 | LR 5.07e-05 | CE 0.0001
+[Finetune][Epoch 41] Step 391/391 | LR 4.85e-05 | CE 0.0001
+[Finetune] Epoch 41/50 - test acc: 81.93% (best 81.96%)
+[Finetune][Epoch 42] Step 100/391 | LR 4.61e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 200/391 | LR 4.38e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 300/391 | LR 4.16e-05 | CE 0.0001
+[Finetune][Epoch 42] Step 391/391 | LR 3.96e-05 | CE 0.0001
+[Finetune] Epoch 42/50 - test acc: 81.90% (best 81.96%)
+[Finetune][Epoch 43] Step 100/391 | LR 3.74e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 200/391 | LR 3.54e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 300/391 | LR 3.34e-05 | CE 0.0001
+[Finetune][Epoch 43] Step 391/391 | LR 3.16e-05 | CE 0.0001
+[Finetune] Epoch 43/50 - test acc: 81.90% (best 81.96%)
+[Finetune][Epoch 44] Step 100/391 | LR 2.97e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 200/391 | LR 2.79e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 300/391 | LR 2.62e-05 | CE 0.0001
+[Finetune][Epoch 44] Step 391/391 | LR 2.47e-05 | CE 0.0001
+[Finetune] Epoch 44/50 - test acc: 81.88% (best 81.96%)
+[Finetune][Epoch 45] Step 100/391 | LR 2.30e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 200/391 | LR 2.15e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 300/391 | LR 2.00e-05 | CE 0.0001
+[Finetune][Epoch 45] Step 391/391 | LR 1.87e-05 | CE 0.0000
+[Finetune] Epoch 45/50 - test acc: 81.89% (best 81.96%)
+[Finetune][Epoch 46] Step 100/391 | LR 1.74e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 200/391 | LR 1.61e-05 | CE 0.0001
+[Finetune][Epoch 46] Step 300/391 | LR 1.49e-05 | CE 0.0000
+[Finetune][Epoch 46] Step 391/391 | LR 1.38e-05 | CE 0.0000
+[Finetune] Epoch 46/50 - test acc: 81.88% (best 81.96%)
+[Finetune][Epoch 47] Step 100/391 | LR 1.27e-05 | CE 0.0001
+[Finetune][Epoch 47] Step 200/391 | LR 1.17e-05 | CE 0.0000
+[Finetune][Epoch 47] Step 300/391 | LR 1.08e-05 | CE 0.0000
+[Finetune][Epoch 47] Step 391/391 | LR 9.97e-06 | CE 0.0000
+[Finetune] Epoch 47/50 - test acc: 81.90% (best 81.96%)
+[Finetune][Epoch 48] Step 100/391 | LR 9.16e-06 | CE 0.0000
+[Finetune][Epoch 48] Step 200/391 | LR 8.42e-06 | CE 0.0000
+[Finetune][Epoch 48] Step 300/391 | LR 7.76e-06 | CE 0.0000
+[Finetune][Epoch 48] Step 391/391 | LR 7.21e-06 | CE 0.0000
+[Finetune] Epoch 48/50 - test acc: 81.90% (best 81.96%)
+[Finetune][Epoch 49] Step 100/391 | LR 6.69e-06 | CE 0.0000
+[Finetune][Epoch 49] Step 200/391 | LR 6.23e-06 | CE 0.0000
+[Finetune][Epoch 49] Step 300/391 | LR 5.84e-06 | CE 0.0000
+[Finetune][Epoch 49] Step 391/391 | LR 5.56e-06 | CE 0.0000
+[Finetune] Epoch 49/50 - test acc: 81.90% (best 81.96%)
+[Finetune][Epoch 50] Step 100/391 | LR 5.31e-06 | CE 0.0000
+[Finetune][Epoch 50] Step 200/391 | LR 5.13e-06 | CE 0.0000
+[Finetune][Epoch 50] Step 300/391 | LR 5.03e-06 | CE 0.0000
+[Finetune][Epoch 50] Step 391/391 | LR 5.00e-06 | CE 0.0000
+[Finetune] Epoch 50/50 - test acc: 81.90% (best 81.96%)
+[Result] mask_ratio=0.75: best test acc = 81.96%
+Saved comparison plot to: ./outputs\accuracy_vs_mask_ratio.png
+Final accuracies: {0.5: '79.64%', 0.75: '81.96%'}

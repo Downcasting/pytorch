@@ -1,0 +1,500 @@
+[Pretrain][Epoch 1] Step 100/390 | LR 9.04e-05 | Loss 0.8594
+[Pretrain][Epoch 1] Step 200/390 | LR 1.67e-04 | Loss 0.6949
+[Pretrain][Epoch 1] Step 300/390 | LR 2.43e-04 | Loss 0.4557
+[Pretrain][Epoch 1] Step 390/390 | LR 3.11e-04 | Loss 0.2924
+[Pretrain] Epoch 1/100 | Avg Loss: 0.5904
+[Pretrain][Epoch 2] Step 100/390 | LR 3.88e-04 | Loss 0.2759
+[Pretrain][Epoch 2] Step 200/390 | LR 4.64e-04 | Loss 0.2528
+[Pretrain][Epoch 2] Step 300/390 | LR 5.40e-04 | Loss 0.2370
+[Pretrain][Epoch 2] Step 390/390 | LR 6.09e-04 | Loss 0.2095
+[Pretrain] Epoch 2/100 | Avg Loss: 0.2501
+[Pretrain][Epoch 3] Step 100/390 | LR 6.85e-04 | Loss 0.2213
+[Pretrain][Epoch 3] Step 200/390 | LR 7.61e-04 | Loss 0.2166
+[Pretrain][Epoch 3] Step 300/390 | LR 8.37e-04 | Loss 0.2123
+[Pretrain][Epoch 3] Step 390/390 | LR 9.06e-04 | Loss 0.1890
+[Pretrain] Epoch 3/100 | Avg Loss: 0.2152
+[Pretrain][Epoch 4] Step 100/390 | LR 9.82e-04 | Loss 0.2036
+[Pretrain][Epoch 4] Step 200/390 | LR 1.06e-03 | Loss 0.2017
+[Pretrain][Epoch 4] Step 300/390 | LR 1.13e-03 | Loss 0.1978
+[Pretrain][Epoch 4] Step 390/390 | LR 1.20e-03 | Loss 0.1793
+[Pretrain] Epoch 4/100 | Avg Loss: 0.2006
+[Pretrain][Epoch 5] Step 100/390 | LR 1.28e-03 | Loss 0.1956
+[Pretrain][Epoch 5] Step 200/390 | LR 1.36e-03 | Loss 0.1907
+[Pretrain][Epoch 5] Step 300/390 | LR 1.43e-03 | Loss 0.1891
+[Pretrain][Epoch 5] Step 390/390 | LR 1.50e-03 | Loss 0.1703
+[Pretrain] Epoch 5/100 | Avg Loss: 0.1912
+[Pretrain][Epoch 6] Step 100/390 | LR 1.50e-03 | Loss 0.1859
+[Pretrain][Epoch 6] Step 200/390 | LR 1.50e-03 | Loss 0.1839
+[Pretrain][Epoch 6] Step 300/390 | LR 1.50e-03 | Loss 0.1832
+[Pretrain][Epoch 6] Step 390/390 | LR 1.50e-03 | Loss 0.1597
+[Pretrain] Epoch 6/100 | Avg Loss: 0.1827
+[Pretrain][Epoch 7] Step 100/390 | LR 1.50e-03 | Loss 0.1783
+[Pretrain][Epoch 7] Step 200/390 | LR 1.50e-03 | Loss 0.1739
+[Pretrain][Epoch 7] Step 300/390 | LR 1.50e-03 | Loss 0.1711
+[Pretrain][Epoch 7] Step 390/390 | LR 1.50e-03 | Loss 0.1526
+[Pretrain] Epoch 7/100 | Avg Loss: 0.1733
+[Pretrain][Epoch 8] Step 100/390 | LR 1.50e-03 | Loss 0.1672
+[Pretrain][Epoch 8] Step 200/390 | LR 1.50e-03 | Loss 0.1680
+[Pretrain][Epoch 8] Step 300/390 | LR 1.50e-03 | Loss 0.1624
+[Pretrain][Epoch 8] Step 390/390 | LR 1.50e-03 | Loss 0.1489
+[Pretrain] Epoch 8/100 | Avg Loss: 0.1658
+[Pretrain][Epoch 9] Step 100/390 | LR 1.50e-03 | Loss 0.1623
+[Pretrain][Epoch 9] Step 200/390 | LR 1.50e-03 | Loss 0.1599
+[Pretrain][Epoch 9] Step 300/390 | LR 1.49e-03 | Loss 0.1591
+[Pretrain][Epoch 9] Step 390/390 | LR 1.49e-03 | Loss 0.1433
+[Pretrain] Epoch 9/100 | Avg Loss: 0.1601
+[Pretrain][Epoch 10] Step 100/390 | LR 1.49e-03 | Loss 0.1574
+[Pretrain][Epoch 10] Step 200/390 | LR 1.49e-03 | Loss 0.1576
+[Pretrain][Epoch 10] Step 300/390 | LR 1.49e-03 | Loss 0.1563
+[Pretrain][Epoch 10] Step 390/390 | LR 1.49e-03 | Loss 0.1398
+[Pretrain] Epoch 10/100 | Avg Loss: 0.1567
+[Pretrain][Epoch 11] Step 100/390 | LR 1.49e-03 | Loss 0.1542
+[Pretrain][Epoch 11] Step 200/390 | LR 1.49e-03 | Loss 0.1562
+[Pretrain][Epoch 11] Step 300/390 | LR 1.49e-03 | Loss 0.1543
+[Pretrain][Epoch 11] Step 390/390 | LR 1.49e-03 | Loss 0.1375
+[Pretrain] Epoch 11/100 | Avg Loss: 0.1544
+[Pretrain][Epoch 12] Step 100/390 | LR 1.49e-03 | Loss 0.1523
+[Pretrain][Epoch 12] Step 200/390 | LR 1.48e-03 | Loss 0.1516
+[Pretrain][Epoch 12] Step 300/390 | LR 1.48e-03 | Loss 0.1528
+[Pretrain][Epoch 12] Step 390/390 | LR 1.48e-03 | Loss 0.1371
+[Pretrain] Epoch 12/100 | Avg Loss: 0.1523
+[Pretrain][Epoch 13] Step 100/390 | LR 1.48e-03 | Loss 0.1506
+[Pretrain][Epoch 13] Step 200/390 | LR 1.48e-03 | Loss 0.1510
+[Pretrain][Epoch 13] Step 300/390 | LR 1.48e-03 | Loss 0.1489
+[Pretrain][Epoch 13] Step 390/390 | LR 1.48e-03 | Loss 0.1336
+[Pretrain] Epoch 13/100 | Avg Loss: 0.1498
+[Pretrain][Epoch 14] Step 100/390 | LR 1.48e-03 | Loss 0.1471
+[Pretrain][Epoch 14] Step 200/390 | LR 1.47e-03 | Loss 0.1469
+[Pretrain][Epoch 14] Step 300/390 | LR 1.47e-03 | Loss 0.1468
+[Pretrain][Epoch 14] Step 390/390 | LR 1.47e-03 | Loss 0.1323
+[Pretrain] Epoch 14/100 | Avg Loss: 0.1470
+[Pretrain][Epoch 15] Step 100/390 | LR 1.47e-03 | Loss 0.1457
+[Pretrain][Epoch 15] Step 200/390 | LR 1.47e-03 | Loss 0.1450
+[Pretrain][Epoch 15] Step 300/390 | LR 1.47e-03 | Loss 0.1467
+[Pretrain][Epoch 15] Step 390/390 | LR 1.46e-03 | Loss 0.1295
+[Pretrain] Epoch 15/100 | Avg Loss: 0.1454
+[Pretrain][Epoch 16] Step 100/390 | LR 1.46e-03 | Loss 0.1437
+[Pretrain][Epoch 16] Step 200/390 | LR 1.46e-03 | Loss 0.1448
+[Pretrain][Epoch 16] Step 300/390 | LR 1.46e-03 | Loss 0.1446
+[Pretrain][Epoch 16] Step 390/390 | LR 1.46e-03 | Loss 0.1295
+[Pretrain] Epoch 16/100 | Avg Loss: 0.1443
+[Pretrain][Epoch 17] Step 100/390 | LR 1.45e-03 | Loss 0.1431
+[Pretrain][Epoch 17] Step 200/390 | LR 1.45e-03 | Loss 0.1443
+[Pretrain][Epoch 17] Step 300/390 | LR 1.45e-03 | Loss 0.1424
+[Pretrain][Epoch 17] Step 390/390 | LR 1.45e-03 | Loss 0.1286
+[Pretrain] Epoch 17/100 | Avg Loss: 0.1432
+[Pretrain][Epoch 18] Step 100/390 | LR 1.45e-03 | Loss 0.1412
+[Pretrain][Epoch 18] Step 200/390 | LR 1.44e-03 | Loss 0.1413
+[Pretrain][Epoch 18] Step 300/390 | LR 1.44e-03 | Loss 0.1435
+[Pretrain][Epoch 18] Step 390/390 | LR 1.44e-03 | Loss 0.1260
+[Pretrain] Epoch 18/100 | Avg Loss: 0.1416
+[Pretrain][Epoch 19] Step 100/390 | LR 1.44e-03 | Loss 0.1412
+[Pretrain][Epoch 19] Step 200/390 | LR 1.43e-03 | Loss 0.1416
+[Pretrain][Epoch 19] Step 300/390 | LR 1.43e-03 | Loss 0.1408
+[Pretrain][Epoch 19] Step 390/390 | LR 1.43e-03 | Loss 0.1257
+[Pretrain] Epoch 19/100 | Avg Loss: 0.1408
+[Pretrain][Epoch 20] Step 100/390 | LR 1.43e-03 | Loss 0.1402
+[Pretrain][Epoch 20] Step 200/390 | LR 1.42e-03 | Loss 0.1411
+[Pretrain][Epoch 20] Step 300/390 | LR 1.42e-03 | Loss 0.1388
+[Pretrain][Epoch 20] Step 390/390 | LR 1.42e-03 | Loss 0.1246
+[Pretrain] Epoch 20/100 | Avg Loss: 0.1397
+[Pretrain][Epoch 21] Step 100/390 | LR 1.42e-03 | Loss 0.1389
+[Pretrain][Epoch 21] Step 200/390 | LR 1.41e-03 | Loss 0.1381
+[Pretrain][Epoch 21] Step 300/390 | LR 1.41e-03 | Loss 0.1391
+[Pretrain][Epoch 21] Step 390/390 | LR 1.41e-03 | Loss 0.1242
+[Pretrain] Epoch 21/100 | Avg Loss: 0.1385
+[Pretrain][Epoch 22] Step 100/390 | LR 1.40e-03 | Loss 0.1380
+[Pretrain][Epoch 22] Step 200/390 | LR 1.40e-03 | Loss 0.1378
+[Pretrain][Epoch 22] Step 300/390 | LR 1.40e-03 | Loss 0.1373
+[Pretrain][Epoch 22] Step 390/390 | LR 1.40e-03 | Loss 0.1239
+[Pretrain] Epoch 22/100 | Avg Loss: 0.1377
+[Pretrain][Epoch 23] Step 100/390 | LR 1.39e-03 | Loss 0.1360
+[Pretrain][Epoch 23] Step 200/390 | LR 1.39e-03 | Loss 0.1361
+[Pretrain][Epoch 23] Step 300/390 | LR 1.39e-03 | Loss 0.1375
+[Pretrain][Epoch 23] Step 390/390 | LR 1.38e-03 | Loss 0.1219
+[Pretrain] Epoch 23/100 | Avg Loss: 0.1363
+[Pretrain][Epoch 24] Step 100/390 | LR 1.38e-03 | Loss 0.1353
+[Pretrain][Epoch 24] Step 200/390 | LR 1.38e-03 | Loss 0.1356
+[Pretrain][Epoch 24] Step 300/390 | LR 1.37e-03 | Loss 0.1348
+[Pretrain][Epoch 24] Step 390/390 | LR 1.37e-03 | Loss 0.1224
+[Pretrain] Epoch 24/100 | Avg Loss: 0.1354
+[Pretrain][Epoch 25] Step 100/390 | LR 1.37e-03 | Loss 0.1346
+[Pretrain][Epoch 25] Step 200/390 | LR 1.36e-03 | Loss 0.1341
+[Pretrain][Epoch 25] Step 300/390 | LR 1.36e-03 | Loss 0.1358
+[Pretrain][Epoch 25] Step 390/390 | LR 1.36e-03 | Loss 0.1214
+[Pretrain] Epoch 25/100 | Avg Loss: 0.1349
+[Pretrain][Epoch 26] Step 100/390 | LR 1.35e-03 | Loss 0.1346
+[Pretrain][Epoch 26] Step 200/390 | LR 1.35e-03 | Loss 0.1336
+[Pretrain][Epoch 26] Step 300/390 | LR 1.35e-03 | Loss 0.1345
+[Pretrain][Epoch 26] Step 390/390 | LR 1.34e-03 | Loss 0.1208
+[Pretrain] Epoch 26/100 | Avg Loss: 0.1342
+[Pretrain][Epoch 27] Step 100/390 | LR 1.34e-03 | Loss 0.1339
+[Pretrain][Epoch 27] Step 200/390 | LR 1.34e-03 | Loss 0.1319
+[Pretrain][Epoch 27] Step 300/390 | LR 1.33e-03 | Loss 0.1322
+[Pretrain][Epoch 27] Step 390/390 | LR 1.33e-03 | Loss 0.1197
+[Pretrain] Epoch 27/100 | Avg Loss: 0.1327
+[Pretrain][Epoch 28] Step 100/390 | LR 1.33e-03 | Loss 0.1318
+[Pretrain][Epoch 28] Step 200/390 | LR 1.32e-03 | Loss 0.1333
+[Pretrain][Epoch 28] Step 300/390 | LR 1.32e-03 | Loss 0.1330
+[Pretrain][Epoch 28] Step 390/390 | LR 1.31e-03 | Loss 0.1197
+[Pretrain] Epoch 28/100 | Avg Loss: 0.1328
+[Pretrain][Epoch 29] Step 100/390 | LR 1.31e-03 | Loss 0.1330
+[Pretrain][Epoch 29] Step 200/390 | LR 1.31e-03 | Loss 0.1330
+[Pretrain][Epoch 29] Step 300/390 | LR 1.30e-03 | Loss 0.1303
+[Pretrain][Epoch 29] Step 390/390 | LR 1.30e-03 | Loss 0.1182
+[Pretrain] Epoch 29/100 | Avg Loss: 0.1319
+[Pretrain][Epoch 30] Step 100/390 | LR 1.29e-03 | Loss 0.1336
+[Pretrain][Epoch 30] Step 200/390 | LR 1.29e-03 | Loss 0.1302
+[Pretrain][Epoch 30] Step 300/390 | LR 1.29e-03 | Loss 0.1309
+[Pretrain][Epoch 30] Step 390/390 | LR 1.28e-03 | Loss 0.1194
+[Pretrain] Epoch 30/100 | Avg Loss: 0.1318
+[Pretrain][Epoch 31] Step 100/390 | LR 1.28e-03 | Loss 0.1315
+[Pretrain][Epoch 31] Step 200/390 | LR 1.27e-03 | Loss 0.1311
+[Pretrain][Epoch 31] Step 300/390 | LR 1.27e-03 | Loss 0.1305
+[Pretrain][Epoch 31] Step 390/390 | LR 1.27e-03 | Loss 0.1166
+[Pretrain] Epoch 31/100 | Avg Loss: 0.1307
+[Pretrain][Epoch 32] Step 100/390 | LR 1.26e-03 | Loss 0.1305
+[Pretrain][Epoch 32] Step 200/390 | LR 1.26e-03 | Loss 0.1309
+[Pretrain][Epoch 32] Step 300/390 | LR 1.25e-03 | Loss 0.1302
+[Pretrain][Epoch 32] Step 390/390 | LR 1.25e-03 | Loss 0.1170
+[Pretrain] Epoch 32/100 | Avg Loss: 0.1304
+[Pretrain][Epoch 33] Step 100/390 | LR 1.24e-03 | Loss 0.1291
+[Pretrain][Epoch 33] Step 200/390 | LR 1.24e-03 | Loss 0.1308
+[Pretrain][Epoch 33] Step 300/390 | LR 1.23e-03 | Loss 0.1299
+[Pretrain][Epoch 33] Step 390/390 | LR 1.23e-03 | Loss 0.1178
+[Pretrain] Epoch 33/100 | Avg Loss: 0.1302
+[Pretrain][Epoch 34] Step 100/390 | LR 1.23e-03 | Loss 0.1287
+[Pretrain][Epoch 34] Step 200/390 | LR 1.22e-03 | Loss 0.1302
+[Pretrain][Epoch 34] Step 300/390 | LR 1.22e-03 | Loss 0.1302
+[Pretrain][Epoch 34] Step 390/390 | LR 1.21e-03 | Loss 0.1159
+[Pretrain] Epoch 34/100 | Avg Loss: 0.1295
+[Pretrain][Epoch 35] Step 100/390 | LR 1.21e-03 | Loss 0.1296
+[Pretrain][Epoch 35] Step 200/390 | LR 1.20e-03 | Loss 0.1296
+[Pretrain][Epoch 35] Step 300/390 | LR 1.20e-03 | Loss 0.1284
+[Pretrain][Epoch 35] Step 390/390 | LR 1.19e-03 | Loss 0.1154
+[Pretrain] Epoch 35/100 | Avg Loss: 0.1290
+[Pretrain][Epoch 36] Step 100/390 | LR 1.19e-03 | Loss 0.1277
+[Pretrain][Epoch 36] Step 200/390 | LR 1.18e-03 | Loss 0.1289
+[Pretrain][Epoch 36] Step 300/390 | LR 1.18e-03 | Loss 0.1261
+[Pretrain][Epoch 36] Step 390/390 | LR 1.18e-03 | Loss 0.1151
+[Pretrain] Epoch 36/100 | Avg Loss: 0.1277
+[Pretrain][Epoch 37] Step 100/390 | LR 1.17e-03 | Loss 0.1271
+[Pretrain][Epoch 37] Step 200/390 | LR 1.17e-03 | Loss 0.1270
+[Pretrain][Epoch 37] Step 300/390 | LR 1.16e-03 | Loss 0.1264
+[Pretrain][Epoch 37] Step 390/390 | LR 1.16e-03 | Loss 0.1146
+[Pretrain] Epoch 37/100 | Avg Loss: 0.1269
+[Pretrain][Epoch 38] Step 100/390 | LR 1.15e-03 | Loss 0.1266
+[Pretrain][Epoch 38] Step 200/390 | LR 1.15e-03 | Loss 0.1274
+[Pretrain][Epoch 38] Step 300/390 | LR 1.14e-03 | Loss 0.1256
+[Pretrain][Epoch 38] Step 390/390 | LR 1.14e-03 | Loss 0.1140
+[Pretrain] Epoch 38/100 | Avg Loss: 0.1266
+[Pretrain][Epoch 39] Step 100/390 | LR 1.13e-03 | Loss 0.1273
+[Pretrain][Epoch 39] Step 200/390 | LR 1.13e-03 | Loss 0.1262
+[Pretrain][Epoch 39] Step 300/390 | LR 1.12e-03 | Loss 0.1271
+[Pretrain][Epoch 39] Step 390/390 | LR 1.12e-03 | Loss 0.1132
+[Pretrain] Epoch 39/100 | Avg Loss: 0.1266
+[Pretrain][Epoch 40] Step 100/390 | LR 1.11e-03 | Loss 0.1255
+[Pretrain][Epoch 40] Step 200/390 | LR 1.11e-03 | Loss 0.1267
+[Pretrain][Epoch 40] Step 300/390 | LR 1.10e-03 | Loss 0.1248
+[Pretrain][Epoch 40] Step 390/390 | LR 1.10e-03 | Loss 0.1130
+[Pretrain] Epoch 40/100 | Avg Loss: 0.1256
+[Pretrain][Epoch 41] Step 100/390 | LR 1.09e-03 | Loss 0.1253
+[Pretrain][Epoch 41] Step 200/390 | LR 1.09e-03 | Loss 0.1254
+[Pretrain][Epoch 41] Step 300/390 | LR 1.08e-03 | Loss 0.1245
+[Pretrain][Epoch 41] Step 390/390 | LR 1.08e-03 | Loss 0.1122
+[Pretrain] Epoch 41/100 | Avg Loss: 0.1250
+[Pretrain][Epoch 42] Step 100/390 | LR 1.07e-03 | Loss 0.1248
+[Pretrain][Epoch 42] Step 200/390 | LR 1.06e-03 | Loss 0.1248
+[Pretrain][Epoch 42] Step 300/390 | LR 1.06e-03 | Loss 0.1237
+[Pretrain][Epoch 42] Step 390/390 | LR 1.05e-03 | Loss 0.1135
+[Pretrain] Epoch 42/100 | Avg Loss: 0.1248
+[Pretrain][Epoch 43] Step 100/390 | LR 1.05e-03 | Loss 0.1228
+[Pretrain][Epoch 43] Step 200/390 | LR 1.04e-03 | Loss 0.1231
+[Pretrain][Epoch 43] Step 300/390 | LR 1.04e-03 | Loss 0.1269
+[Pretrain][Epoch 43] Step 390/390 | LR 1.03e-03 | Loss 0.1122
+[Pretrain] Epoch 43/100 | Avg Loss: 0.1244
+[Pretrain][Epoch 44] Step 100/390 | LR 1.03e-03 | Loss 0.1239
+[Pretrain][Epoch 44] Step 200/390 | LR 1.02e-03 | Loss 0.1241
+[Pretrain][Epoch 44] Step 300/390 | LR 1.02e-03 | Loss 0.1232
+[Pretrain][Epoch 44] Step 390/390 | LR 1.01e-03 | Loss 0.1098
+[Pretrain] Epoch 44/100 | Avg Loss: 0.1234
+[Pretrain][Epoch 45] Step 100/390 | LR 1.01e-03 | Loss 0.1222
+[Pretrain][Epoch 45] Step 200/390 | LR 1.00e-03 | Loss 0.1234
+[Pretrain][Epoch 45] Step 300/390 | LR 9.96e-04 | Loss 0.1229
+[Pretrain][Epoch 45] Step 390/390 | LR 9.91e-04 | Loss 0.1116
+[Pretrain] Epoch 45/100 | Avg Loss: 0.1231
+[Pretrain][Epoch 46] Step 100/390 | LR 9.85e-04 | Loss 0.1232
+[Pretrain][Epoch 46] Step 200/390 | LR 9.80e-04 | Loss 0.1222
+[Pretrain][Epoch 46] Step 300/390 | LR 9.74e-04 | Loss 0.1224
+[Pretrain][Epoch 46] Step 390/390 | LR 9.69e-04 | Loss 0.1104
+[Pretrain] Epoch 46/100 | Avg Loss: 0.1226
+[Pretrain][Epoch 47] Step 100/390 | LR 9.63e-04 | Loss 0.1226
+[Pretrain][Epoch 47] Step 200/390 | LR 9.58e-04 | Loss 0.1231
+[Pretrain][Epoch 47] Step 300/390 | LR 9.52e-04 | Loss 0.1222
+[Pretrain][Epoch 47] Step 390/390 | LR 9.47e-04 | Loss 0.1091
+[Pretrain] Epoch 47/100 | Avg Loss: 0.1223
+[Pretrain][Epoch 48] Step 100/390 | LR 9.42e-04 | Loss 0.1207
+[Pretrain][Epoch 48] Step 200/390 | LR 9.36e-04 | Loss 0.1218
+[Pretrain][Epoch 48] Step 300/390 | LR 9.30e-04 | Loss 0.1213
+[Pretrain][Epoch 48] Step 390/390 | LR 9.25e-04 | Loss 0.1104
+[Pretrain] Epoch 48/100 | Avg Loss: 0.1216
+[Pretrain][Epoch 49] Step 100/390 | LR 9.19e-04 | Loss 0.1216
+[Pretrain][Epoch 49] Step 200/390 | LR 9.14e-04 | Loss 0.1215
+[Pretrain][Epoch 49] Step 300/390 | LR 9.08e-04 | Loss 0.1208
+[Pretrain][Epoch 49] Step 390/390 | LR 9.03e-04 | Loss 0.1089
+[Pretrain] Epoch 49/100 | Avg Loss: 0.1212
+[Pretrain][Epoch 50] Step 100/390 | LR 8.97e-04 | Loss 0.1212
+[Pretrain][Epoch 50] Step 200/390 | LR 8.92e-04 | Loss 0.1201
+[Pretrain][Epoch 50] Step 300/390 | LR 8.86e-04 | Loss 0.1197
+[Pretrain][Epoch 50] Step 390/390 | LR 8.81e-04 | Loss 0.1082
+[Pretrain] Epoch 50/100 | Avg Loss: 0.1203
+[Pretrain][Epoch 51] Step 100/390 | LR 8.75e-04 | Loss 0.1206
+[Pretrain][Epoch 51] Step 200/390 | LR 8.69e-04 | Loss 0.1205
+[Pretrain][Epoch 51] Step 300/390 | LR 8.64e-04 | Loss 0.1191
+[Pretrain][Epoch 51] Step 390/390 | LR 8.59e-04 | Loss 0.1084
+[Pretrain] Epoch 51/100 | Avg Loss: 0.1202
+[Pretrain][Epoch 52] Step 100/390 | LR 8.53e-04 | Loss 0.1194
+[Pretrain][Epoch 52] Step 200/390 | LR 8.47e-04 | Loss 0.1201
+[Pretrain][Epoch 52] Step 300/390 | LR 8.41e-04 | Loss 0.1191
+[Pretrain][Epoch 52] Step 390/390 | LR 8.36e-04 | Loss 0.1082
+[Pretrain] Epoch 52/100 | Avg Loss: 0.1197
+[Pretrain][Epoch 53] Step 100/390 | LR 8.30e-04 | Loss 0.1198
+[Pretrain][Epoch 53] Step 200/390 | LR 8.25e-04 | Loss 0.1185
+[Pretrain][Epoch 53] Step 300/390 | LR 8.19e-04 | Loss 0.1190
+[Pretrain][Epoch 53] Step 390/390 | LR 8.14e-04 | Loss 0.1087
+[Pretrain] Epoch 53/100 | Avg Loss: 0.1195
+[Pretrain][Epoch 54] Step 100/390 | LR 8.08e-04 | Loss 0.1179
+[Pretrain][Epoch 54] Step 200/390 | LR 8.02e-04 | Loss 0.1180
+[Pretrain][Epoch 54] Step 300/390 | LR 7.97e-04 | Loss 0.1197
+[Pretrain][Epoch 54] Step 390/390 | LR 7.92e-04 | Loss 0.1064
+[Pretrain] Epoch 54/100 | Avg Loss: 0.1185
+[Pretrain][Epoch 55] Step 100/390 | LR 7.86e-04 | Loss 0.1173
+[Pretrain][Epoch 55] Step 200/390 | LR 7.80e-04 | Loss 0.1177
+[Pretrain][Epoch 55] Step 300/390 | LR 7.74e-04 | Loss 0.1184
+[Pretrain][Epoch 55] Step 390/390 | LR 7.69e-04 | Loss 0.1065
+[Pretrain] Epoch 55/100 | Avg Loss: 0.1179
+[Pretrain][Epoch 56] Step 100/390 | LR 7.64e-04 | Loss 0.1174
+[Pretrain][Epoch 56] Step 200/390 | LR 7.58e-04 | Loss 0.1158
+[Pretrain][Epoch 56] Step 300/390 | LR 7.52e-04 | Loss 0.1179
+[Pretrain][Epoch 56] Step 390/390 | LR 7.47e-04 | Loss 0.1057
+[Pretrain] Epoch 56/100 | Avg Loss: 0.1171
+[Pretrain][Epoch 57] Step 100/390 | LR 7.41e-04 | Loss 0.1176
+[Pretrain][Epoch 57] Step 200/390 | LR 7.36e-04 | Loss 0.1170
+[Pretrain][Epoch 57] Step 300/390 | LR 7.30e-04 | Loss 0.1172
+[Pretrain][Epoch 57] Step 390/390 | LR 7.25e-04 | Loss 0.1046
+[Pretrain] Epoch 57/100 | Avg Loss: 0.1170
+[Pretrain][Epoch 58] Step 100/390 | LR 7.19e-04 | Loss 0.1157
+[Pretrain][Epoch 58] Step 200/390 | LR 7.14e-04 | Loss 0.1161
+[Pretrain][Epoch 58] Step 300/390 | LR 7.08e-04 | Loss 0.1161
+[Pretrain][Epoch 58] Step 390/390 | LR 7.03e-04 | Loss 0.1054
+[Pretrain] Epoch 58/100 | Avg Loss: 0.1162
+[Pretrain][Epoch 59] Step 100/390 | LR 6.97e-04 | Loss 0.1160
+[Pretrain][Epoch 59] Step 200/390 | LR 6.92e-04 | Loss 0.1159
+[Pretrain][Epoch 59] Step 300/390 | LR 6.86e-04 | Loss 0.1159
+[Pretrain][Epoch 59] Step 390/390 | LR 6.81e-04 | Loss 0.1032
+[Pretrain] Epoch 59/100 | Avg Loss: 0.1156
+[Pretrain][Epoch 60] Step 100/390 | LR 6.75e-04 | Loss 0.1156
+[Pretrain][Epoch 60] Step 200/390 | LR 6.70e-04 | Loss 0.1151
+[Pretrain][Epoch 60] Step 300/390 | LR 6.64e-04 | Loss 0.1153
+[Pretrain][Epoch 60] Step 390/390 | LR 6.59e-04 | Loss 0.1032
+[Pretrain] Epoch 60/100 | Avg Loss: 0.1152
+[Pretrain][Epoch 61] Step 100/390 | LR 6.54e-04 | Loss 0.1150
+[Pretrain][Epoch 61] Step 200/390 | LR 6.48e-04 | Loss 0.1148
+[Pretrain][Epoch 61] Step 300/390 | LR 6.43e-04 | Loss 0.1144
+[Pretrain][Epoch 61] Step 390/390 | LR 6.38e-04 | Loss 0.1032
+[Pretrain] Epoch 61/100 | Avg Loss: 0.1147
+[Pretrain][Epoch 62] Step 100/390 | LR 6.32e-04 | Loss 0.1146
+[Pretrain][Epoch 62] Step 200/390 | LR 6.27e-04 | Loss 0.1136
+[Pretrain][Epoch 62] Step 300/390 | LR 6.21e-04 | Loss 0.1138
+[Pretrain][Epoch 62] Step 390/390 | LR 6.16e-04 | Loss 0.1024
+[Pretrain] Epoch 62/100 | Avg Loss: 0.1139
+[Pretrain][Epoch 63] Step 100/390 | LR 6.11e-04 | Loss 0.1139
+[Pretrain][Epoch 63] Step 200/390 | LR 6.06e-04 | Loss 0.1142
+[Pretrain][Epoch 63] Step 300/390 | LR 6.00e-04 | Loss 0.1149
+[Pretrain][Epoch 63] Step 390/390 | LR 5.95e-04 | Loss 0.1014
+[Pretrain] Epoch 63/100 | Avg Loss: 0.1139
+[Pretrain][Epoch 64] Step 100/390 | LR 5.90e-04 | Loss 0.1134
+[Pretrain][Epoch 64] Step 200/390 | LR 5.85e-04 | Loss 0.1132
+[Pretrain][Epoch 64] Step 300/390 | LR 5.79e-04 | Loss 0.1145
+[Pretrain][Epoch 64] Step 390/390 | LR 5.74e-04 | Loss 0.1014
+[Pretrain] Epoch 64/100 | Avg Loss: 0.1135
+[Pretrain][Epoch 65] Step 100/390 | LR 5.69e-04 | Loss 0.1115
+[Pretrain][Epoch 65] Step 200/390 | LR 5.64e-04 | Loss 0.1121
+[Pretrain][Epoch 65] Step 300/390 | LR 5.59e-04 | Loss 0.1128
+[Pretrain][Epoch 65] Step 390/390 | LR 5.54e-04 | Loss 0.1024
+[Pretrain] Epoch 65/100 | Avg Loss: 0.1125
+[Pretrain][Epoch 66] Step 100/390 | LR 5.49e-04 | Loss 0.1126
+[Pretrain][Epoch 66] Step 200/390 | LR 5.43e-04 | Loss 0.1117
+[Pretrain][Epoch 66] Step 300/390 | LR 5.38e-04 | Loss 0.1121
+[Pretrain][Epoch 66] Step 390/390 | LR 5.34e-04 | Loss 0.1010
+[Pretrain] Epoch 66/100 | Avg Loss: 0.1122
+[Pretrain][Epoch 67] Step 100/390 | LR 5.28e-04 | Loss 0.1121
+[Pretrain][Epoch 67] Step 200/390 | LR 5.23e-04 | Loss 0.1117
+[Pretrain][Epoch 67] Step 300/390 | LR 5.18e-04 | Loss 0.1133
+[Pretrain][Epoch 67] Step 390/390 | LR 5.14e-04 | Loss 0.0998
+[Pretrain] Epoch 67/100 | Avg Loss: 0.1120
+[Pretrain][Epoch 68] Step 100/390 | LR 5.09e-04 | Loss 0.1117
+[Pretrain][Epoch 68] Step 200/390 | LR 5.04e-04 | Loss 0.1108
+[Pretrain][Epoch 68] Step 300/390 | LR 4.99e-04 | Loss 0.1120
+[Pretrain][Epoch 68] Step 390/390 | LR 4.94e-04 | Loss 0.0994
+[Pretrain] Epoch 68/100 | Avg Loss: 0.1112
+[Pretrain][Epoch 69] Step 100/390 | LR 4.89e-04 | Loss 0.1116
+[Pretrain][Epoch 69] Step 200/390 | LR 4.84e-04 | Loss 0.1109
+[Pretrain][Epoch 69] Step 300/390 | LR 4.79e-04 | Loss 0.1102
+[Pretrain][Epoch 69] Step 390/390 | LR 4.75e-04 | Loss 0.0999
+[Pretrain] Epoch 69/100 | Avg Loss: 0.1109
+[Pretrain][Epoch 70] Step 100/390 | LR 4.70e-04 | Loss 0.1106
+[Pretrain][Epoch 70] Step 200/390 | LR 4.65e-04 | Loss 0.1102
+[Pretrain][Epoch 70] Step 300/390 | LR 4.60e-04 | Loss 0.1116
+[Pretrain][Epoch 70] Step 390/390 | LR 4.56e-04 | Loss 0.0994
+[Pretrain] Epoch 70/100 | Avg Loss: 0.1108
+[Pretrain][Epoch 71] Step 100/390 | LR 4.51e-04 | Loss 0.1105
+[Pretrain][Epoch 71] Step 200/390 | LR 4.46e-04 | Loss 0.1120
+[Pretrain][Epoch 71] Step 300/390 | LR 4.42e-04 | Loss 0.1094
+[Pretrain][Epoch 71] Step 390/390 | LR 4.37e-04 | Loss 0.1000
+[Pretrain] Epoch 71/100 | Avg Loss: 0.1107
+[Pretrain][Epoch 72] Step 100/390 | LR 4.33e-04 | Loss 0.1096
+[Pretrain][Epoch 72] Step 200/390 | LR 4.28e-04 | Loss 0.1106
+[Pretrain][Epoch 72] Step 300/390 | LR 4.23e-04 | Loss 0.1107
+[Pretrain][Epoch 72] Step 390/390 | LR 4.19e-04 | Loss 0.1001
+[Pretrain] Epoch 72/100 | Avg Loss: 0.1105
+[Pretrain][Epoch 73] Step 100/390 | LR 4.15e-04 | Loss 0.1094
+[Pretrain][Epoch 73] Step 200/390 | LR 4.10e-04 | Loss 0.1096
+[Pretrain][Epoch 73] Step 300/390 | LR 4.06e-04 | Loss 0.1096
+[Pretrain][Epoch 73] Step 390/390 | LR 4.02e-04 | Loss 0.0991
+[Pretrain] Epoch 73/100 | Avg Loss: 0.1097
+[Pretrain][Epoch 74] Step 100/390 | LR 3.97e-04 | Loss 0.1094
+[Pretrain][Epoch 74] Step 200/390 | LR 3.93e-04 | Loss 0.1080
+[Pretrain][Epoch 74] Step 300/390 | LR 3.88e-04 | Loss 0.1094
+[Pretrain][Epoch 74] Step 390/390 | LR 3.85e-04 | Loss 0.0984
+[Pretrain] Epoch 74/100 | Avg Loss: 0.1090
+[Pretrain][Epoch 75] Step 100/390 | LR 3.80e-04 | Loss 0.1086
+[Pretrain][Epoch 75] Step 200/390 | LR 3.76e-04 | Loss 0.1097
+[Pretrain][Epoch 75] Step 300/390 | LR 3.72e-04 | Loss 0.1083
+[Pretrain][Epoch 75] Step 390/390 | LR 3.68e-04 | Loss 0.0976
+[Pretrain] Epoch 75/100 | Avg Loss: 0.1087
+[Pretrain][Epoch 76] Step 100/390 | LR 3.64e-04 | Loss 0.1087
+[Pretrain][Epoch 76] Step 200/390 | LR 3.60e-04 | Loss 0.1073
+[Pretrain][Epoch 76] Step 300/390 | LR 3.55e-04 | Loss 0.1082
+[Pretrain][Epoch 76] Step 390/390 | LR 3.52e-04 | Loss 0.0971
+[Pretrain] Epoch 76/100 | Avg Loss: 0.1080
+[Pretrain][Epoch 77] Step 100/390 | LR 3.48e-04 | Loss 0.1084
+[Pretrain][Epoch 77] Step 200/390 | LR 3.44e-04 | Loss 0.1083
+[Pretrain][Epoch 77] Step 300/390 | LR 3.40e-04 | Loss 0.1078
+[Pretrain][Epoch 77] Step 390/390 | LR 3.36e-04 | Loss 0.0980
+[Pretrain] Epoch 77/100 | Avg Loss: 0.1083
+[Pretrain][Epoch 78] Step 100/390 | LR 3.32e-04 | Loss 0.1066
+[Pretrain][Epoch 78] Step 200/390 | LR 3.28e-04 | Loss 0.1084
+[Pretrain][Epoch 78] Step 300/390 | LR 3.24e-04 | Loss 0.1075
+[Pretrain][Epoch 78] Step 390/390 | LR 3.21e-04 | Loss 0.0970
+[Pretrain] Epoch 78/100 | Avg Loss: 0.1076
+[Pretrain][Epoch 79] Step 100/390 | LR 3.17e-04 | Loss 0.1076
+[Pretrain][Epoch 79] Step 200/390 | LR 3.13e-04 | Loss 0.1071
+[Pretrain][Epoch 79] Step 300/390 | LR 3.10e-04 | Loss 0.1078
+[Pretrain][Epoch 79] Step 390/390 | LR 3.06e-04 | Loss 0.0971
+[Pretrain] Epoch 79/100 | Avg Loss: 0.1076
+[Pretrain][Epoch 80] Step 100/390 | LR 3.03e-04 | Loss 0.1082
+[Pretrain][Epoch 80] Step 200/390 | LR 2.99e-04 | Loss 0.1082
+[Pretrain][Epoch 80] Step 300/390 | LR 2.96e-04 | Loss 0.1052
+[Pretrain][Epoch 80] Step 390/390 | LR 2.92e-04 | Loss 0.0957
+[Pretrain] Epoch 80/100 | Avg Loss: 0.1070
+[Pretrain][Epoch 81] Step 100/390 | LR 2.89e-04 | Loss 0.1069
+[Pretrain][Epoch 81] Step 200/390 | LR 2.85e-04 | Loss 0.1074
+[Pretrain][Epoch 81] Step 300/390 | LR 2.82e-04 | Loss 0.1063
+[Pretrain][Epoch 81] Step 390/390 | LR 2.79e-04 | Loss 0.0964
+[Pretrain] Epoch 81/100 | Avg Loss: 0.1070
+[Pretrain][Epoch 82] Step 100/390 | LR 2.76e-04 | Loss 0.1064
+[Pretrain][Epoch 82] Step 200/390 | LR 2.72e-04 | Loss 0.1061
+[Pretrain][Epoch 82] Step 300/390 | LR 2.69e-04 | Loss 0.1070
+[Pretrain][Epoch 82] Step 390/390 | LR 2.66e-04 | Loss 0.0952
+[Pretrain] Epoch 82/100 | Avg Loss: 0.1063
+[Pretrain][Epoch 83] Step 100/390 | LR 2.63e-04 | Loss 0.1064
+[Pretrain][Epoch 83] Step 200/390 | LR 2.60e-04 | Loss 0.1062
+[Pretrain][Epoch 83] Step 300/390 | LR 2.57e-04 | Loss 0.1061
+[Pretrain][Epoch 83] Step 390/390 | LR 2.54e-04 | Loss 0.0958
+[Pretrain] Epoch 83/100 | Avg Loss: 0.1063
+[Pretrain][Epoch 84] Step 100/390 | LR 2.51e-04 | Loss 0.1063
+[Pretrain][Epoch 84] Step 200/390 | LR 2.48e-04 | Loss 0.1055
+[Pretrain][Epoch 84] Step 300/390 | LR 2.45e-04 | Loss 0.1062
+[Pretrain][Epoch 84] Step 390/390 | LR 2.42e-04 | Loss 0.0942
+[Pretrain] Epoch 84/100 | Avg Loss: 0.1057
+[Pretrain][Epoch 85] Step 100/390 | LR 2.39e-04 | Loss 0.1047
+[Pretrain][Epoch 85] Step 200/390 | LR 2.37e-04 | Loss 0.1048
+[Pretrain][Epoch 85] Step 300/390 | LR 2.34e-04 | Loss 0.1051
+[Pretrain][Epoch 85] Step 390/390 | LR 2.31e-04 | Loss 0.0953
+[Pretrain] Epoch 85/100 | Avg Loss: 0.1051
+[Pretrain][Epoch 86] Step 100/390 | LR 2.29e-04 | Loss 0.1043
+[Pretrain][Epoch 86] Step 200/390 | LR 2.26e-04 | Loss 0.1059
+[Pretrain][Epoch 86] Step 300/390 | LR 2.23e-04 | Loss 0.1048
+[Pretrain][Epoch 86] Step 390/390 | LR 2.21e-04 | Loss 0.0943
+[Pretrain] Epoch 86/100 | Avg Loss: 0.1049
+[Pretrain][Epoch 87] Step 100/390 | LR 2.19e-04 | Loss 0.1055
+[Pretrain][Epoch 87] Step 200/390 | LR 2.16e-04 | Loss 0.1051
+[Pretrain][Epoch 87] Step 300/390 | LR 2.14e-04 | Loss 0.1040
+[Pretrain][Epoch 87] Step 390/390 | LR 2.11e-04 | Loss 0.0945
+[Pretrain] Epoch 87/100 | Avg Loss: 0.1049
+[Pretrain][Epoch 88] Step 100/390 | LR 2.09e-04 | Loss 0.1046
+[Pretrain][Epoch 88] Step 200/390 | LR 2.07e-04 | Loss 0.1045
+[Pretrain][Epoch 88] Step 300/390 | LR 2.04e-04 | Loss 0.1050
+[Pretrain][Epoch 88] Step 390/390 | LR 2.02e-04 | Loss 0.0936
+[Pretrain] Epoch 88/100 | Avg Loss: 0.1045
+[Pretrain][Epoch 89] Step 100/390 | LR 2.00e-04 | Loss 0.1038
+[Pretrain][Epoch 89] Step 200/390 | LR 1.98e-04 | Loss 0.1052
+[Pretrain][Epoch 89] Step 300/390 | LR 1.96e-04 | Loss 0.1034
+[Pretrain][Epoch 89] Step 390/390 | LR 1.94e-04 | Loss 0.0946
+[Pretrain] Epoch 89/100 | Avg Loss: 0.1044
+[Pretrain][Epoch 90] Step 100/390 | LR 1.92e-04 | Loss 0.1042
+[Pretrain][Epoch 90] Step 200/390 | LR 1.90e-04 | Loss 0.1036
+[Pretrain][Epoch 90] Step 300/390 | LR 1.88e-04 | Loss 0.1041
+[Pretrain][Epoch 90] Step 390/390 | LR 1.87e-04 | Loss 0.0940
+[Pretrain] Epoch 90/100 | Avg Loss: 0.1041
+[Pretrain][Epoch 91] Step 100/390 | LR 1.85e-04 | Loss 0.1029
+[Pretrain][Epoch 91] Step 200/390 | LR 1.83e-04 | Loss 0.1035
+[Pretrain][Epoch 91] Step 300/390 | LR 1.81e-04 | Loss 0.1042
+[Pretrain][Epoch 91] Step 390/390 | LR 1.80e-04 | Loss 0.0937
+[Pretrain] Epoch 91/100 | Avg Loss: 0.1037
+[Pretrain][Epoch 92] Step 100/390 | LR 1.78e-04 | Loss 0.1034
+[Pretrain][Epoch 92] Step 200/390 | LR 1.76e-04 | Loss 0.1034
+[Pretrain][Epoch 92] Step 300/390 | LR 1.75e-04 | Loss 0.1043
+[Pretrain][Epoch 92] Step 390/390 | LR 1.73e-04 | Loss 0.0932
+[Pretrain] Epoch 92/100 | Avg Loss: 0.1037
+[Pretrain][Epoch 93] Step 100/390 | LR 1.72e-04 | Loss 0.1038
+[Pretrain][Epoch 93] Step 200/390 | LR 1.71e-04 | Loss 0.1034
+[Pretrain][Epoch 93] Step 300/390 | LR 1.69e-04 | Loss 0.1046
+[Pretrain][Epoch 93] Step 390/390 | LR 1.68e-04 | Loss 0.0934
+[Pretrain] Epoch 93/100 | Avg Loss: 0.1039
+[Pretrain][Epoch 94] Step 100/390 | LR 1.67e-04 | Loss 0.1027
+[Pretrain][Epoch 94] Step 200/390 | LR 1.65e-04 | Loss 0.1035
+[Pretrain][Epoch 94] Step 300/390 | LR 1.64e-04 | Loss 0.1030
+[Pretrain][Epoch 94] Step 390/390 | LR 1.63e-04 | Loss 0.0918
+[Pretrain] Epoch 94/100 | Avg Loss: 0.1028
+[Pretrain][Epoch 95] Step 100/390 | LR 1.62e-04 | Loss 0.1031
+[Pretrain][Epoch 95] Step 200/390 | LR 1.61e-04 | Loss 0.1028
+[Pretrain][Epoch 95] Step 300/390 | LR 1.60e-04 | Loss 0.1033
+[Pretrain][Epoch 95] Step 390/390 | LR 1.59e-04 | Loss 0.0930
+[Pretrain] Epoch 95/100 | Avg Loss: 0.1031
+[Pretrain][Epoch 96] Step 100/390 | LR 1.58e-04 | Loss 0.1019
+[Pretrain][Epoch 96] Step 200/390 | LR 1.57e-04 | Loss 0.1045
+[Pretrain][Epoch 96] Step 300/390 | LR 1.57e-04 | Loss 0.1034
+[Pretrain][Epoch 96] Step 390/390 | LR 1.56e-04 | Loss 0.0924
+[Pretrain] Epoch 96/100 | Avg Loss: 0.1031
+[Pretrain][Epoch 97] Step 100/390 | LR 1.55e-04 | Loss 0.1027
+[Pretrain][Epoch 97] Step 200/390 | LR 1.54e-04 | Loss 0.1033
+[Pretrain][Epoch 97] Step 300/390 | LR 1.54e-04 | Loss 0.1021
+[Pretrain][Epoch 97] Step 390/390 | LR 1.53e-04 | Loss 0.0930
+[Pretrain] Epoch 97/100 | Avg Loss: 0.1028
+[Pretrain][Epoch 98] Step 100/390 | LR 1.53e-04 | Loss 0.1027
+[Pretrain][Epoch 98] Step 200/390 | LR 1.52e-04 | Loss 0.1023
+[Pretrain][Epoch 98] Step 300/390 | LR 1.52e-04 | Loss 0.1023
+[Pretrain][Epoch 98] Step 390/390 | LR 1.51e-04 | Loss 0.0929
+[Pretrain] Epoch 98/100 | Avg Loss: 0.1026
+[Pretrain][Epoch 99] Step 100/390 | LR 1.51e-04 | Loss 0.1020
+[Pretrain][Epoch 99] Step 200/390 | LR 1.51e-04 | Loss 0.1028
+[Pretrain][Epoch 99] Step 300/390 | LR 1.51e-04 | Loss 0.1027
+[Pretrain][Epoch 99] Step 390/390 | LR 1.50e-04 | Loss 0.0932
+[Pretrain] Epoch 99/100 | Avg Loss: 0.1027
+[Pretrain][Epoch 100] Step 100/390 | LR 1.50e-04 | Loss 0.1025
+[Pretrain][Epoch 100] Step 200/390 | LR 1.50e-04 | Loss 0.1015
+[Pretrain][Epoch 100] Step 300/390 | LR 1.50e-04 | Loss 0.1028
+[Pretrain][Epoch 100] Step 390/390 | LR 1.50e-04 | Loss 0.0921
+[Pretrain] Epoch 100/100 | Avg Loss: 0.1023

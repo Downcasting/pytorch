@@ -1,15 +1,15 @@
-# 표준 라이브러리
+# Base Library
 import os
 import glob
 import datetime
 from typing import Optional
 
-# 서드파티 라이브러리
+# Tool Library
 import cv2
 import yaml
 import numpy as np
 
-# PyTorch 및 관련 패키지
+# PyTorch
 import torch
 from torch import nn
 from torch.nn import functional as F, Flatten
@@ -21,11 +21,11 @@ from torch.optim.lr_scheduler import CosineAnnealingLR, SequentialLR, LinearLR
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
 
-# torchvision 관련
+# torchvision
 import torchvision.models as models
 import torchvision.transforms as transforms
 
-# 로컬 모듈
+# Local Modules
 from datasets.get_dataset import get_dataset
 from models.backbone import get_backbone
 
@@ -127,7 +127,7 @@ def nt_xent_loss(out_1, out_2, temperature=0.5):
     mask = (~torch.eye(2 * loss_batch_size, device=out.device).bool()).float()
     sim_matrix = sim_matrix * mask
 
-    # Positive similarity (i와 i+N은 양의 쌍)
+    # Positive similarity 
     norm_out1 = torch.norm(out_1, dim=-1, keepdim=True)
     norm_out2 = torch.norm(out_2, dim=-1, keepdim=True)
     pos_sim = torch.sum(out_1 * out_2, dim=-1) / (norm_out1.squeeze(-1) * norm_out2.squeeze(-1) + 1e-8)
@@ -211,16 +211,16 @@ class SimCLR(pl.LightningModule):
             schedulers.append(("cosine", cosine))
 
 
-        # 스케줄러 설정
+        # Scheduler
         if use_scheduler:
             if use_warmup and use_cosine:
-                # warmup + cosine은 SequentialLR로 묶기
+                # warmup + cosine
                 scheduler = {"scheduler": SequentialLR(optimizer, schedulers=[s[1] for s in schedulers if s[0] in ["warmup", "cosine"]], 
                                                        milestones=[warmup_epochs]), "interval": "epoch", "frequency": 1}
                 return {"optimizer": optimizer, "lr_scheduler": scheduler}
             
             else:
-                # 나머지 일반적인 경우 (cosine만 쓰는 등)
+                # other
                 sched_list = [{"scheduler": sched[1], "interval": "epoch", "frequency": 1} for sched in schedulers]
                 return {"optimizer": optimizer, "lr_scheduler": sched_list}
         
@@ -240,7 +240,7 @@ class SimCLR(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         loss = self.shared_step(batch, batch_idx)
         self.log("train_loss_end_of_epoch", loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
-        return {"loss": loss}  # ✅ 최신 버전 호환 코드
+        return {"loss": loss}
 
     def shared_step(self, batch, batch_idx):
         (img1, img2), _ = batch
@@ -334,10 +334,10 @@ if __name__ == '__main__':
     num_workers = 4
 
     # Save model every * epochs
-    save_every_epochs = 25
+    save_every_epochs = 50
 
     # Version of the model
-    version = 26
+    version = 3
 
     #################################################################################################
     #################################################################################################
@@ -393,7 +393,7 @@ if __name__ == '__main__':
         )
         save_version_info()
 
-    # Callback 추가
+    # Add callback for online evaluation
     online_eval_interval = 50
 
     online_eval_callback = OnlineLinearEvaluation(

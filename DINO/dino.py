@@ -194,10 +194,10 @@ class DINO(pl.LightningModule):
         return [optimizer], [scheduler]
 
     def on_train_batch_end(self, outputs, batch, batch_idx, dataloader_idx=0):
-        # ✅ teacher는 batch마다 업데이트
+        # teacher는 batch마다 업데이트
         self._update_teacher(current_step=self.global_step)
 
-        # ✅ teacher 출력 평균만 epoch 동안 누적
+        # teacher 출력 평균만 epoch 동안 누적
         teacher_g1, teacher_g2 = outputs['teacher_g1'], outputs['teacher_g2']
         batch_center = torch.cat([teacher_g1, teacher_g2], dim=0).mean(dim=0, keepdim=True)
 
@@ -209,7 +209,7 @@ class DINO(pl.LightningModule):
         self.center_count += 1
 
     def on_train_epoch_end(self):
-        # ✅ epoch 끝날 때 한 번만 center 업데이트
+        # epoch 끝날 때 한 번만 center 업데이트
         if hasattr(self, "center_sum") and self.center_count > 0:
             epoch_center = self.center_sum / self.center_count  # 평균만 사용
 
@@ -224,6 +224,6 @@ class DINO(pl.LightningModule):
             self.center_sum.zero_()
             self.center_count = 0
 
-        # ✅ checkpoint 저장
+        # checkpoint 저장
         if (self.current_epoch + 1) % 10 == 0:
             self.trainer.save_checkpoint(f"{self.dataset}_v{self.version}_epoch={self.current_epoch + 1}.ckpt")
