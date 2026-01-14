@@ -1,8 +1,7 @@
 import torch
 import lejepa
 
-embeddings = torch.ones(32, 768, requires_grad=True)
-embeddings_gaussian = torch.randn(32, 768)
+embeddings = torch.randn(32, 768, requires_grad=True)
 
 univariate_test = lejepa.univariate.EppsPulley(n_points=17)
 
