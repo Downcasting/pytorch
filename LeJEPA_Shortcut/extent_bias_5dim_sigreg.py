@@ -1,3 +1,4 @@
+import lejepa
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -11,36 +12,48 @@ np.random.seed(SEED)
 
 # Dimensions & Parameters
 n = 1000        # Dataset size
-m = 10          # Total feature dimension
-ml = 9          # Size of larger part (background-like)
-ms = 1          # Size of smaller part (object-like)
-d = 2           # Output dimension
+m = 31          # Total feature dimension
+m1 = 16          # Size of larger part (background-like)
+m2 = 8
+m3 = 4
+m4 = 2
+m5 = 1          # Size of smaller part (object-like)
+d = 5           # Output dimension
 
 steps = 6000
 noise_a = 0.01          # Augmentation noise parameter a
 lr = 6e-4               # Learning rate (Section D.1)
-bt_lambda = 0.8        # Scaling factor / Off-diagonal weight (Section D.1)
+bt_lambda = 0.1        # Scaling factor / Off-diagonal weight (Section D.1)
 init_std = 0.01         # Small initialization to start from 0 eigenvalues
 
 # --- 2. Data Generation (Section 4.1) ---
 class ExtentBiasDataset:
-    def __init__(self, n, ml, ms, noise_a):
+    def __init__(self, n, m1, m2, m3, m4, m5, noise_a):
         self.n = n
-        self.ml = ml
-        self.ms = ms
+        self.m1 = m1
+        self.m2 = m2
+        self.m3 = m3
+        self.m4 = m4
+        self.m5 = m5
         self.noise_a = noise_a
         
         # Generate x_base: bl, bs ~ Bernoulli(0.5) -> {-1, 1}
         # Shape: (n, 1)
-        bl = torch.randint(0, 2, (n, 1)).float() * 2 - 1
-        bs = torch.randint(0, 2, (n, 1)).float() * 2 - 1
+        b1 = torch.randint(0, 2, (n, 1)).float() * 2 - 1
+        b2 = torch.randint(0, 2, (n, 1)).float() * 2 - 1
+        b3 = torch.randint(0, 2, (n, 1)).float() * 2 - 1
+        b4 = torch.randint(0, 2, (n, 1)).float() * 2 - 1
+        b5 = torch.randint(0, 2, (n, 1)).float() * 2 - 1
         
         # Construct base vectors: [bl * 1_ml, bs * 1_ms]
-        part_l = bl @ torch.ones(1, ml)
-        part_s = bs @ torch.ones(1, ms)
+        part_1 = b1 @ torch.ones(1, m1)
+        part_2 = b2 @ torch.ones(1, m2)
+        part_3 = b3 @ torch.ones(1, m3)
+        part_4 = b4 @ torch.ones(1, m4)
+        part_5 = b5 @ torch.ones(1, m5)
         
         # x_base: (n, m)
-        self.x_base = torch.cat([part_l, part_s], dim=1)
+        self.x_base = torch.cat([part_1, part_2, part_3, part_4, part_5], dim=1)
 
     def get_batch(self):
         # Augmentation: x = x_base + epsilon
@@ -53,13 +66,18 @@ class ExtentBiasDataset:
 
 # --- 3. Feature Definitions for Alignment ---
 # Unit vectors for alignment measurement
-v_l = torch.cat([torch.ones(ml), torch.zeros(ms)]).float()
-v_s = torch.cat([torch.zeros(ml), torch.ones(ms)]).float()
+v_1 = torch.cat([torch.ones(m1), torch.zeros(m2 + m3 + m4 + m5)]).float()
+v_2 = torch.cat([torch.zeros(m1), torch.ones(m2), torch.zeros(m3 + m4 + m5)]).float()
+v_3 = torch.cat([torch.zeros(m1 + m2), torch.ones(m3), torch.zeros(m4 + m5)]).float()
+v_4 = torch.cat([torch.zeros(m1 + m2 + m3), torch.ones(m4), torch.zeros(m5)]).float()
+v_5 = torch.cat([torch.zeros(m1 + m2 + m3 + m4), torch.ones(m5)]).float()
 # e_l = v_l / torch.norm(v_l)
 # e_s = v_s / torch.norm(v_s)
-e_l = v_l
-e_s = v_s
-
+e_1 = v_1
+e_2 = v_2
+e_3 = v_3
+e_4 = v_4
+e_5 = v_5
 # --- 4. Model & Loss (Toy Barlow Twins - No Batch Norm) ---
 # Theoretical framework uses Linear network without Bias
 model = nn.Linear(m, d, bias=False)
@@ -85,20 +103,32 @@ def toy_barlow_twins_loss(z1, z2, lambd):
     # off_diag: terms where i != j
     # We flatten the matrix and remove diagonal elements
     n_dim, m_dim = c.shape
-    off_diag_elements = c.flatten()[:-1].view(n_dim-1, n_dim+1)[:, 1:].flatten()
-    off_diag = off_diag_elements.pow(2).sum()
+
+    univariate_test = lejepa.univariate.EppsPulley(n_points=17)
+    loss_fn = lejepa.multivariate.SlicingUnivariateTest(
+        univariate_test=univariate_test,
+        num_slices=128
+    )
+    loss_sigreg = (loss_fn(z1) + loss_fn(z2)) / 2
     
-    loss = (1 - lambd) * on_diag + lambd * off_diag
+    loss = (1 - lambd) * on_diag + lambd * loss_sigreg
     return loss, c
 
 # --- 5. Training Loop ---
-dataset = ExtentBiasDataset(n, ml, ms, noise_a)
+dataset = ExtentBiasDataset(n, m1, m2, m3, m4, m5, noise_a)
 
 log_loss = []
 log_eig1 = []
 log_eig2 = []
-log_align_l = []
-log_align_s = []
+log_eig3 = []
+log_eig4 = []
+log_eig5 = []
+log_align_1 = []
+log_align_2 = []
+log_align_3 = []
+log_align_4 = []
+log_align_5 = []
+
 
 print("Training started...")
 for t in range(steps):
@@ -130,16 +160,26 @@ for t in range(steps):
         eigvals = eigvals.sort(descending=True).values
         
         # 2. Feature Alignment ||We||^2
-        align_l = torch.norm(W @ e_l).pow(2)
-        align_s = torch.norm(W @ e_s).pow(2)
+        align_1 = torch.norm(W @ e_1).pow(2)
+        align_2 = torch.norm(W @ e_2).pow(2)
+        align_3 = torch.norm(W @ e_3).pow(2)
+        align_4 = torch.norm(W @ e_4).pow(2)
+        align_5 = torch.norm(W @ e_5).pow(2)
         
         log_loss.append(loss.item())
         log_eig1.append(eigvals[0].item())
         log_eig2.append(eigvals[1].item())
-        log_align_l.append(align_l.item())
-        log_align_s.append(align_s.item())
+        log_eig3.append(eigvals[2].item())
+        log_eig4.append(eigvals[3].item())
+        log_eig5.append(eigvals[4].item())
+        
+        log_align_1.append(align_1.item())
+        log_align_2.append(align_2.item())
+        log_align_3.append(align_3.item())
+        log_align_4.append(align_4.item())
+        log_align_5.append(align_5.item())
 
-    print(f"Step {t+1}/{steps} - Loss: {loss.item():.4f} - Eig1: {eigvals[0].item():.4f} - Eig2: {eigvals[1].item():.4f} - Align_l: {align_l.item():.4f} - Align_s: {align_s.item():.4f}", end='\r')
+    print(f"Step {t+1}/{steps} - Loss: {loss.item():.4f}", end='\r')
 
 
 # --- 6. Visualization (Replicating Figure 1) ---
@@ -155,6 +195,9 @@ axes[0].grid(True, linestyle='--', alpha=0.6)
 # Plot 2: Eigenvalues of Covariance Matrix
 axes[1].plot(range(steps), log_eig1, color='blue', label=r'$\lambda_1$')
 axes[1].plot(range(steps), log_eig2, color='red', label=r'$\lambda_2$')
+axes[1].plot(range(steps), log_eig3, color='green', label=r'$\lambda_3$')
+axes[1].plot(range(steps), log_eig4, color='orange', label=r'$\lambda_4$')
+axes[1].plot(range(steps), log_eig5, color='purple', label=r'$\lambda_5$')
 axes[1].set_title('Eigenvalues of Covariance Matrix')
 axes[1].set_xlabel('Step')
 axes[1].set_ylabel('Eigenvalue')
@@ -163,8 +206,11 @@ axes[1].legend()
 axes[1].grid(True, linestyle='--', alpha=0.6)
 
 # Plot 3: Feature Alignment
-axes[2].plot(range(steps), log_align_l, color='blue', label=r'$||We_l||^2$ (Background)')
-axes[2].plot(range(steps), log_align_s, color='red', label=r'$||We_s||^2$ (Object)')
+axes[2].plot(range(steps), log_align_1, color='blue', label=r'$||We_1||^2$ (Background1)')
+axes[2].plot(range(steps), log_align_2, color='red', label=r'$||We_2||^2$ (Background2)')
+axes[2].plot(range(steps), log_align_3, color='green', label=r'$||We_3||^2$ (Normal)')
+axes[2].plot(range(steps), log_align_4, color='orange', label=r'$||We_4||^2$ (Object1)')
+axes[2].plot(range(steps), log_align_5, color='purple', label=r'$||We_5||^2$ (Object2)')
 axes[2].set_title('Feature Alignment')
 axes[2].set_xlabel('Step')
 axes[2].set_ylabel(r'$||We||^2$')
@@ -172,6 +218,6 @@ axes[2].legend()
 axes[2].grid(True, linestyle='--', alpha=0.6)
 
 plt.tight_layout()
-plt.savefig('graph.png')
+plt.savefig('graph_5dim_sigreg.png')
 plt.show()
 

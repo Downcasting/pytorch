@@ -181,4 +181,5 @@ axes[2].legend()
 axes[2].grid(True, linestyle='--', alpha=0.6)
 
 plt.tight_layout()
+plt.savefig('graph_sigreg.png')
 plt.show()
