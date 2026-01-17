@@ -6,6 +6,12 @@ import matplotlib.pyplot as plt
 
 import lejepa
 
+# --- 0. Device Configuration ---
+torch.set_default_dtype(torch.float32)
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Using device:", device)
+
 # --- 1. Settings from Section 4.1 & D.1 ---
 SEED = 42
 torch.manual_seed(SEED)
@@ -14,8 +20,8 @@ np.random.seed(SEED)
 # Dimensions & Parameters
 n = 1000        # Dataset size
 m = 10          # Total feature dimension
-ml = 9          # Size of larger part (background-like)
-ms = 1          # Size of smaller part (object-like)
+ml = 8          # Size of larger part (background-like)
+ms = 2          # Size of smaller part (object-like)
 d = 2           # Output dimension
 
 steps = 6000
@@ -26,28 +32,29 @@ init_std = 0.01         # Small initialization to start from 0 eigenvalues
 
 # --- 2. Data Generation (Section 4.1) ---
 class ExtentBiasDataset:
-    def __init__(self, n, ml, ms, noise_a):
+    def __init__(self, n, ml, ms, noise_a, device=device):
         self.n = n
         self.ml = ml
         self.ms = ms
         self.noise_a = noise_a
+        self.device = device
         
         # Generate x_base: bl, bs ~ Bernoulli(0.5) -> {-1, 1}
         # Shape: (n, 1)
-        bl = torch.randint(0, 2, (n, 1)).float() * 2 - 1
-        bs = torch.randint(0, 2, (n, 1)).float() * 2 - 1
+        bl = torch.randint(0, 2, (n, 1), device=self.device).float() * 2 - 1
+        bs = torch.randint(0, 2, (n, 1), device=self.device).float() * 2 - 1
         
         # Construct base vectors: [bl * 1_ml, bs * 1_ms]
-        part_l = bl @ torch.ones(1, ml)
-        part_s = bs @ torch.ones(1, ms)
+        part_l = bl @ torch.ones(1, ml, device=self.device)
+        part_s = bs @ torch.ones(1, ms, device=self.device)
         
         # x_base: (n, m)
         self.x_base = torch.cat([part_l, part_s], dim=1)
 
     def get_batch(self):
         # Augmentation: x = x_base + epsilon
-        noise1 = torch.randn_like(self.x_base) * self.noise_a
-        noise2 = torch.randn_like(self.x_base) * self.noise_a
+        noise1 = torch.randn_like(self.x_base).to(self.device) * self.noise_a
+        noise2 = torch.randn_like(self.x_base).to(self.device) * self.noise_a
         
         x1 = self.x_base + noise1
         x2 = self.x_base + noise2
@@ -55,16 +62,16 @@ class ExtentBiasDataset:
 
 # --- 3. Feature Definitions for Alignment ---
 # Unit vectors for alignment measurement
-v_l = torch.cat([torch.ones(ml), torch.zeros(ms)]).float()
-v_s = torch.cat([torch.zeros(ml), torch.ones(ms)]).float()
+v_l = torch.cat([torch.ones(ml, device=device), torch.zeros(ms, device=device)]).float()
+v_s = torch.cat([torch.zeros(ml, device=device), torch.ones(ms, device=device)]).float()
 # e_l = v_l / torch.norm(v_l)
 # e_s = v_s / torch.norm(v_s)
-e_l = v_l
-e_s = v_s
+e_l = v_l.to(device)
+e_s = v_s.to(device)
 
 # --- 4. Model & Loss (Toy Barlow Twins - No Batch Norm) ---
 # Theoretical framework uses Linear network without Bias
-model = nn.Linear(m, d, bias=False)
+model = nn.Linear(m, d, bias=False).to(device)
 nn.init.normal_(model.weight, mean=0.0, std=init_std)
 
 optimizer = optim.SGD(model.parameters(), lr=lr)
@@ -95,14 +102,14 @@ def toy_barlow_twins_loss(z1, z2, lambd):
     loss_fn = lejepa.multivariate.SlicingUnivariateTest(
         univariate_test=univariate_test,
         num_slices=128
-    )
+    ).to(device)
     loss_sigreg = (loss_fn(z1) + loss_fn(z2)) / 2
     
     loss = (1 - lambd) * on_diag +  bt_lambda * loss_sigreg
     return loss, c
 
 # --- 5. Training Loop ---
-dataset = ExtentBiasDataset(n, ml, ms, noise_a)
+dataset = ExtentBiasDataset(n, ml, ms, noise_a, device=device)
 
 log_loss = []
 log_eig1 = []

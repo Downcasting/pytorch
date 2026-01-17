@@ -11,16 +11,16 @@ np.random.seed(SEED)
 
 # Dimensions & Parameters
 n = 1000        # Dataset size
-m = 10          # Total feature dimension
-ml = 9          # Size of larger part (background-like)
-ms = 1          # Size of smaller part (object-like)
+m = 8          # Total feature dimension
+ml = 6          # Size of larger part (background-like)
+ms = 2          # Size of smaller part (object-like)
 d = 2           # Output dimension
 
-steps = 6000
+steps = 10000
 noise_a = 0.01          # Augmentation noise parameter a
-lr = 6e-4               # Learning rate (Section D.1)
-bt_lambda = 0.8        # Scaling factor / Off-diagonal weight (Section D.1)
-init_std = 0.01         # Small initialization to start from 0 eigenvalues
+lr = 8e-4               # Learning rate (Section D.1)
+bt_lambda = 0.5        # Scaling factor / Off-diagonal weight (Section D.1)
+init_std = 5e-4         # Small initialization to start from 0 eigenvalues
 
 # --- 2. Data Generation (Section 4.1) ---
 class ExtentBiasDataset:
@@ -139,14 +139,15 @@ for t in range(steps):
         log_align_l.append(align_l.item())
         log_align_s.append(align_s.item())
 
-    print(f"Step {t+1}/{steps} - Loss: {loss.item():.4f} - Eig1: {eigvals[0].item():.4f} - Eig2: {eigvals[1].item():.4f} - Align_l: {align_l.item():.4f} - Align_s: {align_s.item():.4f}", end='\r')
+    if t % 100 == 0 or t == steps - 1:
+        print(f"Step {t+1}/{steps} - Loss: {loss.item():.4f} - Eig1: {eigvals[0].item():.4f} - Eig2: {eigvals[1].item():.4f} - Align_l: {align_l.item():.4f} - Align_s: {align_s.item():.4f}", end='\r')
 
 
 # --- 6. Visualization (Replicating Figure 1) ---
 fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
 # Plot 1: Loss Evolution
-axes[0].plot(range(steps), log_loss, color='green', label='Loss')
+axes[0].plot(range(steps), log_loss, color='blue', label='Loss')
 axes[0].set_title('Loss Evolution')
 axes[0].set_xlabel('Step')
 axes[0].set_ylabel('Loss')
@@ -154,7 +155,7 @@ axes[0].grid(True, linestyle='--', alpha=0.6)
 
 # Plot 2: Eigenvalues of Covariance Matrix
 axes[1].plot(range(steps), log_eig1, color='blue', label=r'$\lambda_1$')
-axes[1].plot(range(steps), log_eig2, color='red', label=r'$\lambda_2$')
+axes[1].plot(range(steps), log_eig2, color='blue', linestyle=':', label=r'$\lambda_2$')
 axes[1].set_title('Eigenvalues of Covariance Matrix')
 axes[1].set_xlabel('Step')
 axes[1].set_ylabel('Eigenvalue')
@@ -164,7 +165,7 @@ axes[1].grid(True, linestyle='--', alpha=0.6)
 
 # Plot 3: Feature Alignment
 axes[2].plot(range(steps), log_align_l, color='blue', label=r'$||We_l||^2$ (Background)')
-axes[2].plot(range(steps), log_align_s, color='red', label=r'$||We_s||^2$ (Object)')
+axes[2].plot(range(steps), log_align_s, color='blue', linestyle=':', label=r'$||We_s||^2$ (Object)')
 axes[2].set_title('Feature Alignment')
 axes[2].set_xlabel('Step')
 axes[2].set_ylabel(r'$||We||^2$')
