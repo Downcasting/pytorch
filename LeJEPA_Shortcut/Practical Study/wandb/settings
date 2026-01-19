@@ -1,0 +1,5 @@
+[default]
+entity = hoo9565j-hanyang-university
+project = colored-mnist
+base_url = https://api.wandb.ai
+

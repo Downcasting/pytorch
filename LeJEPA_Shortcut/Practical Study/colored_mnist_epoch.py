@@ -10,7 +10,7 @@ import os
 import wandb
 from pytorch_lightning.loggers import WandbLogger
 
-from callback import OnlineLinearEvaluation
+from callback import PeriodicLinearEvaluation
 
 class ColorMNIST(pl.LightningModule):
     def __init__(self, num_classes=10, learning_rate=1e-3, ssl=True, lambd = 1e-1):
@@ -20,23 +20,6 @@ class ColorMNIST(pl.LightningModule):
         self.feature_extractor = nn.Sequential(*list(self.backbone.children())[:-1])
         self.num_classes = num_classes
         self.learning_rate = learning_rate
-
-        def init_weights(m):
-            # Conv2d 또는 Linear 레이어만 골라서 초기화
-            if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
-                nn.init.normal_(m.weight, mean=0.0, std=1e-1)
-                # Bias가 있다면 0으로 초기화
-                if m.bias is not None:
-                    nn.init.constant_(m.bias, 0)
-            
-            # (옵션) BatchNorm은 보통 weight=1, bias=0으로 둡니다.
-            # 만약 BN까지 10^-5로 만들면 신호가 아예 죽을 수 있어 주의해야 합니다.
-            elif isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
-
-        # [적용] Backbone 전체에 재귀적으로 적용
-        self.backbone.apply(init_weights)
 
         self.lambd = lambd
         self.save_hyperparameters()
@@ -171,7 +154,7 @@ def main():
     # Initialize model
     model = ColorMNIST(num_classes=10, learning_rate=lr)
 
-    online_eval_callback = OnlineLinearEvaluation(
+    online_eval_callback = PeriodicLinearEvaluation(
         num_classes=10,
         feature_dim=512,      # ResNet18 output dim
         learning_rate=1e-3    # Probe용 LR (보통 SSL LR보다 약간 높게 잡음)
