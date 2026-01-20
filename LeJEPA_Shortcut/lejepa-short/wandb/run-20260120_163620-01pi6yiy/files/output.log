@@ -1,0 +1,11 @@
+Error executing job with overrides: ['+lamb=0.02', '+V=4', '+proj_dim=16', '+lr=2.5e-4', '+bs=32', '+epochs=800']
+Traceback (most recent call last):
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 113, in main
+    train_ds = HFDataset("train", V=cfg.V)
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 59, in __init__
+    self.ds = load_from_disk("./my_shortcut_imagenette")[split]
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\datasets\load.py", line 2244, in load_from_disk
+    raise FileNotFoundError(f"Directory {dataset_path} not found")
+FileNotFoundError: Directory ./my_shortcut_imagenette not found
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

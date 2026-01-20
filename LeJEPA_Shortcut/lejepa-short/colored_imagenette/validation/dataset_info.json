@@ -1,0 +1,66 @@
+{
+  "builder_name": "imagenette",
+  "citation": "@software{Howard_Imagenette_2019,\n    title={Imagenette: A smaller subset of 10 easily classified classes from Imagenet},\n    author={Jeremy Howard},\n    year={2019},\n    month={March},\n    publisher = {GitHub},\n    url = {https://github.com/fastai/imagenette}\n}\n",
+  "config_name": "160px",
+  "dataset_name": "imagenette",
+  "dataset_size": 107450797,
+  "description": "Imagenette is a subset of 10 easily classified classes from Imagenet\n(tench, English springer, cassette player, chain saw, church, French\nhorn, garbage truck, gas pump, golf ball, parachute).\nAll images were resized on their shortest side to 160 pixels.",
+  "download_checksums": {
+    "https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-160.tgz": {
+      "num_bytes": 99003388,
+      "checksum": null
+    },
+    "https://huggingface.co/datasets/frgfm/imagenette/resolve/main/metadata/imagenette2-160/train.txt": {
+      "num_bytes": 499691,
+      "checksum": null
+    },
+    "https://huggingface.co/datasets/frgfm/imagenette/resolve/main/metadata/imagenette2-160/val.txt": {
+      "num_bytes": 199182,
+      "checksum": null
+    }
+  },
+  "download_size": 99702261,
+  "features": {
+    "image": {
+      "_type": "Image"
+    },
+    "label": {
+      "names": [
+        "tench",
+        "English springer",
+        "cassette player",
+        "chain saw",
+        "church",
+        "French horn",
+        "garbage truck",
+        "gas pump",
+        "golf ball",
+        "parachute"
+      ],
+      "_type": "ClassLabel"
+    }
+  },
+  "homepage": "https://github.com/fastai/imagenette",
+  "license": "Apache License 2.0",
+  "size_in_bytes": 207153058,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 75944660,
+      "num_examples": 9469,
+      "dataset_name": "imagenette"
+    },
+    "validation": {
+      "name": "validation",
+      "num_bytes": 31506137,
+      "num_examples": 3925,
+      "dataset_name": "imagenette"
+    }
+  },
+  "version": {
+    "version_str": "1.0.0",
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  }
+}

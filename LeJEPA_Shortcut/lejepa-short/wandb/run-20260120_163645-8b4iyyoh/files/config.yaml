@@ -1,0 +1,80 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            iqc278xg3rkuaqevpyb4gmr3xyyym5du:
+                args:
+                    - +lamb=0.02
+                    - +V=4
+                    - +proj_dim=16
+                    - +lr=2.5e-4
+                    - +bs=32
+                    - +epochs=800
+                codePath: LeJEPA_Shortcut\lejepa-short\lejepa.py
+                codePathLocal: lejepa.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "13.1"
+                disk:
+                    /:
+                        total: "999369469952"
+                        used: "691153813504"
+                email: hoo9565j@hanyang.ac.kr
+                executable: C:\Users\hoo95\miniconda3\envs\pytorch_env\python.exe
+                git:
+                    commit: 1b00254c2dcde9790944c7ad321f0708b71718ea
+                    remote: git@github.com:Downcasting/pytorch.git
+                gpu: NVIDIA GeForce RTX 3080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 8960
+                      memoryTotal: "12884901888"
+                      name: NVIDIA GeForce RTX 3080
+                      uuid: GPU-e1a8d931-b27f-2da2-964d-b421ec1ae31a
+                host: JY_DESKTOP
+                memory:
+                    total: "34281406464"
+                os: Windows-10-10.0.26200-SP0
+                program: C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py
+                python: CPython 3.10.19
+                root: C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short
+                startedAt: "2026-01-20T07:36:45.311546Z"
+                writerId: iqc278xg3rkuaqevpyb4gmr3xyyym5du
+        m: []
+        python_version: 3.10.19
+        t:
+            "1":
+                - 1
+                - 41
+                - 49
+                - 50
+                - 51
+                - 63
+            "2":
+                - 1
+                - 41
+                - 49
+                - 50
+                - 51
+                - 63
+            "3":
+                - 16
+            "4": 3.10.19
+            "5": 0.23.1
+            "8":
+                - 3
+            "12": 0.23.1
+            "13": windows-amd64
+V:
+    value: 4
+bs:
+    value: 32
+epochs:
+    value: 800
+lamb:
+    value: 0.02
+lr:
+    value: 0.00025
+proj_dim:
+    value: 16

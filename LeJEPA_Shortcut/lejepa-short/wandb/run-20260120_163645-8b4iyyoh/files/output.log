@@ -1,0 +1,94 @@
+No checkpoint found. Starting from scratch.
+Start Training: Epochs= 0 ~ 800, BatchSize=32
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▍| 294/295 [00:54<00:00,  6.13it/s]C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\optim\lr_scheduler.py:243: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:54<00:00,  5.42it/s]
+Checkpoint saved at Epoch 0
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.08it/s]
+Checkpoint saved at Epoch 1
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.06it/s]
+Checkpoint saved at Epoch 2
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.05it/s]
+Checkpoint saved at Epoch 3
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.07it/s]
+Checkpoint saved at Epoch 4
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.06it/s]
+Checkpoint saved at Epoch 5
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.05it/s]
+Checkpoint saved at Epoch 6
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.06it/s]
+Checkpoint saved at Epoch 7
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.06it/s]
+Checkpoint saved at Epoch 8
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.05it/s]
+Checkpoint saved at Epoch 9
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:48<00:00,  6.05it/s]
+Checkpoint saved at Epoch 10
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:50<00:00,  5.81it/s]
+Checkpoint saved at Epoch 11
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:50<00:00,  5.85it/s]
+Checkpoint saved at Epoch 12
+Traceback (most recent call last):
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 210, in <module>
+    main()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\main.py", line 94, in decorated_main
+    _run_hydra(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 394, in _run_hydra
+    _run_app(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 457, in _run_app
+    run_and_report(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 220, in run_and_report
+    return func()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\hydra.py", line 119, in run
+    ret = run_job(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\core\utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 200, in main
+    for vs, y in test:
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 708, in __next__
+    data = self._next_data()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 1458, in _next_data
+    idx, data = self._get_data()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 1410, in _get_data
+    success, data = self._try_get_data()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 1251, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\queue.py", line 180, in get
+    self.not_empty.wait(remaining)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\threading.py", line 324, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 210, in <module>
+    main()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\main.py", line 94, in decorated_main
+    _run_hydra(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 394, in _run_hydra
+    _run_app(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 457, in _run_app
+    run_and_report(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 220, in run_and_report
+    return func()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\hydra.py", line 119, in run
+    ret = run_job(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\core\utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 200, in main
+    for vs, y in test:
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 708, in __next__
+    data = self._next_data()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 1458, in _next_data
+    idx, data = self._get_data()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 1410, in _get_data
+    success, data = self._try_get_data()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\utils\data\dataloader.py", line 1251, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\queue.py", line 180, in get
+    self.not_empty.wait(remaining)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\threading.py", line 324, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
