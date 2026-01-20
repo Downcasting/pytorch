@@ -164,9 +164,17 @@ def main():
     val_dataset = SavedColoredMNIST(root="./colored_mnist", split="test")
     val_dataset = ValWrapper(val_dataset, val_transform)
 
+    val_dataset = datasets.MNIST(root="./data", train=False, download=True, transform=transforms.Compose([
+        transforms.Resize((48,48)),
+        transforms.Grayscale(num_output_channels=3),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
+    ]))
+
     # Create dataloaders
     train_loader = DataLoader(train_dataset, batch_size=256, shuffle=True, num_workers=4, persistent_workers=True, drop_last=True)
     val_loader = DataLoader(val_dataset, batch_size=256, shuffle=False, num_workers=4, persistent_workers=True, drop_last=True)
+    # test_loader = DataLoader(test_dataset, batch_size=256, shuffle=False, num_workers=4, persistent_workers=True, drop_last=True)
 
     # Initialize model
     model = ColorMNIST(num_classes=10, learning_rate=lr)
@@ -189,9 +197,6 @@ def main():
 
     # Train the model
     trainer.fit(model, train_loader, val_loader)
-
-    # Test the model
-    trainer.test(model, val_loader)
 
 
 if __name__ == "__main__":
