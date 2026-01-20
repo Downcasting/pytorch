@@ -60,6 +60,9 @@ class ColorMNIST(pl.LightningModule):
         
         return loss
     
+    def validation_step(self, batch, batch_idx):
+        pass
+    
     def configure_optimizers(self):
         return torch.optim.SGD(self.parameters(), lr=self.learning_rate, momentum=0.9, weight_decay=1e-6)
 
