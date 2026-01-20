@@ -15,3 +15,5 @@ stable-pretraining/
 
 *.pt
 *.arrow
+
+*.wandb
