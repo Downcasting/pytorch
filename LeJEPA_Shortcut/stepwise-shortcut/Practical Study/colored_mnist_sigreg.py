@@ -191,11 +191,7 @@ def main():
     # Initialize model
     model = ColorMNIST(num_classes=10, learning_rate=lr)
 
-    online_eval_callback = OnlineLinearEvaluation(
-        num_classes=10,
-        feature_dim=512,      # ResNet18 output dim
-        learning_rate=1e-3    # Probe용 LR (보통 SSL LR보다 약간 높게 잡음)
-    )
+      
 
     # Initialize trainer
     trainer = pl.Trainer(

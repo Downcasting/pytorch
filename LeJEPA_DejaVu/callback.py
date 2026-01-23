@@ -3,8 +3,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 from pytorch_lightning.callbacks import Callback
 
+from LeJEPA_DejaVu.dejavu import search_kNN
+import numpy as np
+
 class OnlineLinearEvaluation(Callback):
-    def __init__(self, num_classes, feature_dim, learning_rate=1e-3, **kwargs):
+    def __init__(self, num_classes, feature_dim, every_n_epochs = 100, **kwargs):
         """
         SSL 학습과 동시에 Linear Probe를 진행하는 Callback
         Args:
@@ -15,70 +18,36 @@ class OnlineLinearEvaluation(Callback):
         """
         super().__init__()
         self.num_classes = num_classes
-        self.feature_dim = feature_dim
-        
-        self.probe_epochs = 10
-        self.optimizer = None
+        self.every_n_epochs = every_n_epochs
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
-        # 1. 데이터 가져오기 (3-Way 구조: ((x1, x2), x_clean), y)
-        ((x1, x2), x_clean), y = batch
+    def on_train_epoch_end(self, trainer, pl_module):
         
-        # GPU 이동
-        x = x_clean.to(pl_module.device)
-        y = y.to(pl_module.device)
+        current_epoch = trainer.current_epoch + 1
+        if current_epoch % self.every_n_epochs != 0:
+            return
 
-        # 2. Feature Extraction (Backbone Gradient 차단)
+        pl_module.eval()
+
+        accuracy = 0
+        representations = []
+        labels = []
         with torch.no_grad():
-            features = pl_module(x)
-        features = features.detach() # Gradient Flow 차단
-
-        # 3. Probe Forward
-        logits = self.probe(features)
-        
-        # --- [추가됨] Loss 및 Accuracy 계산 ---
-        loss = F.cross_entropy(logits, y)
-        acc = (logits.argmax(dim=1) == y).float().mean() # 정확도 계산 로직 추가
-        # -----------------------------------
-
-        # 4. Probe Update
-        self.optimizer.zero_grad()
-        loss.backward()
-        self.optimizer.step()
-        
-        # 5. Logging (Train Loss와 Train Acc 모두 기록)
-        # on_step=True로 설정하여 매 스텝마다 그래프를 그립니다.
-        pl_module.log("online/train_loss", loss, on_step=True, on_epoch=False)
-        pl_module.log("online/train_acc", acc, on_step=True, on_epoch=False)
+            for batch_idx, (data, label) in enumerate(trainer.datamodule.val_dataloader()):
+                data = data.to(pl_module.device)
+                outputs = pl_module(data)
+                representations.append(outputs.cpu())
+                labels.append(label.cpu())
 
 
+        for _, (data, labels) in enumerate(trainer.datamodule.train_dataloader()):
+            data = data.to(pl_module.device)
+            outputs_a = pl_module(data)
 
-    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx=0):
-        """
-        [Validation Loop] 모델에 validation_step이 있으면 자동으로 호출됨
-        여기서 평가만 진행
-        """
-        x, y = batch
-        x = x.to(pl_module.device)
-        y = y.to(pl_module.device)
-
-        with torch.no_grad():
-            features = pl_module(x)
-            logits = self.probe(features)
-            loss = F.cross_entropy(logits, y)
-            acc = (logits.argmax(dim=1) == y).float().mean()
+            answer_a = search_kNN(outputs_a.cpu(), representations, labels, k=100)
+            accuracy += np.sum(answer_a == labels.numpy())
+            
+        accuracy = accuracy / len(trainer.datamodule.train_dataloader().dataset)
 
         # Logging (Epoch 단위 평균 기록)
-        pl_module.log("online/val_loss", loss, on_step=False, on_epoch=True, sync_dist=True)
-        pl_module.log("online/val_acc", acc, on_step=False, on_epoch=True, prog_bar=True, sync_dist=True)
+        pl_module.log("online/val_acc", accuracy, on_step=False, on_epoch=True, prog_bar=True, sync_dist=True)
 
-    def on_save_checkpoint(self, trainer, pl_module, checkpoint):
-        # 체크포인트 저장 시 Probe 상태도 같이 저장
-        checkpoint['online_eval_probe'] = self.probe.state_dict()
-        checkpoint['online_eval_optimizer'] = self.optimizer.state_dict()
-
-    def on_load_checkpoint(self, trainer, pl_module, callback_state):
-        # 체크포인트 로드 시 Probe 상태 복구
-        if 'online_eval_probe' in callback_state:
-            self.probe.load_state_dict(callback_state['online_eval_probe'])
-            self.optimizer.load_state_dict(callback_state['online_eval_optimizer'])
