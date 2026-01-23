@@ -11,6 +11,83 @@ from torchvision.ops import MLP
 
 # [추가됨]
 import os 
+import io
+import matplotlib.pyplot as plt
+from PIL import Image
+import numpy as np
+
+
+# -----------------------------------------------------------------------------
+# [Helper Class] 온라인 공분산 계산기 (메모리 절약 & 코드 정리용)
+# -----------------------------------------------------------------------------
+class OnlineCovariance:
+    def __init__(self, device="cuda"):
+        self.device = device
+        self.sum_x = None
+        self.sum_xtx = None
+        self.n = 0
+
+    def update(self, features):
+        """배치 단위 Feature를 받아서 통계량 누적"""
+        # features: [Batch, D]
+        # BFloat16이면 정밀도 위해 Float32로 변환
+        x = features.detach().float()
+        batch_size = x.size(0)
+        
+        if self.sum_x is None:
+            d = x.size(1)
+            self.sum_x = torch.zeros(d, device=self.device)
+            self.sum_xtx = torch.zeros(d, d, device=self.device)
+            
+        self.sum_x += x.sum(dim=0)
+        self.sum_xtx += x.T @ x
+        self.n += batch_size
+
+    def compute_eigvals(self):
+        """최종 Eigenvalue 계산 (내림차순 정렬)"""
+        if self.n <= 1: return None
+        
+        # E[X^T X] - E[X]^T E[X] 공식 사용
+        mean_x = self.sum_x / self.n
+        mean_xtx = self.sum_xtx / self.n
+        cov = mean_xtx - (mean_x.unsqueeze(1) @ mean_x.unsqueeze(0))
+        
+        # Eigen Decomposition (Symmetric)
+        eigvals, _ = torch.linalg.eigh(cov)
+        
+        # 내림차순 정렬, 음수 노이즈 제거, CPU로 이동
+        return eigvals.flip(dims=(0,)).clamp(min=0).cpu().numpy()
+
+def compute_effective_rank(eigvals):
+    """Effective Rank 계산"""
+    if eigvals is None: return 0
+    eig_sum = eigvals.sum()
+    eig_sq_sum = (eigvals ** 2).sum()
+    return (eig_sum ** 2) / eig_sq_sum if eig_sq_sum > 0 else 0
+
+def plot_combined_spectrum(eig_colored, eig_clean, epoch):
+    """Colored와 Clean 스펙트럼을 비교하는 그래프 생성"""
+    fig, ax = plt.subplots(figsize=(6, 4))
+    
+    # Log-Log Scale Plot
+    if eig_colored is not None:
+        ax.loglog(eig_colored, label='Colored (Valid)', color='red', alpha=0.7, linewidth=2)
+    if eig_clean is not None:
+        ax.loglog(eig_clean, label='Clean (OOD)', color='blue', alpha=0.7, linewidth=2, linestyle='--')
+        
+    ax.set_title(f"Eigenvalue Spectrum (Epoch {epoch})")
+    ax.set_xlabel("Rank Index (Log)")
+    ax.set_ylabel("Eigenvalue (Log)")
+    ax.legend()
+    ax.grid(True, which="both", ls="-", alpha=0.3)
+    
+    # 이미지로 변환
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    img = Image.open(buf)
+    plt.close(fig)
+    return img
 
 # 1. SIGReg Test Statistic
 class SIGReg(torch.nn.Module):
@@ -54,9 +131,12 @@ class ViTEncoder(nn.Module):
     
 # 3. Dataset Definition
 class HFDataset(torch.utils.data.Dataset):
-    def __init__(self, split, V=1):
+    def __init__(self, split, V=1, mode='colored'):
         self.V = V
-        self.ds = load_from_disk("./colored_imagenette")[split]
+        if mode == 'clean':
+            self.ds = load_dataset("frgfm/imagenette", "160px", split=split)
+        else:
+            self.ds = load_from_disk("./colored_imagenette")[split]
         self.aug = v2.Compose(
             [
                 v2.RandomResizedCrop(128, scale=(0.08, 1.0)),
@@ -112,9 +192,11 @@ def main(cfg: DictConfig):
 
     train_ds = HFDataset("train", V=cfg.V)
     test_ds = HFDataset("validation", V=1)
+    test_ds_clean = HFDataset("validation", V=1, mode='clean')
     # [추가됨 - num workers 8 -> 4, persistent_workers=True, pin_memory=True]
     train = DataLoader(train_ds, batch_size=cfg.bs, shuffle=True, drop_last=True, num_workers=4, persistent_workers=True, pin_memory=True)
     test = DataLoader(test_ds, batch_size=256, num_workers=4, persistent_workers=True, pin_memory=True)
+    test_clean = DataLoader(test_ds_clean, batch_size=256, num_workers=4, persistent_workers=True, pin_memory=True)
 
     # modules and loss
     net = ViTEncoder(proj_dim=cfg.proj_dim).to("cuda")
@@ -195,14 +277,70 @@ def main(cfg: DictConfig):
 
         # Evaluation
         net.eval(), probe.eval()
+
+        # Test Accuracy (Validation Set)
         correct = 0
+        correct_clean = 0
+
+        # 통계량 계산기 초기화
+        cov_colored = OnlineCovariance("cuda")
+        cov_clean = OnlineCovariance("cuda")
+
         with torch.inference_mode():
             for vs, y in test:
                 vs = vs.to("cuda", non_blocking=True)
                 y = y.to("cuda", non_blocking=True)
                 with autocast("cuda", dtype=torch.bfloat16):
-                    correct += (probe(net(vs)[0]).argmax(1) == y).sum().item()
-        wandb.log({"test/acc": correct / len(test_ds), "test/epoch": epoch})
+                    emb, proj = net(vs)
+                    correct += (probe(emb).argmax(1) == y).sum().item()
+                    cov_colored.update(emb)
+
+        acc = correct / len(test_ds)
+
+        # 2. Clean Test Accuracy (Original Imagenette)
+        with torch.inference_mode():
+            for vs, y in test_clean:
+                vs = vs.to("cuda", non_blocking=True)
+                y = y.to("cuda", non_blocking=True)
+                with autocast("cuda", dtype=torch.bfloat16):
+                    emb, proj = net(vs)
+                    logits = probe(emb)
+                    correct_clean += (logits.argmax(1) == y).sum().item()
+                    cov_clean.update(emb)
+        
+        acc_clean = correct_clean / len(test_ds_clean)
+
+        # Eigenvalue 계산
+        eig_vals_colored = cov_colored.compute_eigvals()
+        eig_vals_clean = cov_clean.compute_eigvals()
+        
+        # Effective Rank 계산
+        rank_colored = compute_effective_rank(eig_vals_colored)
+        rank_clean = compute_effective_rank(eig_vals_clean)
+
+        log_dict = {
+            "test/acc": acc,
+            "test/acc_clean": acc_clean,
+            "test/epoch": epoch,
+            
+            # Rank & Top-1 Eigenvalue는 매번 기록 (추세 확인용)
+            "analysis/rank_colored": rank_colored,
+            "analysis/rank_clean": rank_clean,
+            "analysis/rank_diff": rank_colored - rank_clean,
+            "analysis/top1_eig_colored": eig_vals_colored[0] if eig_vals_colored is not None else 0,
+            "analysis/top1_eig_clean": eig_vals_clean[0] if eig_vals_clean is not None else 0,
+        }
+
+        log_image_interval = 10 
+        
+        if epoch % log_image_interval == 0 or epoch == cfg.epochs - 1:
+            # 그래프 그리기 (이때만 수행)
+            spectrum_plot = plot_combined_spectrum(eig_vals_colored, eig_vals_clean, epoch)
+            
+            # 딕셔너리에 이미지 추가
+            log_dict["analysis/spectrum_plot"] = wandb.Image(spectrum_plot, caption=f"Spectrum Ep {epoch}")
+
+        wandb.log(log_dict)
     wandb.finish()
 
 

@@ -17,3 +17,7 @@ stable-pretraining/
 *.arrow
 
 *.wandb
+
+wandb/
+
+outputs/

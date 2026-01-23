@@ -602,4 +602,56 @@ Checkpoint saved at Epoch 297
 Checkpoint saved at Epoch 303
 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 295/295 [00:50<00:00,  5.86it/s]
 Checkpoint saved at Epoch 304
- 47%|████████████████████████████████████████████████████████████████████████████▎                                                                                     | 139/295 [00:23<00:26,  5.92it/s]
+ 98%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏   | 288/295 [00:49<00:01,  5.87it/s]
+Traceback (most recent call last):
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 210, in <module>
+    main()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\main.py", line 94, in decorated_main
+    _run_hydra(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 394, in _run_hydra
+    _run_app(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 457, in _run_app
+    run_and_report(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 220, in run_and_report
+    return func()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\hydra.py", line 119, in run
+    ret = run_job(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\core\utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 172, in main
+    scaler.step(opt)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\amp\grad_scaler.py", line 457, in step
+    retval = self._maybe_opt_step(optimizer, optimizer_state, *args, **kwargs)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\amp\grad_scaler.py", line 351, in _maybe_opt_step
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\amp\grad_scaler.py", line 351, in <genexpr>
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 210, in <module>
+    main()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\main.py", line 94, in decorated_main
+    _run_hydra(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 394, in _run_hydra
+    _run_app(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 457, in _run_app
+    run_and_report(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 220, in run_and_report
+    return func()
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\_internal\hydra.py", line 119, in run
+    ret = run_job(
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\hydra\core\utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "C:\Users\hoo95\Desktop\VS Code\Pytorch\pytorch\LeJEPA_Shortcut\lejepa-short\lejepa.py", line 172, in main
+    scaler.step(opt)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\amp\grad_scaler.py", line 457, in step
+    retval = self._maybe_opt_step(optimizer, optimizer_state, *args, **kwargs)
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\amp\grad_scaler.py", line 351, in _maybe_opt_step
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+  File "C:\Users\hoo95\miniconda3\envs\pytorch_env\lib\site-packages\torch\amp\grad_scaler.py", line 351, in <genexpr>
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+KeyboardInterrupt
