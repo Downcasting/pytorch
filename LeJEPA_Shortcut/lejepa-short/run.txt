@@ -42,3 +42,31 @@ python lejepa_cleanonly.py +lamb=0.32 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epoch
 
 # Runnable (32 Batch Size + Low learning rate with bigger lambda + ADAPTIVE LAMBDA)
 python lejepa_difflambda.py +lamb=0.32 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800 +adaptive_lambda=0.32 +top_k=1
+
+
+### hyperparams
+
+## Adaptive Regularization
+adaptive_lambda
+    [FLOAT value 0.0 ~ 1.0]
+    SIGReg Strength for adaptive lambdas.
+    This also works as ON/OFF button for adaptive lambda regularization
+    Also this is for the onlline regularization, NOT for pretrained-adaptive-lambdas
+
+top_k
+    [INT value 1 ~ 20]
+    Using only top k adaptive lambdas for the upper regularization
+
+
+## Clean-only dataset
+clean_pretrain
+    [BOOLEAN: True/False]
+    True if pretrain with clean data
+    False (or omit) if pretrain with patched(colored) data
+
+
+## Stepwise variances
+basis_path 
+    Used for checking pretrained eigenvectors,
+    to check the variances of those vectors
+    [May not be used due to its poor performance]

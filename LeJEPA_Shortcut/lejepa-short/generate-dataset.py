@@ -78,6 +78,7 @@ def add_box(example):
 
     # [핵심 수정] 튜플이 아닌, 수정된 example 딕셔너리 자체를 반환해야 합니다.
     example["image"] = img 
+    example["spurious_label"] = int(color_idx)
     return example
 
 def main():
