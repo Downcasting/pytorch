@@ -9,6 +9,8 @@ from PIL import Image, ImageDraw
 import numpy as np
 import matplotlib.pyplot as plt # import 위치 이동
 
+import os
+
 # 1. Dataset Definition
 ds_train = datasets.load_dataset("frgfm/imagenette", "160px", split="train")
 ds_test = datasets.load_dataset("frgfm/imagenette", "160px", split="validation")
@@ -93,13 +95,16 @@ def main():
     })
 
     # 한 번에 저장
-    dataset_dict.save_to_disk(save_path)
+    # dataset_dict.save_to_disk(save_path)
 
     # 4. 결과 확인
     print("Original Dataset:", ds_train)
     print("Modified Dataset:", modified_ds_train)
 
-    # 샘플 이미지 5장 확인
+    # 샘플 이미지 저장용 폴더 생성
+    os.makedirs('generated_samples', exist_ok=True)
+
+    # 샘플 이미지 5장 확인 및 저장
     fig, axs = plt.subplots(1, 5, figsize=(15, 3))
     
     # 랜덤하게 섞어서 5장 뽑기 (수정된 데이터셋에서)
@@ -110,11 +115,16 @@ def main():
         img = sample['image']
         lbl = sample['label']
         
+        # 개별 이미지 저장 (프레젠테이션용)
+        img.save(f"generated_samples/sample_{i}_label_{lbl}.png")
+
         axs[i].imshow(img)
         axs[i].set_title(f"Label: {lbl}")
         axs[i].axis('off')
-    
+        
+    # 전체 subplot 저장
     plt.tight_layout()
+    plt.savefig('generated_samples/combined_samples.png')
     plt.show()
 
 if __name__ == "__main__":

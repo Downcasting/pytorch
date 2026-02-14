@@ -12,6 +12,8 @@ from torchvision.ops import MLP
 # [추가됨]
 import os 
 import io
+import matplotlib
+matplotlib.use('Agg')  # 백엔드 설정 (GUI 필요 없음)
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np

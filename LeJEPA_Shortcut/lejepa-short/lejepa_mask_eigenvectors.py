@@ -45,9 +45,9 @@ class OnlineCovariance:
         self.sum_xtx += x.T @ x
         self.n += batch_size
 
-    def compute_eigvals(self):
+    def compute_spectrum(self, return_tensors=True):
         """최종 Eigenvalue 계산 (내림차순 정렬)"""
-        if self.n <= 1: return None
+        if self.n <= 1: return None, None
         
         # E[X^T X] - E[X]^T E[X] 공식 사용
         mean_x = self.sum_x / self.n
@@ -55,10 +55,21 @@ class OnlineCovariance:
         cov = mean_xtx - (mean_x.unsqueeze(1) @ mean_x.unsqueeze(0))
         
         # Eigen Decomposition (Symmetric)
-        eigvals, _ = torch.linalg.eigh(cov)
+        eigvals, eigvecs = torch.linalg.eigh(cov)
         
-        # 내림차순 정렬, 음수 노이즈 제거, CPU로 이동
-        return eigvals.flip(dims=(0,)).clamp(min=0).cpu().numpy()
+        # 3. 내림차순 정렬 (Shortcut = Top Eigenvalues)
+        # 중요: Eigenvalue 순서에 맞춰 Eigenvector도 순서를 바꿔야 함
+        idx = torch.argsort(eigvals, descending=True)
+        
+        sorted_eigvals = eigvals[idx].clamp(min=0) # 음수 방지
+        sorted_eigvecs = eigvecs[:, idx] # 열 순서 재배치
+
+        if return_tensors:
+            # Loss 계산에 바로 쓸 수 있게 CUDA Tensor 반환
+            return sorted_eigvals, sorted_eigvecs
+        else:
+            # 로깅용 CPU Numpy 반환
+            return sorted_eigvals.cpu().numpy(), sorted_eigvecs.cpu().numpy()
 
 def compute_effective_rank(eigvals):
     """Effective Rank 계산"""
@@ -67,12 +78,15 @@ def compute_effective_rank(eigvals):
     eig_sq_sum = (eigvals ** 2).sum()
     return (eig_sum ** 2) / eig_sq_sum if eig_sq_sum > 0 else 0
 
-def plot_combined_spectrum(eig, epoch):
+def plot_combined_spectrum(eig_colored, eig_clean, epoch):
+    """Colored와 Clean 스펙트럼을 비교하는 그래프 생성"""
     fig, ax = plt.subplots(figsize=(6, 4))
     
     # Log-Log Scale Plot
-    if eig is not None:
-        ax.loglog(eig, label='eigenvals', color='red', alpha=0.7, linewidth=2)
+    if eig_colored is not None:
+        ax.loglog(eig_colored, label='Colored (Valid)', color='red', alpha=0.7, linewidth=2)
+    if eig_clean is not None:
+        ax.loglog(eig_clean, label='Clean (OOD)', color='blue', alpha=0.7, linewidth=2, linestyle='--')
         
     ax.set_title(f"Eigenvalue Spectrum (Epoch {epoch})")
     ax.set_xlabel("Rank Index (Log)")
@@ -101,9 +115,12 @@ class SIGReg(torch.nn.Module):
         self.register_buffer("phi", window)
         self.register_buffer("weights", weights * window)
 
-    def forward(self, proj):
-        A = torch.randn(proj.size(-1), 256, device="cuda")
-        A = A.div_(A.norm(p=2, dim=0))
+    def forward(self, proj, target_vec=None):
+        if target_vec is None:
+            A = torch.randn(proj.size(-1), 256, device="cuda") # [D, K]
+            A = A.div_(A.norm(p=2, dim=0))
+        else:
+            A = target_vec.to(proj.device)  # [D, K]
         x_t = (proj @ A).unsqueeze(-1) * self.t
         err = (x_t.cos().mean(-3) - self.phi).square() + x_t.sin().mean(-3).square()
         statistic = (err @ self.weights) * proj.size(-2)
@@ -130,9 +147,12 @@ class ViTEncoder(nn.Module):
     
 # 3. Dataset Definition
 class HFDataset(torch.utils.data.Dataset):
-    def __init__(self, split, V=1):
+    def __init__(self, split, V=1, mode='colored'):
         self.V = V
-        self.ds = load_dataset("frgfm/imagenette", "160px", split=split)
+        if mode == 'clean':
+            self.ds = load_dataset("frgfm/imagenette", "160px", split=split)
+        else:
+            self.ds = load_from_disk("./colored_imagenette")[split]
         self.aug = v2.Compose(
             [
                 v2.RandomResizedCrop(128, scale=(0.08, 1.0)),
@@ -188,9 +208,11 @@ def main(cfg: DictConfig):
 
     train_ds = HFDataset("train", V=cfg.V)
     test_ds = HFDataset("validation", V=1)
+    test_ds_clean = HFDataset("validation", V=1, mode='clean')
     # [추가됨 - num workers 8 -> 4, persistent_workers=True, pin_memory=True]
     train = DataLoader(train_ds, batch_size=cfg.bs, shuffle=True, drop_last=True, num_workers=4, persistent_workers=True, pin_memory=True)
     test = DataLoader(test_ds, batch_size=256, num_workers=4, persistent_workers=True, pin_memory=True)
+    test_clean = DataLoader(test_ds_clean, batch_size=256, num_workers=4, persistent_workers=True, pin_memory=True)
 
     # modules and loss
     net = ViTEncoder(proj_dim=cfg.proj_dim).to("cuda")
@@ -205,9 +227,20 @@ def main(cfg: DictConfig):
     s1 = LinearLR(opt, start_factor=0.01, total_iters=warmup_steps)
     s2 = CosineAnnealingLR(opt, T_max=total_steps - warmup_steps, eta_min=1e-3)
     scheduler = SequentialLR(opt, schedulers=[s1, s2], milestones=[warmup_steps])
-
     
     scaler = GradScaler(enabled="cuda" == "cuda")
+
+    ### [추가됨] Lambda를 추가로 넣어 상위 eigenvalue 억제
+    adaptive_lambda = cfg.get("adaptive_lambda", None)
+    if adaptive_lambda:
+        print("Using Adaptive Lambda Scheduling")
+        top_k = cfg.top_k  # 상위 k개 벡터
+    else:
+        adaptive_lambda = None
+        top_k = None
+
+    adaptive_vecs_proj = None
+    adaptive_vecs_emb = None
 
     # 1. [추가됨] 저장된 모델이 있으면 불러오기 (Resume)
     if os.path.exists(checkpoint_path):
@@ -220,6 +253,8 @@ def main(cfg: DictConfig):
         scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
         scaler.load_state_dict(checkpoint['scaler_state_dict'])
         start_epoch = checkpoint['epoch'] + 1
+        adaptive_vecs_proj = checkpoint.get('adaptive_vectors_proj', None)
+        adaptive_vecs_emb = checkpoint.get('adaptive_vectors_emb', None)
         print(f"Resuming from Epoch {start_epoch}")
     else:
         print("No checkpoint found. Starting from scratch.")
@@ -241,7 +276,18 @@ def main(cfg: DictConfig):
                 lejepa_loss = sigreg_loss * cfg.lamb + inv_loss * (1 - cfg.lamb)
                 y_rep, yhat = y.repeat_interleave(cfg.V), probe(emb.detach())
                 probe_loss = F.cross_entropy(yhat, y_rep)
-                loss = lejepa_loss + probe_loss
+
+                # [추가됨] Adaptive Lambda Scheduling
+                adaptive_loss = 0.0
+                if adaptive_lambda is not None and adaptive_lambda > 0.0 and adaptive_vecs_proj is not None:
+                    adaptive_loss = sigreg(proj, target_vec=adaptive_vecs_proj[:, :top_k]) * adaptive_lambda
+
+
+                # [추가됨] 아직은 사용 안 하는 걸로
+                # if adaptive_vecs_emb is not None:
+                #     adaptive_loss += sigreg(emb, target_vec=adaptive_vecs_emb[:, :top_k]) * adaptive_lambda
+
+                loss = lejepa_loss + probe_loss + adaptive_loss
 
             opt.zero_grad()
             scaler.scale(loss).backward()
@@ -253,6 +299,7 @@ def main(cfg: DictConfig):
                     "train/probe": probe_loss.item(),
                     "train/lejepa": lejepa_loss.item(),
                     "train/sigreg": sigreg_loss.item(),
+                    "train/adaptive": adaptive_loss.item() / adaptive_lambda if isinstance(adaptive_loss, torch.Tensor) else adaptive_loss,
                     "train/inv": inv_loss.item(),
                 }
             )
@@ -266,18 +313,26 @@ def main(cfg: DictConfig):
             'scheduler_state_dict': scheduler.state_dict(),
             'scaler_state_dict': scaler.state_dict(),
             'wandb_run_id': wandb.run.id,
+            'adaptive_vectors_proj': adaptive_vecs_proj,
+            'adaptive_vectors_emb': adaptive_vecs_emb,
         }, checkpoint_path)
         print(f"Checkpoint saved at Epoch {epoch}")
+
+        if epoch % 40 == 0:
+            torch.save(net.state_dict(), f"vit_encoder_epoch{epoch}.pth")
 
         # Evaluation
         net.eval(), probe.eval()
 
         # Test Accuracy (Validation Set)
         correct = 0
+        correct_clean = 0
 
         # 통계량 계산기 초기화
-        cov = OnlineCovariance("cuda")
-        cov_proj = OnlineCovariance("cuda")
+        cov_colored_proj = OnlineCovariance("cuda")
+        cov_clean_proj = OnlineCovariance("cuda")
+        cov_colored = OnlineCovariance("cuda")
+        cov_clean = OnlineCovariance("cuda")
 
         with torch.inference_mode():
             for vs, y in test:
@@ -286,46 +341,77 @@ def main(cfg: DictConfig):
                 with autocast("cuda", dtype=torch.bfloat16):
                     emb, proj = net(vs)
                     correct += (probe(emb).argmax(1) == y).sum().item()
-                    cov.update(emb)
-                    cov_proj.update(proj.flatten(0, 1))
+                    cov_colored.update(emb)
+                    cov_colored_proj.update(proj.flatten(0, 1))
 
         acc = correct / len(test_ds)
 
+        # 2. Clean Test Accuracy (Original Imagenette)
+        with torch.inference_mode():
+            for vs, y in test_clean:
+                vs = vs.to("cuda", non_blocking=True)
+                y = y.to("cuda", non_blocking=True)
+                with autocast("cuda", dtype=torch.bfloat16):
+                    emb, proj = net(vs)
+                    logits = probe(emb)
+                    correct_clean += (logits.argmax(1) == y).sum().item()
+                    cov_clean.update(emb)
+                    cov_clean_proj.update(proj.flatten(0, 1))
+        
+        acc_clean = correct_clean / len(test_ds_clean)
+
+        # [추가됨]
+        eig_vals_colored_tensor, eig_vecs_colored_tensor = cov_colored.compute_spectrum(return_tensors=True)
+        eig_vals_colored_proj_tensor, eig_vecs_colored_proj_tensor = cov_colored_proj.compute_spectrum(return_tensors=True)
+        
+        # 다음 Epoch을 위해 Top-k 벡터 저장 (Gradient 전파 안 되게 detach)
+        if eig_vecs_colored_tensor is not None and top_k is not None and top_k > 0:
+            adaptive_vecs_proj = eig_vecs_colored_proj_tensor[:, :top_k].detach()
+            adaptive_vecs_emb = eig_vecs_colored_tensor[:, :top_k].detach()
+
         # Eigenvalue 계산
-        eig_vals = cov.compute_eigvals()
-        eig_vals_proj = cov_proj.compute_eigvals()
+        eig_vals_colored = eig_vals_colored_tensor.cpu().numpy()
+        eig_vals_clean, _ = cov_clean.compute_spectrum(return_tensors=False)
+
+        eig_vals_colored_proj = eig_vals_colored_proj_tensor.cpu().numpy()
+        eig_vals_clean_proj, _ = cov_clean_proj.compute_spectrum(return_tensors=False)
         
         # Effective Rank 계산
-        rank = compute_effective_rank(eig_vals)
-        rank_proj = compute_effective_rank(eig_vals_proj)
+        rank_colored = compute_effective_rank(eig_vals_colored)
+        rank_clean = compute_effective_rank(eig_vals_clean)
+
+        rank_colored_proj = compute_effective_rank(eig_vals_colored_proj)
+        rank_clean_proj = compute_effective_rank(eig_vals_clean_proj)
 
         log_dict = {
             "test/acc": acc,
-            "test/acc_clean": acc,
+            "test/acc_clean": acc_clean,
             "test/epoch": epoch,
             
             # Rank & Top-1 Eigenvalue는 매번 기록 (추세 확인용)
-            "analysis/rank_colored": rank,
-            "analysis/rank_clean": rank,
-            "analysis/top1_eig_colored": eig_vals[0] if eig_vals is not None else 0,
-            "analysis/top1_eig_clean": eig_vals[0] if eig_vals is not None else 0,
-            "analysis/rank_colored_proj": rank_proj,
-            "analysis/rank_clean_proj": rank_proj,
-            "analysis/top1_eig_colored_proj": eig_vals_proj[0] if eig_vals_proj is not None else 0,
-            "analysis/top1_eig_clean_proj": eig_vals_proj[0] if eig_vals_proj is not None else 0,
+            "analysis/rank_colored": rank_colored,
+            "analysis/rank_clean": rank_clean,
+            "analysis/rank_diff": rank_colored - rank_clean,
+            "analysis/top1_eig_colored": eig_vals_colored[0] if eig_vals_colored is not None else 0,
+            "analysis/top1_eig_clean": eig_vals_clean[0] if eig_vals_clean is not None else 0,
+            "analysis/rank_colored_proj": rank_colored_proj,
+            "analysis/rank_clean_proj": rank_clean_proj,
+            "analysis/rank_diff_proj": rank_colored_proj - rank_clean_proj,
+            "analysis/top1_eig_colored_proj": eig_vals_colored_proj[0] if eig_vals_colored_proj is not None else 0,
+            "analysis/top1_eig_clean_proj": eig_vals_clean_proj[0] if eig_vals_clean_proj is not None else 0,
         }
 
         log_image_interval = 10 
         
         if epoch % log_image_interval == 0 or epoch == cfg.epochs - 1:
             # 그래프 그리기 (이때만 수행)
-            spectrum_plot = plot_combined_spectrum(eig_vals, epoch)
-            spectrum_plot_proj = plot_combined_spectrum(eig_vals_proj, epoch)
+            spectrum_plot = plot_combined_spectrum(eig_vals_colored, eig_vals_clean, epoch)
+            spectrum_plot_proj = plot_combined_spectrum(eig_vals_colored_proj, eig_vals_clean_proj, epoch)
             
             # 딕셔너리에 이미지 추가
             log_dict["analysis/spectrum_plot"] = wandb.Image(spectrum_plot, caption=f"Spectrum Ep {epoch}")
             log_dict["analysis/spectrum_plot_proj"] = wandb.Image(spectrum_plot_proj, caption=f"Spectrum Ep {epoch}")
-            
+
         wandb.log(log_dict)
     wandb.finish()
 
