@@ -38,10 +38,6 @@
         "parachute"
       ],
       "_type": "ClassLabel"
-    },
-    "spurious_label": {
-      "dtype": "int64",
-      "_type": "Value"
     }
   },
   "homepage": "https://github.com/fastai/imagenette",

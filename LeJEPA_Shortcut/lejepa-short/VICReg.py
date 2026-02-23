@@ -118,31 +118,6 @@ def plot_combined_spectrum(eig_colored, eig_clean, epoch):
     plt.close(fig)
     return img
 
-def project_to_nullspace(features, eigvecs):
-    """
-    features: [Batch, D] - 원본 임베딩 (emb)
-    eigvecs: [D, K] - 마스킹할 Top-K Eigenvectors (adaptive_vecs_emb)
-    """
-    if eigvecs is None or eigvecs.size(1) == 0:
-        return features
-    
-    # 1. (선택 사항) 엄밀한 투영을 위해 평균을 0으로 맞춤 (Covariance 기반이므로)
-    # mean_f = features.mean(dim=0, keepdim=True)
-    # centered_features = features - mean_f
-    
-    # 2. X @ V: 특징 벡터를 Top-k 방향으로 투영했을 때의 계수 (Coefficient)
-    proj_coeff = features @ eigvecs  # [Batch, K]
-    
-    # 3. (X @ V) @ V^T: Top-k 방향으로 복원된(reconstructed) 성분
-    reconstructed = proj_coeff @ eigvecs.T  # [Batch, D]
-    
-    # 4. Nullspace: 원본에서 복원된 성분을 제거
-    null_features = features - reconstructed
-    
-    # 5. 평균을 뺐었다면 다시 더해줌 (선택)
-    # return null_features + mean_f
-    return null_features
-
 # 1. SIGReg Test Statistic
 class SIGReg(torch.nn.Module):
     def __init__(self, knots=17):
@@ -271,7 +246,7 @@ def main(cfg: DictConfig):
     # modules and loss
     net = ViTEncoder(proj_dim=cfg.proj_dim).to("cuda")
     probe = nn.Sequential(nn.LayerNorm(512), nn.Linear(512, 10)).to("cuda")
-    sigreg = SIGReg().to("cuda")
+    # sigreg = SIGReg().to("cuda")
     # Optimizer and scheduler
     g1 = {"params": net.parameters(), "lr": cfg.lr, "weight_decay": 5e-2}
     g2 = {"params": probe.parameters(), "lr": 1e-3, "weight_decay": 1e-7}
@@ -349,23 +324,58 @@ def main(cfg: DictConfig):
                 vs = vs.to("cuda", non_blocking=True)
                 y = y.to("cuda", non_blocking=True)
                 emb, proj = net(vs)
+                # inv_loss = (proj.mean(0) - proj).square().mean()
+                # sigreg_loss = sigreg(proj)
+                # lejepa_loss = sigreg_loss * cfg.lamb + inv_loss * (1 - cfg.lamb)
+
+
+                # 1. Invariance Loss (기존 inv_loss와 동일)
                 inv_loss = (proj.mean(0) - proj).square().mean()
-                sigreg_loss = sigreg(proj)
-                lejepa_loss = sigreg_loss * cfg.lamb + inv_loss * (1 - cfg.lamb)
+                
+                # 2. Variance & Covariance Loss
+                var_loss = 0.0
+                cov_loss = 0.0
+                
+                # cfg.V (뷰 개수)만큼 반복하며 각 뷰의 배치를 계산
+                for v in range(proj.size(0)):
+                    z = proj[v] # Shape: [N, D]
+                    
+                    # Variance: 각 차원의 표준편차가 1 이상이 되도록 유지 (Hinge Loss) -> 차원 붕괴 방지
+                    std_z = torch.sqrt(z.var(dim=0) + 1e-04)
+                    var_loss += torch.mean(F.relu(1 - std_z))
+                    
+                    # Covariance: 서로 다른 차원 간의 상관관계를 0으로 억제 -> 정보 분산
+                    z_centered = z - z.mean(dim=0)
+                    cov_z = (z_centered.T @ z_centered) / (z.size(0) - 1)
+                    cov_z.fill_diagonal_(0.0) # 대각 성분(자기 자신의 분산)은 페널티에서 제외
+                    cov_loss += cov_z.pow(2).sum() / z.size(1)
+                    
+                var_loss = var_loss / proj.size(0)
+                cov_loss = cov_loss / proj.size(0)
+                
+                # 3. VICReg 총 Loss 
+                # (논문 기본 권장 가중치: Invariance=25, Variance=25, Covariance=1)
+                sim_coeff = 25.0
+                var_coeff = 25.0
+                cov_coeff = 1.0
+
+                
                 y_rep, yhat = y.repeat_interleave(cfg.V), probe(emb.detach())
                 probe_loss = F.cross_entropy(yhat, y_rep)
+                
+                vicreg_loss = sim_coeff * inv_loss + var_coeff * var_loss + cov_coeff * cov_loss
 
                 # [추가됨] Adaptive Lambda Scheduling
-                adaptive_loss = 0.0
-                if adaptive_lambda is not None and adaptive_lambda > 0.0 and adaptive_vecs_proj is not None:
-                    adaptive_loss = sigreg(proj, target_vec=adaptive_vecs_proj[:, :top_k]) * adaptive_lambda
+                # adaptive_loss = 0.0
+                # if adaptive_lambda is not None and adaptive_lambda > 0.0 and adaptive_vecs_proj is not None:
+                    # adaptive_loss = sigreg(proj, target_vec=adaptive_vecs_proj[:, :top_k]) * adaptive_lambda
 
 
                 # [추가됨] 아직은 사용 안 하는 걸로
                 # if adaptive_vecs_emb is not None:
                 #     adaptive_loss += sigreg(emb, target_vec=adaptive_vecs_emb[:, :top_k]) * adaptive_lambda
 
-                loss = lejepa_loss + probe_loss + adaptive_loss
+                loss = vicreg_loss + probe_loss
 
             opt.zero_grad()
             scaler.scale(loss).backward()
@@ -375,10 +385,10 @@ def main(cfg: DictConfig):
             wandb.log(
                 {
                     "train/probe": probe_loss.item(),
-                    "train/lejepa": lejepa_loss.item(),
-                    "train/sigreg": sigreg_loss.item(),
-                    "train/adaptive": adaptive_loss.item() / adaptive_lambda if isinstance(adaptive_loss, torch.Tensor) else adaptive_loss,
+                    "train/vicreg": vicreg_loss.item(),
                     "train/inv": inv_loss.item(),
+                    "train/var": var_loss.item(),
+                    "train/cov": cov_loss.item(),
                 }
             )
 

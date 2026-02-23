@@ -1,72 +1,35 @@
-# Original
-python lejepa.py +lamb=0.02 +V=4 +proj_dim=16 +lr=2e-3 +bs=256 +epochs=800
 
-# Runnable (32 Batch Size)
-python lejepa.py +lamb=0.02 +V=4 +proj_dim=16 +lr=2e-3 +bs=32 +epochs=800
-
-# Runnable (32 Batch Size + Low learning rate)
-python lejepa.py +lamb=0.02 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-
-# LAMBDA 0.04
-# Runnable (32 Batch Size + Low learning rate with bigger lambda)
-python lejepa.py +lamb=0.04 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-# Runnable (32 Batch Size + Low learning rate with bigger lambda with only clean dataset)
-python lejepa_cleanonly.py +lamb=0.04 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-
-# LAMBDA 0.08
-# Runnable (32 Batch Size + Low learning rate with bigger lambda)
+# example: LAMBDA 0.08 + 32 Batch Size
 python lejepa.py +lamb=0.08 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-# Runnable (32 Batch Size + Low learning rate with bigger lambda with only clean dataset)
-python lejepa_cleanonly.py +lamb=0.08 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-# Runnable (32 Batch Size + Low learning rate with bigger lambda + ADAPTIVE LAMBDA)
-python lejepa_difflambda.py +lamb=0.08 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800 +adaptive_lambda=0.32 +top_k=1
-
-# Runnable (Check stepwise lambda learning)
-python lejepa_difflambda.py +lamb=0.08 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800 +basis_path=final_basis_0.08.pth
 
 # TODO: sigreg dimension 16 -> 64
 실제로 학습 차원을 올려서 더 많은 dimension에서 일어나는 shortcut learning 분포를 관찰하기
-
-
-# LAMBDA 0.32
-# Runnable (32 Batch Size + Low learning rate with bigger lambda)
-python lejepa.py +lamb=0.32 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-# Runnable (32 Batch Size + Low learning rate with bigger lambda with only clean dataset)
-python lejepa_cleanonly.py +lamb=0.32 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800
-
-# Runnable (32 Batch Size + Low learning rate with bigger lambda + ADAPTIVE LAMBDA)
-python lejepa_difflambda.py +lamb=0.32 +V=4 +proj_dim=16 +lr=2.5e-4 +bs=32 +epochs=800 +adaptive_lambda=0.32 +top_k=1
-
 
 ### hyperparams
 
 ## Adaptive Regularization
 adaptive_lambda
-    [FLOAT value 0.0 ~ 1.0]
+    [FLOAT value 0.0 ~ 1.0 or omit (blank)]
     SIGReg Strength for adaptive lambdas.
     This also works as ON/OFF button for adaptive lambda regularization
     Also this is for the onlline regularization, NOT for pretrained-adaptive-lambdas
-
+    
 top_k
-    [INT value 1 ~ 20]
+    [INT value 1 ~ 20 or omit (blank)]
     Using only top k adaptive lambdas for the upper regularization
+    Used only if the above adaptive_lambda is ON
 
 
 ## Clean-only dataset
 clean_pretrain
-    [BOOLEAN: True/False]
+    [BOOLEAN: True/False or omit (blank)]
     True if pretrain with clean data
     False (or omit) if pretrain with patched(colored) data
 
 
 ## Stepwise variances
 basis_path 
+    [STRING path to the basis file or omit (blank)]
     Used for checking pretrained eigenvectors,
     to check the variances of those vectors
     [May not be used due to its poor performance]

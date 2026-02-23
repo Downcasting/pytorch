@@ -96,7 +96,7 @@ def main():
     })
 
     # 한 번에 저장
-    # dataset_dict.save_to_disk(save_path)
+    dataset_dict.save_to_disk(save_path)
 
     # 4. 결과 확인
     print("Original Dataset:", ds_train)
