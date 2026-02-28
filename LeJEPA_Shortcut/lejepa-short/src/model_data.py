@@ -39,10 +39,10 @@ class HFDataset(torch.utils.data.Dataset):
         self.aug = v2.Compose(
             [
                 v2.RandomResizedCrop(128, scale=(0.08, 1.0)),
-                v2.RandomApply([v2.ColorJitter(0.8, 0.8, 0.8, 0.2)], p=0.8),
-                v2.RandomGrayscale(p=0.2),
+                # v2.RandomApply([v2.ColorJitter(0.8, 0.8, 0.8, 0.2)], p=0.8),
+                # v2.RandomGrayscale(p=0.2),
                 v2.RandomApply([v2.GaussianBlur(kernel_size=7, sigma=(0.1, 2.0))]),
-                v2.RandomApply([v2.RandomSolarize(threshold=128)], p=0.2),
+                # v2.RandomApply([v2.RandomSolarize(threshold=128)], p=0.2),
                 v2.RandomHorizontalFlip(),
                 v2.ToImage(),
                 v2.ToDtype(torch.float32, scale=True),
