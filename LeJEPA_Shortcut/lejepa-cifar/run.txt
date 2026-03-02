@@ -1,0 +1,57 @@
+
+# example: LAMBDA 0.08 + 32 Batch Size
+python lejepa-cifar.py +lamb=0.08 +V=4 +proj_dim=8 +lr=2.5e-4 +bs=256 +epochs=800
+
+# TODO: sigreg dimension 16 -> 64
+실제로 학습 차원을 올려서 더 많은 dimension에서 일어나는 shortcut learning 분포를 관찰하기
+
+### hyperparams
+
+## Small Initialization
+    small_init_alpha
+        [FLOAT value 0.0 ~ 1.0 or omit (blank)]
+        Small Initialization Strength for the model weights.
+        This is for the stepwise nature of SSL, not for the adaptive lambda regularization.
+        Used only if the above adaptive_lambda is OFF
+
+
+## Clean-only dataset
+    clean_pretrain
+        [BOOLEAN: True/False or omit (blank)]
+        True if pretrain with clean data
+        False (or omit) if pretrain with patched(colored) data
+
+
+## Stepwise variances
+    basis_path 
+        [STRING path to the basis file or omit (blank)]
+        Used for checking pretrained eigenvectors,
+        to check the variances of those vectors
+        [May not be used due to its poor performance]
+
+
+## Null it out method
+    null_it_out
+        [BOOLEAN: True/False or omit (blank)]
+        True if you want to use null it out method
+        False (or omit) if not
+
+    null_start_epoch
+        [INT value 1~ or omit (blank), 50 recommended]
+        Number of epochs to start null it out method
+        Used only if the above null_it_out is ON
+
+    null_every_epoch
+        [INT value 1~ or omit (blank), 20 recommended]
+        Number of epochs to update null space
+        Used only if the above null_it_out is ON
+
+    null_dim_start
+        [INT value 0~ or omit (blank), 1 recommended]
+        Start dimension to nullify
+        Used only if the above null_it_out is ON
+
+    null_dim_end
+        [INT value ~16 or omit (blank), 4 recommended]
+        End dimension to nullify
+        Used only if the above null_it_out is ON
