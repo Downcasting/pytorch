@@ -49,11 +49,11 @@ class CIFARDataset(torch.utils.data.Dataset):
             self.ds = load_from_disk("./colored_cifar10")[split]
         self.aug = v2.Compose(
             [
-                v2.RandomResizedCrop(32, scale=(0.08, 1.0)),
-                v2.RandomApply([v2.ColorJitter(0.8, 0.8, 0.8, 0.2)], p=0.8),
-                v2.RandomGrayscale(p=0.2),
+                v2.RandomResizedCrop(32, scale=(0.2, 1.0)),
+                # v2.RandomApply([v2.ColorJitter(0.8, 0.8, 0.8, 0.2)], p=0.8),
+                # v2.RandomGrayscale(p=0.2),
                 v2.RandomApply([v2.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0))]),
-                v2.RandomApply([v2.RandomSolarize(threshold=128)], p=0.2),
+                # v2.RandomApply([v2.RandomSolarize(threshold=128)], p=0.2),
                 v2.RandomHorizontalFlip(),
                 v2.ToImage(),
                 v2.ToDtype(torch.float32, scale=True),

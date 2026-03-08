@@ -6,6 +6,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision.transforms import v2
 from datasets import load_dataset, load_from_disk
+from .utils import project_to_nullspace
 
 
 # 2. Model Definition (ViT Small)
@@ -20,11 +21,18 @@ class ViTEncoder(nn.Module):
             img_size=128,
         )
         self.proj = MLP(512, [2048, 2048, proj_dim], norm_layer=nn.BatchNorm1d)
+        self.eigenvecs = None
 
     def forward(self, x):
         N, V = x.shape[:2]
         emb = self.backbone(x.flatten(0, 1))
+        if self.eigenvecs is not None:
+            emb = project_to_nullspace(emb, self.eigenvecs)
         return emb, self.proj(emb).reshape(N, V, -1).transpose(0, 1)
+
+    
+    def update_eigenvecs(self, eigvecs):
+        self.eigenvecs = eigvecs.detach().to(next(self.parameters()).device)
 
     
 # 3. Dataset Definition

@@ -125,6 +125,19 @@ def main(cfg: DictConfig):
     else:
         print(f"Basis not found at {basis_path}")
 
+
+        
+    # Null it out part
+    null_it_out = cfg.get("null_it_out", False)
+    null_start_epoch = cfg.get("null_start_epoch", 100)
+    null_every_epoch = cfg.get("null_every_epoch", 20)
+    null_dim_start = cfg.get("null_dim_start", 1)
+    null_dim_end = cfg.get("null_dim_end", 6)   
+
+    if null_it_out:
+        print(f"Null it out method: start={null_start_epoch}, every={null_every_epoch}, dim_start={null_dim_start}, dim_end={null_dim_end}")    
+
+
     # [추가됨]
     print(f"Start Training: Epochs= {start_epoch} ~ {cfg.epochs}, BatchSize={cfg.bs}")
 
@@ -281,6 +294,21 @@ def main(cfg: DictConfig):
                         total_samples_clean += z_clean.size(0)
         
         acc_clean = correct_clean / len(test_ds_clean)
+
+        if null_it_out and epoch >= null_start_epoch:
+            # 설정한 시작 epoch 이후부터, 매 null_every_epoch 마다 업데이트
+            if (epoch - null_start_epoch) % null_every_epoch == 0:
+                print(f"\n[Epoch {epoch}] Updating Nullspace Projection Eigenvectors...")
+                
+                # 정렬된 고유벡터(eig_vecs_colored_tensor)에서 원하는 차원만큼 슬라이싱
+                # 주의: 파이썬 슬라이싱 특성상 null_dim_start 인덱스부터 null_dim_end - 1 까지 가져옴
+                # 예: start=1, end=4 이면 인덱스 1, 2, 3 (즉, 2번째 ~ 4번째로 큰 고유벡터)
+                target_eigvecs = eig_vecs_colored_tensor[:, null_dim_start:null_dim_end]
+                
+                # 모델(ViTEncoder)에 업데이트
+                net.update_eigenvecs(target_eigvecs)
+                
+                print(f" -> Selected eigenvectors {null_dim_start} to {null_dim_end-1}. Shape: {target_eigvecs.shape}")
 
         # [추가됨]
         eig_vals_colored_tensor, eig_vecs_colored_tensor = cov_colored.compute_spectrum(return_tensors=True)
